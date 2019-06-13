@@ -19,8 +19,18 @@ namespace Trial_Task.Services
         }
 
         public async Task<IEnumerable<Flight>> ListAsync()
-        {
-            return await _flightRepository.ListAsync();
-        }
-    }
+		{
+			return await _flightRepository.ListAsync();
+		}
+
+		public async Task<Flight> GetAsync(Guid id)
+		{
+			return await _flightRepository.ListGet(id);
+		}
+
+		public async Task<IEnumerable<Flight>> ListReducedAsync()
+		{
+			return await _flightRepository.ListReducedAsync();
+		}
+	}
 }

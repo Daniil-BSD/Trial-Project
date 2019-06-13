@@ -22,14 +22,27 @@ namespace Trial_Task.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<FlightDTO>> GetAllAsync()
+        public async Task<IEnumerable<FlightShallowDTO>> GetAllAsync()
         {
             var flights = await _flightService.ListAsync();
-
-
-
-			var resources = _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightDTO>>(flights);
+			var resources = _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightShallowDTO>>(flights);
 			return resources;
         }
-    }
+		[HttpGet("reduced")]
+		public async Task<IEnumerable<FlightBasicDTO>> GetAllReducedAsync()
+		{
+			var flights = await _flightService.ListReducedAsync();
+			var resources = _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightBasicDTO>>(flights);
+			return resources;
+		}
+
+		[HttpGet("GF{id}")]
+		public async Task<FlightDTO> GetAsync(string id)
+		{
+			var guid = new Guid(id);
+			var flight = await _flightService.GetAsync(guid);
+			var resource = _mapper.Map<Flight, FlightDTO>(flight);
+			return resource;
+		}
+	}
 }

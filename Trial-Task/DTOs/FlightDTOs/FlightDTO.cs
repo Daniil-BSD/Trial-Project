@@ -9,6 +9,6 @@ namespace Trial_Task.DTOs
 		public DateTime Date { get; set; }
 		public EFlightStatus Status { get; set; }
 		public GPSLogDTO Log { get; set; }
-		public UserDTO Pilot { get; set; }
+		public UserShallowDTO Pilot { get; set; }
 	}
 }

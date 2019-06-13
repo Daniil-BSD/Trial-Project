@@ -9,5 +9,7 @@ namespace Trial_Task.Domain.Repositories
     public interface IFlightRepository
 	{
         Task<IEnumerable<Flight>> ListAsync();
-    }
+		Task<Flight> ListGet(Guid id);
+		Task<IEnumerable<Flight>> ListReducedAsync();
+	}
 }
