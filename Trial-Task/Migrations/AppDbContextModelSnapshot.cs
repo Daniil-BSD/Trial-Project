@@ -214,6 +214,74 @@ namespace Trial_Task.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Trial_Task.Domain.Models.Flight", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<Guid>("LogID");
+
+                    b.Property<byte>("Status");
+
+                    b.Property<Guid>("UserID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("LogID")
+                        .IsUnique();
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Flights");
+                });
+
+            modelBuilder.Entity("Trial_Task.Domain.Models.GPSLog", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<TimeSpan>("Duration");
+
+                    b.Property<Guid>("LandingID");
+
+                    b.Property<Guid>("TakeoffID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("LandingID");
+
+                    b.HasIndex("TakeoffID");
+
+                    b.ToTable("GPSLogs");
+                });
+
+            modelBuilder.Entity("Trial_Task.Domain.Models.GPSLogEntry", b =>
+                {
+                    b.Property<Guid>("LogID");
+
+                    b.Property<DateTime>("Time");
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
+                    b.HasKey("LogID", "Time");
+
+                    b.ToTable("GPSLogEntries");
+                });
+
+            modelBuilder.Entity("Trial_Task.Domain.Models.User", b =>
+                {
+                    b.Property<Guid>("Guid_ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("Guid_ID");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -256,6 +324,37 @@ namespace Trial_Task.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Trial_Task.Domain.Models.Flight", b =>
+                {
+                    b.HasOne("Trial_Task.Domain.Models.GPSLog", "Log")
+                        .WithOne("Flight")
+                        .HasForeignKey("Trial_Task.Domain.Models.Flight", "LogID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Trial_Task.Domain.Models.User", "Pilot")
+                        .WithMany("Flights")
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Trial_Task.Domain.Models.GPSLog", b =>
+                {
+                    b.HasOne("Trial_Task.Domain.Models.Airfield", "PlaceOfLanding")
+                        .WithMany("EndedAt")
+                        .HasForeignKey("LandingID");
+
+                    b.HasOne("Trial_Task.Domain.Models.Airfield", "PlaceOfTakeoff")
+                        .WithMany("StartFrom")
+                        .HasForeignKey("TakeoffID");
+                });
+
+            modelBuilder.Entity("Trial_Task.Domain.Models.GPSLogEntry", b =>
+                {
+                    b.HasOne("Trial_Task.Domain.Models.GPSLog", "Log")
+                        .WithMany("Entries")
+                        .HasForeignKey("LogID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

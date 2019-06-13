@@ -34,21 +34,21 @@ namespace Trial_Task.Persistence.Contexts
 			builder.Entity<Flight>().Property(f => f.LogID).IsRequired();
 			builder.Entity<Flight>().HasOne(f => f.Log).WithOne(l => l.Flight).HasForeignKey<Flight>(f => f.LogID);
 			builder.Entity<Flight>().Property(f => f.UserID).IsRequired();
-			builder.Entity<Flight>().HasOne(f => f.Pilot).WithMany(u => u.Flights).HasForeignKey(f => f.UserID);
+			builder.Entity<Flight>().HasOne(f => f.Pilot).WithMany(u => u.Flights).HasForeignKey(f => f.UserID).OnDelete(DeleteBehavior.ClientSetNull);
 
 			builder.Entity<GPSLog>().HasKey(l => l.ID);
 			builder.Entity<GPSLog>().Property(l => l.Duration).IsRequired();
 			builder.Entity<GPSLog>().Property(l => l.TakeoffID);
-			builder.Entity<GPSLog>().HasOne(l => l.PlaceOfTakeoff).WithMany(a => a.StartFrom).HasForeignKey(l => l.TakeoffID);
+			builder.Entity<GPSLog>().HasOne(l => l.PlaceOfTakeoff).WithMany(a => a.StartFrom).HasForeignKey(l => l.TakeoffID).OnDelete(DeleteBehavior.ClientSetNull);
 			builder.Entity<GPSLog>().Property(l => l.LandingID);
-			builder.Entity<GPSLog>().HasOne(l => l.PlaceOfLanding).WithMany(a => a.EndedAt).HasForeignKey(l => l.LandingID);
+			builder.Entity<GPSLog>().HasOne(l => l.PlaceOfLanding).WithMany(a => a.EndedAt).HasForeignKey(l => l.LandingID).OnDelete(DeleteBehavior.ClientSetNull);
 
 			builder.Entity<GPSLogEntry>().HasKey(le => new { le.LogID, le.Time });
 			builder.Entity<GPSLogEntry>().HasOne(le => le.Log).WithMany(l => l.Entries).HasForeignKey(le => le.LogID);
 			builder.Entity<GPSLogEntry>().Property(le => le.Latitude).IsRequired();
 			builder.Entity<GPSLogEntry>().Property(le => le.Longitude).IsRequired();
 
-			builder.Entity<User>().HasKey(u => u.ID);
+			builder.Entity<User>().HasKey(u => u.Guid_ID);
 
 
 			// testing material

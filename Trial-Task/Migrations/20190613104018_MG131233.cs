@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Trial_Task.Migrations
 {
-    public partial class Init : Migration
+    public partial class MG131233 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,43 @@ namespace Trial_Task.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Guid_ID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Guid_ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GPSLogs",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    Duration = table.Column<TimeSpan>(nullable: false),
+                    TakeoffID = table.Column<Guid>(nullable: false),
+                    LandingID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPSLogs", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_GPSLogs_Airfields_LandingID",
+                        column: x => x.LandingID,
+                        principalTable: "Airfields",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_GPSLogs_Airfields_TakeoffID",
+                        column: x => x.TakeoffID,
+                        principalTable: "Airfields",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,6 +204,53 @@ namespace Trial_Task.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Flights",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<byte>(nullable: false),
+                    LogID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flights", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Flights_GPSLogs_LogID",
+                        column: x => x.LogID,
+                        principalTable: "GPSLogs",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Flights_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "Guid_ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GPSLogEntries",
+                columns: table => new
+                {
+                    LogID = table.Column<Guid>(nullable: false),
+                    Time = table.Column<DateTime>(nullable: false),
+                    Latitude = table.Column<double>(nullable: false),
+                    Longitude = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GPSLogEntries", x => new { x.LogID, x.Time });
+                    table.ForeignKey(
+                        name: "FK_GPSLogEntries_GPSLogs_LogID",
+                        column: x => x.LogID,
+                        principalTable: "GPSLogs",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Airfields",
                 columns: new[] { "ID", "Latitude", "Longitude", "Name" },
@@ -215,13 +299,31 @@ namespace Trial_Task.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Flights_LogID",
+                table: "Flights",
+                column: "LogID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Flights_UserID",
+                table: "Flights",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPSLogs_LandingID",
+                table: "GPSLogs",
+                column: "LandingID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GPSLogs_TakeoffID",
+                table: "GPSLogs",
+                column: "TakeoffID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Airfields");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -238,10 +340,25 @@ namespace Trial_Task.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Flights");
+
+            migrationBuilder.DropTable(
+                name: "GPSLogEntries");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "GPSLogs");
+
+            migrationBuilder.DropTable(
+                name: "Airfields");
         }
     }
 }
