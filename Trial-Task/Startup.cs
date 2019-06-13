@@ -11,11 +11,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using Trial_Task.Domain.Repositories;
 using Trial_Task.Domain.Services;
 using Trial_Task.Persistence.Contexts;
 using Trial_Task.Persistence.Repositories;
 using Trial_Task.Services;
+using AutoMapper;
+using Trial_Task.Mapping;
 
 namespace Trial_Task
 {
@@ -35,6 +38,11 @@ namespace Trial_Task
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+			});
+
 
 			services.AddScoped<IAirfieldRepository, AirfieldRepository>();
 			services.AddScoped<IAirfieldService, AirfieldService>();
@@ -51,6 +59,13 @@ namespace Trial_Task
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IUserService, UserService>();
 
+			var mappingConfig = new MapperConfiguration(mc =>
+			{
+				mc.AddProfile(new ModelToResourceProfile());
+			});
+			IMapper mapper = mappingConfig.CreateMapper();
+			services.AddSingleton(mapper);
+
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
 
@@ -66,6 +81,13 @@ namespace Trial_Task
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
+
+			app.UseSwagger();
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+				c.RoutePrefix = string.Empty;
+			});
 
 			app.UseHttpsRedirection();
 			app.UseMvc();

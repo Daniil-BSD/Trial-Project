@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task.Domain.Models;
 using Trial_Task.Domain.Services;
@@ -9,13 +10,13 @@ using Trial_Task.Domain.Services;
 namespace Trial_Task.Controllers
 {
     [Route("/api/[controller]")]
-    public class UsersController : Controller
-    {
+    public class UsersController : BaseController
+	{
 
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService)
-        {
+        public UsersController(IUserService userService, IMapper mapper) : base(mapper)
+		{
 			_userService = userService;
         }
 
