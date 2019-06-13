@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task.Domain.Models;
 using Trial_Task.Domain.Services;
+using Trial_Task.DTOs;
 
 namespace Trial_Task.Controllers
 {
@@ -21,10 +22,14 @@ namespace Trial_Task.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Flight>> GetAllAsync()
+        public async Task<IEnumerable<FlightDTO>> GetAllAsync()
         {
             var flights = await _flightService.ListAsync();
-            return flights;
+
+
+
+			var resources = _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightDTO>>(flights);
+			return resources;
         }
     }
 }

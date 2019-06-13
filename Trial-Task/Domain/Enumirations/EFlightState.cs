@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Trial_Task.Domain.Models
+namespace Trial_Task.Domain.Enumerations
 {
     public enum EFlightStatus : byte
     {

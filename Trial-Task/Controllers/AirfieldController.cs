@@ -6,7 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task.Domain.Models;
 using Trial_Task.Domain.Services;
-using Trial_Task.Resoursces;
+using Trial_Task.DTOs;
 
 namespace Trial_Task.Controllers
 {
@@ -22,11 +22,36 @@ namespace Trial_Task.Controllers
 		}
 			
         [HttpGet]
-        public async Task<IEnumerable<AirfieldShallowResource>> GetAllAsync()
+        public async Task<IEnumerable<AirfieldShallowDTO>> GetAllAsync()
         {
             var airfields = await _airfieldService.ListAsync();
-			var resources = _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowResource>>(airfields);
+			var resources = _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
 			return resources;
         }
-    }
+		[HttpGet("full")]
+		public async Task<IEnumerable<AirfieldDTO>> GetAllFullAsync()
+		{
+			var airfields = await _airfieldService.ListAsync();
+			var resources = _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldDTO>>(airfields);
+			return resources;
+		}
+
+		[HttpGet("GF{id}")]
+		public async Task<AirfieldDTO> GetAsync(string id)
+		{
+			var guid = new Guid(id);
+			var airfields = await _airfieldService.GetAsync(guid);
+			var resource = _mapper.Map<Airfield, AirfieldDTO>(airfields);
+			return resource;
+		}
+
+		[HttpGet("GS{id}")]
+		public async Task<AirfieldShallowDTO> GetShallowAsync(string id)
+		{
+			var guid = new Guid(id);
+			var airfields = await _airfieldService.GetShallowAsync(guid);
+			var resource = _mapper.Map<Airfield, AirfieldShallowDTO>(airfields);
+			return resource;
+		}
+	}
 }

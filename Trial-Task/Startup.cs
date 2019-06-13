@@ -61,7 +61,7 @@ namespace Trial_Task
 
 			var mappingConfig = new MapperConfiguration(mc =>
 			{
-				mc.AddProfile(new ModelToResourceProfile());
+				mc.AddProfile(new ModelToDTOProfile());
 			});
 			IMapper mapper = mappingConfig.CreateMapper();
 			services.AddSingleton(mapper);

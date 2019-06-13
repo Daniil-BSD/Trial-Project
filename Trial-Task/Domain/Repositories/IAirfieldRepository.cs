@@ -8,6 +8,9 @@ namespace Trial_Task.Domain.Repositories
 {
     public interface IAirfieldRepository
     {
-        Task<IEnumerable<Airfield>> ListAsync();
-    }
+        Task<IEnumerable<Airfield>> ListShallowAsync();
+		Task<IEnumerable<Airfield>> ListAsync();
+		Task<Airfield> GetAsync(Guid id);
+		Task<Airfield> GetShallowAsync(Guid id);
+	}
 }

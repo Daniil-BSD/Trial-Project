@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Trial_Task.Domain.Models
 {
-    public class GPSLog
-    {
+	public class GPSLog
+	{
 		public Guid ID { get; set; }
 		public Flight Flight { get; set; }
 

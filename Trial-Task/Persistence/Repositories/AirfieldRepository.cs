@@ -13,9 +13,25 @@ namespace Trial_Task.Persistence.Repositories
     {
         public AirfieldRepository(AppDbContext context) : base(context){}
 
-        public async Task<IEnumerable<Airfield>> ListAsync()
+		public async Task<Airfield> GetAsync(Guid id)
+		{
+			return await _context.Airfields.Include(ent => ent.StartFrom).Include(ent => ent.EndedAt).SingleOrDefaultAsync(ent => ent.ID.Equals(id));
+		}
+
+		public async Task<Airfield> GetShallowAsync(Guid id)
+		{
+			return await _context.Airfields.FindAsync(id);
+		}
+
+		public async Task<IEnumerable<Airfield>> ListAsync()
         {
-            return await _context.Airfields.ToListAsync();
-        }
-    }
+            return await _context.Airfields.Include(ent => ent.StartFrom).Include(ent => ent.EndedAt).ToListAsync();
+			//return await _context.Airfields.Include(ent => ent.StartFrom).ThenInclude(ent => ent.Entries)
+		}
+
+		public async Task<IEnumerable<Airfield>> ListShallowAsync()
+		{
+			return await _context.Airfields.ToListAsync();
+		}
+	}
 }

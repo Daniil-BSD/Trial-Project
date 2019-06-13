@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Trial_Task.Domain.Enumerations;
 
 namespace Trial_Task.Domain.Models
 {

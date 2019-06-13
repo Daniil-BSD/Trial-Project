@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Trial_Task.Domain.Models;
 
-namespace Trial_Task.Resoursces
+namespace Trial_Task.DTOs
 {
-	public class UserResoursces
+	public class UserDTO
 	{
 		public Guid Guid_ID { get; set; }
-		public ICollection<Flight> Flights { get; set; }
+		public ICollection<FlightBasicDTO> Flights { get; set; }
 	}
 }
