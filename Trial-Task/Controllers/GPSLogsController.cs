@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Trial_Task.Domain.Models;
-using Trial_Task.Domain.Services;
-using Trial_Task.DTOs;
+using Trial_Task_BLL.DTOs;
+using Trial_Task_BLL.IServices;
 
-namespace Trial_Task.Controllers
+namespace Trial_Task_WEB.Controllers
 {
 	[Route("/api/[controller]")]
 	public class GPSLogsController : BaseController
@@ -15,7 +13,7 @@ namespace Trial_Task.Controllers
 
 		private readonly IGPSLogService _gpsLogService;
 
-		public GPSLogsController(IGPSLogService gpsLogService, IMapper mapper) : base(mapper)
+		public GPSLogsController(IGPSLogService gpsLogService) : base()
 		{
 			_gpsLogService = gpsLogService;
 		}
@@ -24,16 +22,14 @@ namespace Trial_Task.Controllers
 		public async Task<IEnumerable<GPSLogBasicDTO>> GetAllAsync()
 		{
 			var logs = await _gpsLogService.ListReducedAsync();
-			var resources = _mapper.Map<IEnumerable<GPSLog>, IEnumerable<GPSLogBasicDTO>>(logs);
-			return resources;
+			return logs;
 		}
 
 		[HttpGet("full")]
 		public async Task<IEnumerable<GPSLogStandaloneListDTO>> GetAllFullAsync()
 		{
 			var logs = await _gpsLogService.ListStandaloneAsync();
-			var resources = _mapper.Map<IEnumerable<GPSLog>, IEnumerable<GPSLogStandaloneListDTO>>(logs);
-			return resources;
+			return logs;
 		}
 
 		[HttpGet("GS{id}")]
@@ -43,8 +39,7 @@ namespace Trial_Task.Controllers
 			{
 				var guid = new Guid(id);
 				var log = await _gpsLogService.GetAsync(guid);
-				var resource = _mapper.Map<GPSLog, GPSLogDTO>(log);
-				return resource;
+				return log;
 			}
 			catch (FormatException)
 			{
@@ -59,8 +54,7 @@ namespace Trial_Task.Controllers
 			{
 				var guid = new Guid(id);
 				var log = await _gpsLogService.GetFullAsync(guid);
-				var resource = _mapper.Map<GPSLog, GPSLogStandaloneDTO>(log);
-				return resource;
+				return log;
 			}
 			catch (FormatException)
 			{

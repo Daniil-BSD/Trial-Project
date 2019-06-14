@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Trial_Task.Domain.Models;
-using Trial_Task.Domain.Services;
-using Trial_Task.DTOs;
+using Trial_Task_BLL.DTOs;
+using Trial_Task_BLL.IServices;
 
-namespace Trial_Task.Controllers
+namespace Trial_Task_WEB.Controllers
 {
 	[Route("/api/[controller]")]
 	public class GPSLogEntriesController : BaseController
@@ -15,7 +13,7 @@ namespace Trial_Task.Controllers
 
 		private readonly IGPSLogEntryService _gpsLogEntryService;
 
-		public GPSLogEntriesController(IGPSLogEntryService gpsLogEntryService, IMapper mapper) : base(mapper)
+		public GPSLogEntriesController(IGPSLogEntryService gpsLogEntryService) : base()
 		{
 			_gpsLogEntryService = gpsLogEntryService;
 		}
@@ -27,8 +25,7 @@ namespace Trial_Task.Controllers
 			{
 				Guid guid = new Guid(id);
 				var entries = await _gpsLogEntryService.ListAsync(guid);
-				var resources = _mapper.Map<IEnumerable<GPSLogEntry>, IEnumerable<GPSLogEntryDTO>>(entries);
-				return resources;
+				return entries;
 			}
 			catch (FormatException)
 			{

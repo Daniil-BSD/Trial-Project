@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Trial_Task_BLL</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="AutoMapper" Version="8.1.1" />
+	<ProjectReference Include="..\Trial-Task-DAL\Trial-Task-DAL.csproj" />
+    <ProjectReference Include="..\Trial-Task-Model\Trial-Task-Model.csproj" />
+  </ItemGroup>
+
+</Project>

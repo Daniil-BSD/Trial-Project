@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
-using Trial_Task.Domain.Repositories;
-using Trial_Task.Domain.Services;
-using Trial_Task.Mapping;
-using Trial_Task.Persistence.Contexts;
-using Trial_Task.Persistence.Repositories;
-using Trial_Task.Services;
+using Trial_Task_BLL.IServices;
+using Trial_Task_BLL.Mapping;
+using Trial_Task_BLL.Services;
+using Trial_Task_DAL.Contexts;
+using Trial_Task_DAL.IRepositories;
+using Trial_Task_DAL.Repositories;
 
 namespace Trial_Task
 {

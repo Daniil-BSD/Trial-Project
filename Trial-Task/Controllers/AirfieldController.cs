@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Trial_Task.Domain.Models;
-using Trial_Task.Domain.Services;
-using Trial_Task.DTOs;
+using Trial_Task_BLL.DTOs;
+using Trial_Task_BLL.IServices;
 
-namespace Trial_Task.Controllers
+namespace Trial_Task_WEB.Controllers
 {
 	[Route("/api/[controller]")]
 	public class AirfieldsController : BaseController
@@ -15,7 +13,7 @@ namespace Trial_Task.Controllers
 
 		private readonly IAirfieldService _airfieldService;
 
-		public AirfieldsController(IAirfieldService airfieldService, IMapper mapper) : base(mapper)
+		public AirfieldsController(IAirfieldService airfieldService) : base()
 		{
 			_airfieldService = airfieldService;
 		}
@@ -23,16 +21,14 @@ namespace Trial_Task.Controllers
 		[HttpGet]
 		public async Task<IEnumerable<AirfieldShallowDTO>> GetAllAsync()
 		{
-			var airfields = await _airfieldService.ListAsync();
-			var resources = _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
-			return resources;
+			var airfields = await _airfieldService.ListShallowAsync();
+			return airfields;
 		}
 		[HttpGet("full")]
 		public async Task<IEnumerable<AirfieldDTO>> GetAllFullAsync()
 		{
 			var airfields = await _airfieldService.ListAsync();
-			var resources = _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldDTO>>(airfields);
-			return resources;
+			return airfields;
 		}
 
 		[HttpGet("GF{id}")]
@@ -41,9 +37,8 @@ namespace Trial_Task.Controllers
 			try
 			{
 				var guid = new Guid(id);
-				var airfields = await _airfieldService.GetAsync(guid);
-				var resource = _mapper.Map<Airfield, AirfieldDTO>(airfields);
-				return resource;
+				var airfield = await _airfieldService.GetAsync(guid); ;
+				return airfield;
 			}
 			catch (FormatException)
 			{
@@ -57,9 +52,8 @@ namespace Trial_Task.Controllers
 			try
 			{
 				var guid = new Guid(id);
-				var airfields = await _airfieldService.GetShallowAsync(guid);
-				var resource = _mapper.Map<Airfield, AirfieldShallowDTO>(airfields);
-				return resource;
+				var airfield = await _airfieldService.GetShallowAsync(guid);
+				return airfield;
 			}
 			catch (FormatException)
 			{

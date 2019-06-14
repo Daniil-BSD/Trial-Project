@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Trial_Task.Domain.Models;
-using Trial_Task.Domain.Services;
-using Trial_Task.DTOs;
+using Trial_Task_BLL.DTOs;
+using Trial_Task_BLL.IServices;
 
-namespace Trial_Task.Controllers
+namespace Trial_Task_WEB.Controllers
 {
 	[Route("/api/[controller]")]
 	public class FlightsController : BaseController
@@ -15,7 +13,7 @@ namespace Trial_Task.Controllers
 
 		private readonly IFlightService _flightService;
 
-		public FlightsController(IFlightService flightService, IMapper mapper) : base(mapper)
+		public FlightsController(IFlightService flightService) : base()
 		{
 			_flightService = flightService;
 		}
@@ -24,15 +22,13 @@ namespace Trial_Task.Controllers
 		public async Task<IEnumerable<FlightShallowDTO>> GetAllAsync()
 		{
 			var flights = await _flightService.ListAsync();
-			var resources = _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightShallowDTO>>(flights);
-			return resources;
+			return flights;
 		}
 		[HttpGet("reduced")]
 		public async Task<IEnumerable<FlightBasicDTO>> GetAllReducedAsync()
 		{
 			var flights = await _flightService.ListReducedAsync();
-			var resources = _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightBasicDTO>>(flights);
-			return resources;
+			return flights;
 		}
 
 		[HttpGet("GF{id}")]
@@ -42,11 +38,11 @@ namespace Trial_Task.Controllers
 			{
 				var guid = new Guid(id);
 				var flight = await _flightService.GetAsync(guid);
-				var resource = _mapper.Map<Flight, FlightDTO>(flight);
-				return resource;
+				return flight;
 			}
 			catch (FormatException)
 			{
+				//return NotFound();
 				return null;
 			}
 		}
