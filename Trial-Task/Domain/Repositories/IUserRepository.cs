@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Trial_Task.Domain.Models;
 
 namespace Trial_Task.Domain.Repositories
 {
-    public interface IUserRepository
+	public interface IUserRepository
 	{
-        Task<IEnumerable<User>> ListAsync();
-    }
+		Task<User> GetAsync(Guid id);
+		Task<User> GetFullAsync(Guid id);
+		Task<IEnumerable<User>> ListShallowAsync();
+		Task<IEnumerable<User>> ListAsync();
+	}
 }

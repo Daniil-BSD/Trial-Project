@@ -9,13 +9,15 @@ using Trial_Task.Persistence.Contexts;
 
 namespace Trial_Task.Persistence.Repositories
 {
-    public class GPSLogEntryRepository : BaseRepository, IGPSLogEntryRepository
-    {
-        public GPSLogEntryRepository(AppDbContext context) : base(context){}
+	public class GPSLogEntryRepository : BaseRepository, IGPSLogEntryRepository
+	{
+		public GPSLogEntryRepository(AppDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<GPSLogEntry>> ListAsync()
-        {
-            return await _context.GPSLogEntries.ToListAsync();
-        }
-    }
+		public async Task<IEnumerable<GPSLogEntry>> ListAsync(Guid id)
+		{
+			return await _context.GPSLogEntries
+			.Where(ent => ent.LogID.Equals(id))
+			.ToListAsync();
+		}
+	}
 }
