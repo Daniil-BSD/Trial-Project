@@ -1,11 +1,10 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Trial_Task_BLL.DTOs
 {
 
 	/*
-		Contains only Name and ID, could be used for the reduction of traffic, for cases when name would be enough.
+	*	Contains only Name and ID, could be used for the reduction of traffic, for cases when name would be enough.
 	*/
 	public class AirfieldBasicDTO
 	{

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Trial_Task_Model.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Trial_Task_BLL.DTOs
 {
 	/*
-		A complete replica of the Airfield class, created to pivide a modification point and because there is no protected information in it
+	*	DTO for adding a new airfield.
 	*/
 	public class AirfieldSaveDTO
 	{
+		[Required]
 		public string Name { get; set; }
+		[Required]
 		public double Latitude { get; set; }
+		[Required]
 		public double Longitude { get; set; }
 	}
 }

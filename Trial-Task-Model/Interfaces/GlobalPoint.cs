@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Trial_Task_Model.Interfaces
 {
+
+	/*
+	 * Implementation for the distance measurement between IGlobalPoint.
+	 * Probably should be moved to BLL
+	 */
 	public abstract class GlobalPoint : IGlobalPoint
 	{
 		public double Latitude { get; set; }
 		public double Longitude { get; set; }
 
+		/*
+		 * Computes distance between two points in meters.
+		 */
 		public static double Distance(IGlobalPoint start, IGlobalPoint end)
 		{
 			double rlat1 = Math.PI * start.Latitude / 180;

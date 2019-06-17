@@ -22,7 +22,7 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Entries)
 				.Include(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.PlaceOfTakeoff)
-				.SingleOrDefaultAsync(ent => ent.ID.Equals(id));
+				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
 		/*
@@ -35,15 +35,15 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Flight).ThenInclude(ent => ent.Pilot)
 				.Include(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.PlaceOfTakeoff)
-				.SingleOrDefaultAsync(ent => ent.ID.Equals(id));
+				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
 		/*
 		 * Standart list of all logs (not including data form the flight)
 		 */
-		public async Task<IEnumerable<GPSLog>> ListAsync()
+		public Task<List<GPSLog>> ListAsync()
 		{
-			return await _context.GPSLogs
+			return _context.GPSLogs
 				.Include(ent => ent.Entries)
 				.Include(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.PlaceOfTakeoff)
@@ -53,9 +53,9 @@ namespace Trial_Task_DAL.Repositories
 		/*
 		 * Reurns Only basic information, including only the endpoints (the entries are not loaded)
 		 */
-		public async Task<IEnumerable<GPSLog>> ListReducedAsync()
+		public Task<List<GPSLog>> ListReducedAsync()
 		{
-			return await _context.GPSLogs
+			return _context.GPSLogs
 				.Include(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.PlaceOfTakeoff)
 				.ToListAsync();
@@ -67,9 +67,9 @@ namespace Trial_Task_DAL.Repositories
 		 * (data is equvivalent to FlightRepository.ListAsync() at the moment, but it could change given the possability of 
 		 * expantion of the flight with other sortds of logs (like altitude log))
 		 */
-		public async Task<IEnumerable<GPSLog>> ListStandaloneAsync()
+		public Task<List<GPSLog>> ListStandaloneAsync()
 		{
-			return await _context.GPSLogs
+			return _context.GPSLogs
 				.Include(ent => ent.Entries)
 				.Include(ent => ent.Flight).ThenInclude(ent => ent.Pilot)
 				.Include(ent => ent.PlaceOfLanding)

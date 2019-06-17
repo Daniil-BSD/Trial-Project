@@ -7,8 +7,8 @@ namespace Trial_Task_DAL.IRepositories
 {
 	public interface IAirfieldRepository
 	{
-		Task<IEnumerable<Airfield>> ListShallowAsync();
-		Task<IEnumerable<Airfield>> ListAsync();
+		Task<List<Airfield>> ListShallowAsync();
+		Task<List<Airfield>> ListAsync();
 		Task<Airfield> GetAsync(Guid id);
 		Task<Airfield> GetShallowAsync(Guid id);
 		Task<Airfield> InsertAsync(Airfield airfield);

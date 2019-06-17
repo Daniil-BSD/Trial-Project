@@ -2,6 +2,9 @@
 
 namespace Trial_Task_BLL.Services
 {
+	/*
+	 * 
+	 */
 	public class BaseService
 	{
 		protected readonly IMapper _mapper;

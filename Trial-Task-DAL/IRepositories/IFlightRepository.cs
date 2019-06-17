@@ -7,8 +7,8 @@ namespace Trial_Task_DAL.IRepositories
 {
 	public interface IFlightRepository
 	{
-		Task<IEnumerable<Flight>> ListAsync();
+		Task<List<Flight>> ListAsync();
+		Task<List<Flight>> ListReducedAsync();
 		Task<Flight> GetAsync(Guid id);
-		Task<IEnumerable<Flight>> ListReducedAsync();
 	}
 }

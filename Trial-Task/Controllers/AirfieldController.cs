@@ -23,7 +23,7 @@ namespace Trial_Task_WEB.Controllers
 		public async Task<SpecificObjectResult<IEnumerable<AirfieldShallowDTO>>> GetAllAsync()
 		{
 			var airfields = await _airfieldService.ListShallowAsync();
-			return new SpecificObjectResult < IEnumerable < AirfieldShallowDTO >> (airfields);
+			return new SpecificObjectResult<IEnumerable<AirfieldShallowDTO>>(airfields);
 		}
 		[HttpGet("full")]
 		public async Task<SpecificObjectResult<IEnumerable<AirfieldDTO>>> GetAllFullAsync()
@@ -43,7 +43,7 @@ namespace Trial_Task_WEB.Controllers
 			}
 			catch (FormatException)
 			{
-				return new SpecificObjectResult<AirfieldDTO>(BadRequest("Invalid id format"));
+				return new SpecificObjectResult<AirfieldDTO>(BadRequest(INVALID_ID_MESSAGE_STRING));
 			}
 		}
 
@@ -58,16 +58,17 @@ namespace Trial_Task_WEB.Controllers
 			}
 			catch (FormatException)
 			{
-				return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest("Invalid id format"));
+				return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest(INVALID_ID_MESSAGE_STRING));
 			}
 		}
 
 		[HttpPost("addSingle")]
-		public async Task<SpecificObjectResult<AirfieldShallowDTO>> PostSingleAsync([FromBody] AirfieldSaveDTO airfieldSaveDTO) {
+		public async Task<SpecificObjectResult<AirfieldShallowDTO>> PostSingleAsync([FromBody] AirfieldSaveDTO airfieldSaveDTO)
+		{
 			if (!ModelState.IsValid)
-				return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest("Invalid Input"));
+				return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
 			var response = await _airfieldService.SaveAsync(airfieldSaveDTO);
-			if(response.Success)
+			if (response.Success)
 				return new SpecificObjectResult<AirfieldShallowDTO>(response.AirfieldDTO);
 			return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest(response.Message));
 		}

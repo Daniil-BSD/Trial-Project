@@ -44,14 +44,16 @@ namespace Trial_Task_BLL.Services
 			return _mapper.Map<Airfield, AirfieldShallowDTO>(airfield);
 		}
 
-		public async Task<AirfieldSaveResponse> SaveAsync(AirfieldSaveDTO airfieldSaveDTO) {
+		public async Task<AirfieldSaveResponse> SaveAsync(AirfieldSaveDTO airfieldSaveDTO)
+		{
 			try
 			{
 				Airfield airfieldIm = _mapper.Map<AirfieldSaveDTO, Airfield>(airfieldSaveDTO);
 				var airfieldOut = await _airfieldRepository.InsertAsync(airfieldIm);
 				return new AirfieldSaveResponse(_mapper.Map<Airfield, AirfieldShallowDTO>(airfieldOut));
 			}
-			catch (Exception e){
+			catch (Exception e)
+			{
 				return new AirfieldSaveResponse(e.Message);
 			}
 		}

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Trial_Task_DAL.Contexts;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model.Interfaces;
 using Trial_Task_Model.Models;
-using System.Linq;
 
 namespace Trial_Task_DAL.Repositories
 {
@@ -19,25 +19,25 @@ namespace Trial_Task_DAL.Repositories
 			return await _context.Airfields
 				.Include(ent => ent.StartFrom)
 				.Include(ent => ent.EndedAt)
-				.SingleOrDefaultAsync(ent => ent.ID.Equals(id));
+				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
 		public async Task<Airfield> GetShallowAsync(Guid id)
 		{
 			return await _context.Airfields
-				.FindAsync(id);
+				.SingleAsync(ent => ent.ID == id);
 		}
 
-		public async Task<IEnumerable<Airfield>> ListAsync()
+		public Task<List<Airfield>> ListAsync()
 		{
-			return await _context.Airfields
+			return _context.Airfields
 				.Include(ent => ent.StartFrom)
 				.Include(ent => ent.EndedAt).ToListAsync();
 		}
 
-		public async Task<IEnumerable<Airfield>> ListShallowAsync()
+		public Task<List<Airfield>> ListShallowAsync()
 		{
-			return await _context.Airfields
+			return _context.Airfields
 				.ToListAsync();
 		}
 
@@ -49,8 +49,9 @@ namespace Trial_Task_DAL.Repositories
 				var ret = await _context.Airfields.AddAsync(airfield);
 				await _context.SaveChangesAsync();
 				return ret.Entity;
-			} else {
-				throw new ArgumentOutOfRangeException("Latitude, Longitude", "New airfield is to close to already registered one. ");
+			} else
+			{
+				throw new ArgumentException("New airfield is to close to already registered one. ");
 			}
 		}
 	}

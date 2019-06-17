@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_Model.Models;
 

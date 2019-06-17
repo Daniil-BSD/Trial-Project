@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
+using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.Controllers
 {
@@ -19,17 +20,17 @@ namespace Trial_Task_WEB.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public async Task<IEnumerable<GPSLogEntryDTO>> GetAllAsync(string id)
+		public async Task<SpecificObjectResult<IEnumerable<GPSLogEntryDTO>>> GetAllAsync(string id)
 		{
 			try
 			{
 				Guid guid = new Guid(id);
 				var entries = await _gpsLogEntryService.ListAsync(guid);
-				return entries;
+				return new SpecificObjectResult<IEnumerable<GPSLogEntryDTO>>(entries);
 			}
 			catch (FormatException)
 			{
-				return null;
+				return new SpecificObjectResult<IEnumerable<GPSLogEntryDTO>>(BadRequest(INVALID_ID_MESSAGE_STRING));
 			}
 		}
 	}

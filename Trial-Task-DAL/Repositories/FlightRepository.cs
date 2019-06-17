@@ -12,13 +12,22 @@ namespace Trial_Task_DAL.Repositories
 	{
 		public FlightRepository(AppDbContext context) : base(context) { }
 
-		public async Task<IEnumerable<Flight>> ListAsync()
+		public Task<List<Flight>> ListAsync()
 		{
-			return await _context.Flights
+			return _context.Flights
 				.Include(ent => ent.Pilot)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.Entries)
+				.ToListAsync();
+		}
+
+		public Task<List<Flight>> ListReducedAsync()
+		{
+			return _context.Flights
+				.Include(ent => ent.Pilot)
+				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
+				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.ToListAsync();
 		}
 
@@ -29,16 +38,7 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.Entries)
-				.SingleOrDefaultAsync(ent => ent.ID.Equals(id));
-		}
-
-		public async Task<IEnumerable<Flight>> ListReducedAsync()
-		{
-			return await _context.Flights
-				.Include(ent => ent.Pilot)
-				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
-				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
-				.ToListAsync();
+				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 	}
 }
