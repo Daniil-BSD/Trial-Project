@@ -12,20 +12,17 @@ namespace Trial_Task_WEB.ResultExtention
 	 * as long as the 200 code is passed together with the vlid objeect of type T in the Value.
 	 * Also automatically sets StatusCode to 404 (Not found), if (T: value) is null
 	 */
+	/// <summary>
+	/// Defines the <see cref="SpecificObjectResult{T}" />
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class SpecificObjectResult<T> : ObjectResult
 	{
-		public SpecificObjectResult(T value) : base(value)
-		{
-			if (value == null)
-			{
-				StatusCode = 404;
-			}
-		}
-
 		public SpecificObjectResult(object value, int statusCode) : base(value)
 		{
 			StatusCode = statusCode;
 		}
+
 		public SpecificObjectResult(ObjectResult objectResult) : base(objectResult.Value)
 		{
 			if (StatusCode == 200 && !typeof(T).Equals(Value.GetType()))
@@ -35,6 +32,14 @@ namespace Trial_Task_WEB.ResultExtention
 			} else
 			{
 				StatusCode = objectResult.StatusCode;
+			}
+		}
+
+		public SpecificObjectResult(T value) : base(value)
+		{
+			if (value == null)
+			{
+				StatusCode = 404;
 			}
 		}
 

@@ -8,10 +8,12 @@ using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.Controllers
 {
+	/// <summary>
+	/// Defines the <see cref="GPSLogsController" />
+	/// </summary>
 	[Route("/api/[controller]")]
 	public class GPSLogsController : BaseController
 	{
-
 		private readonly IGPSLogService _gpsLogService;
 
 		public GPSLogsController(IGPSLogService gpsLogService) : base()

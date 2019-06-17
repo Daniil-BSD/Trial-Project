@@ -8,10 +8,14 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.Repositories
 {
+	/// <summary>
+	/// Defines the <see cref="GPSLogRepository" />
+	/// </summary>
 	public class GPSLogRepository : BaseRepository, IGPSLogRepository
 	{
-		public GPSLogRepository(AppDbContext context) : base(context) { }
-
+		public GPSLogRepository(AppDbContext context) : base(context)
+		{
+		}
 
 		/*
 		 * Standart log request. (flight not included)
@@ -60,7 +64,6 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.PlaceOfTakeoff)
 				.ToListAsync();
 		}
-
 
 		/*
 		 * Reurns all the assosiated daata with the log, like the flight and the pilot

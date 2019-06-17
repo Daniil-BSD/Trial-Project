@@ -10,26 +10,16 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Services
 {
+	/// <summary>
+	/// Defines the <see cref="AirfieldService" />
+	/// </summary>
 	public class AirfieldService : BaseService, IAirfieldService
 	{
-
 		private readonly IAirfieldRepository _airfieldRepository;
 
 		public AirfieldService(IAirfieldRepository airfieldRepository, IMapper mapper) : base(mapper)
 		{
 			_airfieldRepository = airfieldRepository;
-		}
-
-		public async Task<IEnumerable<AirfieldDTO>> ListAsync()
-		{
-			var airfields = await _airfieldRepository.ListAsync();
-			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldDTO>>(airfields);
-		}
-
-		public async Task<IEnumerable<AirfieldShallowDTO>> ListShallowAsync()
-		{
-			var airfields = await _airfieldRepository.ListShallowAsync();
-			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
 		}
 
 		public async Task<AirfieldDTO> GetAsync(Guid id)
@@ -42,6 +32,18 @@ namespace Trial_Task_BLL.Services
 		{
 			var airfield = await _airfieldRepository.GetAsync(id);
 			return _mapper.Map<Airfield, AirfieldShallowDTO>(airfield);
+		}
+
+		public async Task<IEnumerable<AirfieldDTO>> ListAsync()
+		{
+			var airfields = await _airfieldRepository.ListAsync();
+			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldDTO>>(airfields);
+		}
+
+		public async Task<IEnumerable<AirfieldShallowDTO>> ListShallowAsync()
+		{
+			var airfields = await _airfieldRepository.ListShallowAsync();
+			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
 		}
 
 		public async Task<AirfieldSaveResponse> SaveAsync(AirfieldSaveDTO airfieldSaveDTO)

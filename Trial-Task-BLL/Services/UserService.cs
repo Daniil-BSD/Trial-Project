@@ -9,9 +9,11 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Services
 {
+	/// <summary>
+	/// Defines the <see cref="UserService" />
+	/// </summary>
 	public class UserService : BaseService, IUserService
 	{
-
 		private readonly IUserRepository _userRepository;
 
 		public UserService(IUserRepository userRepository, IMapper mapper) : base(mapper)

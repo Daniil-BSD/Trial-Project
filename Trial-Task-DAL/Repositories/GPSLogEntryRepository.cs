@@ -9,9 +9,14 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.Repositories
 {
+	/// <summary>
+	/// Defines the <see cref="GPSLogEntryRepository" />
+	/// </summary>
 	public class GPSLogEntryRepository : BaseRepository, IGPSLogEntryRepository
 	{
-		public GPSLogEntryRepository(AppDbContext context) : base(context) { }
+		public GPSLogEntryRepository(AppDbContext context) : base(context)
+		{
+		}
 
 		public async Task<IEnumerable<GPSLogEntry>> ListAsync(Guid id)
 		{

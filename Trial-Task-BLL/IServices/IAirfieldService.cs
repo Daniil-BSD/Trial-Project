@@ -6,12 +6,19 @@ using Trial_Task_BLL.Responses;
 
 namespace Trial_Task_BLL.IServices
 {
+	/// <summary>
+	/// Defines the <see cref="IAirfieldService" />
+	/// </summary>
 	public interface IAirfieldService
 	{
-		Task<IEnumerable<AirfieldDTO>> ListAsync();
-		Task<IEnumerable<AirfieldShallowDTO>> ListShallowAsync();
 		Task<AirfieldDTO> GetAsync(Guid id);
+
 		Task<AirfieldShallowDTO> GetShallowAsync(Guid id);
+
+		Task<IEnumerable<AirfieldDTO>> ListAsync();
+
+		Task<IEnumerable<AirfieldShallowDTO>> ListShallowAsync();
+
 		Task<AirfieldSaveResponse> SaveAsync(AirfieldSaveDTO airfieldSaveDTO);
 	}
 }

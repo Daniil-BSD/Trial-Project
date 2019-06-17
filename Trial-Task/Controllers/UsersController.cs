@@ -7,10 +7,12 @@ using Trial_Task_BLL.IServices;
 
 namespace Trial_Task_WEB.Controllers
 {
+	/// <summary>
+	/// Defines the <see cref="UsersController" />
+	/// </summary>
 	[Route("/api/[controller]")]
 	public class UsersController : BaseController
 	{
-
 		private readonly IUserService _userService;
 
 		public UsersController(IUserService userService) : base()
@@ -32,13 +34,13 @@ namespace Trial_Task_WEB.Controllers
 			return users;
 		}
 
-		[HttpGet("GF{id}")]
-		public async Task<UserDTO> GetFullAsync(string id)
+		[HttpGet("GS{id}")]
+		public async Task<UserShallowDTO> GetAsync(string id)
 		{
 			try
 			{
 				var guid = new Guid(id);
-				var user = await _userService.GetFullAsync(guid);
+				var user = await _userService.GetAsync(guid);
 				return user;
 			}
 			catch (FormatException)
@@ -47,13 +49,13 @@ namespace Trial_Task_WEB.Controllers
 			}
 		}
 
-		[HttpGet("GS{id}")]
-		public async Task<UserShallowDTO> GetAsync(string id)
+		[HttpGet("GF{id}")]
+		public async Task<UserDTO> GetFullAsync(string id)
 		{
 			try
 			{
 				var guid = new Guid(id);
-				var user = await _userService.GetAsync(guid);
+				var user = await _userService.GetFullAsync(guid);
 				return user;
 			}
 			catch (FormatException)

@@ -8,10 +8,12 @@ using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.Controllers
 {
+	/// <summary>
+	/// Defines the <see cref="AirfieldsController" />
+	/// </summary>
 	[Route("/api/[controller]")]
 	public class AirfieldsController : BaseController
 	{
-
 		private readonly IAirfieldService _airfieldService;
 
 		public AirfieldsController(IAirfieldService airfieldService) : base()
@@ -25,6 +27,7 @@ namespace Trial_Task_WEB.Controllers
 			var airfields = await _airfieldService.ListShallowAsync();
 			return new SpecificObjectResult<IEnumerable<AirfieldShallowDTO>>(airfields);
 		}
+
 		[HttpGet("full")]
 		public async Task<SpecificObjectResult<IEnumerable<AirfieldDTO>>> GetAllFullAsync()
 		{

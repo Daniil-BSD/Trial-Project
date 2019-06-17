@@ -10,9 +10,14 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.Repositories
 {
+	/// <summary>
+	/// Defines the <see cref="AirfieldRepository" />
+	/// </summary>
 	public class AirfieldRepository : BaseRepository, IAirfieldRepository
 	{
-		public AirfieldRepository(AppDbContext context) : base(context) { }
+		public AirfieldRepository(AppDbContext context) : base(context)
+		{
+		}
 
 		public async Task<Airfield> GetAsync(Guid id)
 		{
@@ -28,19 +33,6 @@ namespace Trial_Task_DAL.Repositories
 				.SingleAsync(ent => ent.ID == id);
 		}
 
-		public Task<List<Airfield>> ListAsync()
-		{
-			return _context.Airfields
-				.Include(ent => ent.StartFrom)
-				.Include(ent => ent.EndedAt).ToListAsync();
-		}
-
-		public Task<List<Airfield>> ListShallowAsync()
-		{
-			return _context.Airfields
-				.ToListAsync();
-		}
-
 		public async Task<Airfield> InsertAsync(Airfield airfield)
 		{
 			var noCollision = _context.Airfields.Where(a => (GlobalPoint.Distance(a, airfield) < 3000)).Count() == 0;
@@ -53,6 +45,19 @@ namespace Trial_Task_DAL.Repositories
 			{
 				throw new ArgumentException("New airfield is to close to already registered one. ");
 			}
+		}
+
+		public Task<List<Airfield>> ListAsync()
+		{
+			return _context.Airfields
+				.Include(ent => ent.StartFrom)
+				.Include(ent => ent.EndedAt).ToListAsync();
+		}
+
+		public Task<List<Airfield>> ListShallowAsync()
+		{
+			return _context.Airfields
+				.ToListAsync();
 		}
 	}
 }

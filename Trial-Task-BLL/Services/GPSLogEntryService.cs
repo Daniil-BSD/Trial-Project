@@ -9,9 +9,11 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Services
 {
+	/// <summary>
+	/// Defines the <see cref="GPSLogEntryService" />
+	/// </summary>
 	public class GPSLogEntryService : BaseService, IGPSLogEntryService
 	{
-
 		private readonly IGPSLogEntryRepository _gpsLogEntryRepository;
 
 		public GPSLogEntryService(IGPSLogEntryRepository gpsLogEntryRepository, IMapper mapper) : base(mapper)

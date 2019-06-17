@@ -2,6 +2,9 @@
 
 namespace Trial_Task_DAL.Repositories
 {
+	/// <summary>
+	/// Defines the <see cref="BaseRepository" />
+	/// </summary>
 	public abstract class BaseRepository
 	{
 		protected readonly AppDbContext _context;

@@ -8,9 +8,14 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.Repositories
 {
+	/// <summary>
+	/// Defines the <see cref="UserRepository" />
+	/// </summary>
 	public class UserRepository : BaseRepository, IUserRepository
 	{
-		public UserRepository(AppDbContext context) : base(context) { }
+		public UserRepository(AppDbContext context) : base(context)
+		{
+		}
 
 		public async Task<User> GetAsync(Guid id)
 		{

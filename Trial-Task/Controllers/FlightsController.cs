@@ -8,10 +8,12 @@ using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.Controllers
 {
+	/// <summary>
+	/// Defines the <see cref="FlightsController" />
+	/// </summary>
 	[Route("/api/[controller]")]
 	public class FlightsController : BaseController
 	{
-
 		private readonly IFlightService _flightService;
 
 		public FlightsController(IFlightService flightService) : base()

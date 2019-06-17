@@ -8,9 +8,24 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.Repositories
 {
+	/// <summary>
+	/// Defines the <see cref="FlightRepository" />
+	/// </summary>
 	public class FlightRepository : BaseRepository, IFlightRepository
 	{
-		public FlightRepository(AppDbContext context) : base(context) { }
+		public FlightRepository(AppDbContext context) : base(context)
+		{
+		}
+
+		public async Task<Flight> GetAsync(Guid id)
+		{
+			return await _context.Flights
+				.Include(ent => ent.Pilot)
+				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
+				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
+				.Include(ent => ent.Log).ThenInclude(ent => ent.Entries)
+				.SingleAsync(ent => ent.ID.Equals(id));
+		}
 
 		public Task<List<Flight>> ListAsync()
 		{
@@ -29,16 +44,6 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.ToListAsync();
-		}
-
-		public async Task<Flight> GetAsync(Guid id)
-		{
-			return await _context.Flights
-				.Include(ent => ent.Pilot)
-				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
-				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
-				.Include(ent => ent.Log).ThenInclude(ent => ent.Entries)
-				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 	}
 }

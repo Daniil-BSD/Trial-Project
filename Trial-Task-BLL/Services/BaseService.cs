@@ -5,6 +5,9 @@ namespace Trial_Task_BLL.Services
 	/*
 	 * 
 	 */
+	/// <summary>
+	/// Defines the <see cref="BaseService" />
+	/// </summary>
 	public class BaseService
 	{
 		protected readonly IMapper _mapper;

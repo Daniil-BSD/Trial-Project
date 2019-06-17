@@ -9,9 +9,11 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Services
 {
+	/// <summary>
+	/// Defines the <see cref="FlightService" />
+	/// </summary>
 	public class FlightService : BaseService, IFlightService
 	{
-
 		private readonly IFlightRepository _flightRepository;
 
 		public FlightService(IFlightRepository flightRepository, IMapper mapper) : base(mapper)
@@ -19,17 +21,16 @@ namespace Trial_Task_BLL.Services
 			_flightRepository = flightRepository;
 		}
 
-		public async Task<IEnumerable<FlightShallowDTO>> ListAsync()
-		{
-			var flights = await _flightRepository.ListAsync();
-			return _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightShallowDTO>>(flights);
-		}
-
 		public async Task<FlightDTO> GetAsync(Guid id)
 		{
 			var flight = await _flightRepository.GetAsync(id);
 			return _mapper.Map<Flight, FlightDTO>(flight);
+		}
 
+		public async Task<IEnumerable<FlightShallowDTO>> ListAsync()
+		{
+			var flights = await _flightRepository.ListAsync();
+			return _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightShallowDTO>>(flights);
 		}
 
 		public async Task<IEnumerable<FlightBasicDTO>> ListReducedAsync()
