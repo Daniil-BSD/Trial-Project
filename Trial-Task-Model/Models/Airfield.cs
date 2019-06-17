@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Trial_Task_Model.Interfaces;
 
 namespace Trial_Task_Model.Models
 {
-	public class Airfield
+	public class Airfield: IGlobalPoint
 	{
 		public Guid ID { get; set; }
 		public string Name { get; set; }

@@ -1,13 +1,16 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Mapping
 {
-	public class ModelToDTOProfile : Profile
+	public class MappingProfile : Profile
 	{
-		public ModelToDTOProfile()
+		public MappingProfile()
 		{
+			//Model => DTOs
+
 			CreateMap<Airfield, AirfieldDTO>();
 			CreateMap<Airfield, AirfieldBasicDTO>();
 			CreateMap<Airfield, AirfieldShallowDTO>();
@@ -31,6 +34,9 @@ namespace Trial_Task_BLL.Mapping
 			CreateMap<User, UserDTO>();
 			CreateMap<User, UserShallowDTO>();
 			CreateMap<User, UserBasicDTO>();
+
+			//DTOs => Model
+			CreateMap<AirfieldSaveDTO, Airfield>();
 
 		}
 	}

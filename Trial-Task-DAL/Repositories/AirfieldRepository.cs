@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Trial_Task_DAL.Contexts;
 using Trial_Task_DAL.IRepositories;
+using Trial_Task_Model.Interfaces;
 using Trial_Task_Model.Models;
+using System.Linq;
 
 namespace Trial_Task_DAL.Repositories
 {
@@ -37,6 +39,19 @@ namespace Trial_Task_DAL.Repositories
 		{
 			return await _context.Airfields
 				.ToListAsync();
+		}
+
+		public async Task<Airfield> InsertAsync(Airfield airfield)
+		{
+			var noCollision = _context.Airfields.Where(a => (GlobalPoint.Distance(a, airfield) < 3000)).Count() == 0;
+			if (noCollision)
+			{
+				var ret = await _context.Airfields.AddAsync(airfield);
+				await _context.SaveChangesAsync();
+				return ret.Entity;
+			} else {
+				throw new ArgumentOutOfRangeException("Latitude, Longitude", "New airfield is to close to already registered one. ");
+			}
 		}
 	}
 }

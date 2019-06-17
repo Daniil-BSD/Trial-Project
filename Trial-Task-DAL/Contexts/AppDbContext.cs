@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Trial_Task_Model.Models;
@@ -21,6 +22,7 @@ namespace Trial_Task_DAL.Contexts
 
 			builder.Entity<Airfield>().ToTable("Airfields");
 			builder.Entity<Airfield>().HasKey(a => a.ID);
+			builder.Entity<Airfield>().Property(a => a.ID).ValueGeneratedOnAdd();
 			builder.Entity<Airfield>().Property(a => a.Name).IsRequired().HasMaxLength(60);
 			builder.Entity<Airfield>().Property(a => a.Latitude).IsRequired();
 			builder.Entity<Airfield>().Property(a => a.Latitude).IsRequired();
@@ -49,11 +51,11 @@ namespace Trial_Task_DAL.Contexts
 
 
 			// testing material
-			builder.Entity<Airfield>().HasData
+			/*builder.Entity<Airfield>().HasData
 			(
 				new Airfield { ID = new Guid("11111111-0000-1111-1111-111111111111"), Name = "Airfield 1", Latitude = 45.0, Longitude = 44.0 },
 				new Airfield { ID = new Guid("11111111-1111-1111-1111-111111111111"), Name = "Airfield 2", Latitude = 44.0, Longitude = 45.0 }
-			);
+			);*/
 		}
 	}
 }

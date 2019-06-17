@@ -11,5 +11,6 @@ namespace Trial_Task_DAL.IRepositories
 		Task<IEnumerable<Airfield>> ListAsync();
 		Task<Airfield> GetAsync(Guid id);
 		Task<Airfield> GetShallowAsync(Guid id);
+		Task<Airfield> InsertAsync(Airfield airfield);
 	}
 }

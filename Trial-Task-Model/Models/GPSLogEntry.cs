@@ -1,8 +1,9 @@
 ﻿using System;
+using Trial_Task_Model.Interfaces;
 
 namespace Trial_Task_Model.Models
 {
-	public class GPSLogEntry
+	public class GPSLogEntry : IGlobalPoint
 	{
 		public Guid LogID { get; set; }
 		public GPSLog Log { get; set; }

@@ -29,7 +29,8 @@ namespace Trial_Task
 		{
 			services.AddDbContext<AppDbContext>(options =>
 			   options.UseSqlServer(
-				   Configuration.GetConnectionString("DefaultConnection")));
+				   Configuration.GetConnectionString("DefaultConnection" ),
+				   b => b.MigrationsAssembly("Trial-Task-WEB")));
 
 			services.AddSwaggerGen(c =>
 			{
@@ -54,7 +55,7 @@ namespace Trial_Task
 
 			var mappingConfig = new MapperConfiguration(mc =>
 			{
-				mc.AddProfile(new ModelToDTOProfile());
+				mc.AddProfile(new MappingProfile());
 			});
 			IMapper mapper = mappingConfig.CreateMapper();
 			services.AddSingleton(mapper);
