@@ -72,7 +72,7 @@ namespace Trial_Task_WEB.Controllers
 				return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
 			var response = await _airfieldService.SaveAsync(airfieldSaveDTO);
 			if (response.Success)
-				return new SpecificObjectResult<AirfieldShallowDTO>(response.AirfieldDTO);
+				return new SpecificObjectResult<AirfieldShallowDTO>(response.Value);
 			return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest(response.Message));
 		}
 	}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
@@ -19,7 +20,7 @@ namespace Trial_Task_BLL.Services
 	{
 		private readonly IAirfieldRepository _airfieldRepository;
 
-		public AirfieldService(IAirfieldRepository airfieldRepository, IMapper mapper) : base(mapper)
+		public AirfieldService(IAirfieldRepository airfieldRepository, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
 		{
 			_airfieldRepository = airfieldRepository;
 		}
@@ -48,7 +49,7 @@ namespace Trial_Task_BLL.Services
 			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
 		}
 
-		public async Task<AirfieldSaveResponse> SaveAsync(AirfieldSaveDTO airfieldSaveDTO)
+		public async Task<Response<AirfieldShallowDTO>> SaveAsync(AirfieldSaveDTO airfieldSaveDTO)
 		{
 			try
 			{
@@ -56,15 +57,15 @@ namespace Trial_Task_BLL.Services
 				if (await IsGlobalPointForNewAirfield(airfieldIm))
 				{
 					var airfieldOut = await _airfieldRepository.UnsafeInsertAsync(airfieldIm);
-					return new AirfieldSaveResponse(_mapper.Map<Airfield, AirfieldShallowDTO>(airfieldOut));
+					return new Response<AirfieldShallowDTO>(_mapper.Map<Airfield, AirfieldShallowDTO>(airfieldOut));
 				} else
 				{
-					return new AirfieldSaveResponse("Newly entered airfield is too close to an exsisting one");
+					return new Response<AirfieldShallowDTO>("Newly entered airfield is too close to an exsisting one");
 				}
 			}
 			catch (Exception e)
 			{
-				return new AirfieldSaveResponse(e.Message);
+				return new Response<AirfieldShallowDTO>(e.Message);
 			}
 		}
 

@@ -19,6 +19,6 @@ namespace Trial_Task_BLL.IServices
 
 		Task<IEnumerable<AirfieldShallowDTO>> ListShallowAsync();
 
-		Task<AirfieldSaveResponse> SaveAsync(AirfieldSaveDTO airfieldSaveDTO);
+		Task<Response<AirfieldShallowDTO>> SaveAsync(AirfieldSaveDTO airfieldSaveDTO);
 	}
 }

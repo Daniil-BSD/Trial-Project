@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Trial_Task_WEB.ResultExtention
 {
@@ -18,11 +19,6 @@ namespace Trial_Task_WEB.ResultExtention
 	/// <typeparam name="T"></typeparam>
 	public class SpecificObjectResult<T> : ObjectResult
 	{
-		public SpecificObjectResult(object value, int statusCode) : base(value)
-		{
-			StatusCode = statusCode;
-		}
-
 		public SpecificObjectResult(ObjectResult objectResult) : base(objectResult.Value)
 		{
 			if (StatusCode == 200 && !typeof(T).Equals(Value.GetType()))
@@ -40,6 +36,15 @@ namespace Trial_Task_WEB.ResultExtention
 			if (value == null)
 			{
 				StatusCode = 404;
+			}
+		}
+		public SpecificObjectResult(string message, IStatusCodeActionResult status) : base(message)
+		{
+			if (status.StatusCode != null)
+			{
+				StatusCode = status.StatusCode;
+			} else {
+				StatusCode = 500;
 			}
 		}
 
@@ -60,5 +65,8 @@ namespace Trial_Task_WEB.ResultExtention
 				}
 			}
 		}
+
+		public bool Valid { get { return StatusCode == 200; } }
+		public bool NotNull { get { return StatusCode == 200 && Value != null; } }
 	}
 }

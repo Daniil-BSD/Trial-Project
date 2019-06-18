@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_DAL.IRepositories;
@@ -16,7 +17,7 @@ namespace Trial_Task_BLL.Services
 	{
 		private readonly IFlightRepository _flightRepository;
 
-		public FlightService(IFlightRepository flightRepository, IMapper mapper) : base(mapper)
+		public FlightService(IFlightRepository flightRepository, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
 		{
 			_flightRepository = flightRepository;
 		}

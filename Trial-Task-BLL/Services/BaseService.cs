@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Trial_Task_Model.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Trial_Task_BLL.Services
 {
@@ -11,10 +13,12 @@ namespace Trial_Task_BLL.Services
 	public class BaseService
 	{
 		protected readonly IMapper _mapper;
+		protected readonly SignInManager<User> _signInManager;
 
-		public BaseService(IMapper mapper)
+		public BaseService(IMapper mapper, SignInManager<User> signInManager)
 		{
 			_mapper = mapper;
+			_signInManager = signInManager;
 		}
 	}
 }
