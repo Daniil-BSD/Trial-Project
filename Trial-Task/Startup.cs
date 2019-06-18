@@ -1,6 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +14,7 @@ using Trial_Task_BLL.Services;
 using Trial_Task_DAL.Contexts;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_DAL.Repositories;
+using Trial_Task_Model.Models;
 
 namespace Trial_Task
 {
@@ -32,11 +35,12 @@ namespace Trial_Task
 				   Configuration.GetConnectionString("DefaultConnection"),
 				   b => b.MigrationsAssembly("Trial-Task-WEB")));
 
+			services.AddIdentity<User, IdentityRole<Guid>>().AddEntityFrameworkStores<AppDbContext>();
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
 			});
-
 
 			services.AddScoped<IAirfieldRepository, AirfieldRepository>();
 			services.AddScoped<IAirfieldService, AirfieldService>();
@@ -81,7 +85,7 @@ namespace Trial_Task
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
 				c.RoutePrefix = string.Empty;
 			});
-
+			//app.UseAuthentication();
 			app.UseHttpsRedirection();
 			app.UseMvc();
 		}

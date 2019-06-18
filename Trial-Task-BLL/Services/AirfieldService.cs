@@ -6,6 +6,8 @@ using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
 using Trial_Task_DAL.IRepositories;
+using Trial_Task_Model;
+using Trial_Task_Model.Interfaces;
 using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Services
@@ -51,13 +53,25 @@ namespace Trial_Task_BLL.Services
 			try
 			{
 				Airfield airfieldIm = _mapper.Map<AirfieldSaveDTO, Airfield>(airfieldSaveDTO);
-				var airfieldOut = await _airfieldRepository.InsertAsync(airfieldIm);
-				return new AirfieldSaveResponse(_mapper.Map<Airfield, AirfieldShallowDTO>(airfieldOut));
+				if (await IsGlobalPointForNewAirfield(airfieldIm))
+				{
+					var airfieldOut = await _airfieldRepository.UnsafeInsertAsync(airfieldIm);
+					return new AirfieldSaveResponse(_mapper.Map<Airfield, AirfieldShallowDTO>(airfieldOut));
+				} else
+				{
+					return new AirfieldSaveResponse("Newly entered airfield is too close to an exsisting one");
+				}
 			}
 			catch (Exception e)
 			{
 				return new AirfieldSaveResponse(e.Message);
 			}
+		}
+
+		internal async Task<bool> IsGlobalPointForNewAirfield(Airfield airfield)
+		{
+			var temp = await _airfieldRepository.FilterListShallow(ent => GlobalPoint.Distance(ent, airfield) < Constants.AIRFIELD_DESIGNATED_AREA_RADIUS);
+			return temp.Count == 0;
 		}
 	}
 }

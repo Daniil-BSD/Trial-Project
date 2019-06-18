@@ -22,7 +22,7 @@ namespace Trial_Task_DAL.Repositories
 			return await _context.Users
 				.Include(ent => ent.Flights).ThenInclude(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.Flights).ThenInclude(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
-				.SingleOrDefaultAsync(ent => ent.Guid_ID.Equals(id));
+				.SingleOrDefaultAsync(ent => ent.Id.Equals(id));
 		}
 
 		public async Task<User> GetFullAsync(Guid id)
@@ -31,7 +31,7 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Flights).ThenInclude(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.Flights).ThenInclude(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.Include(ent => ent.Flights).ThenInclude(ent => ent.Log).ThenInclude(ent => ent.Entries)
-				.SingleOrDefaultAsync(ent => ent.Guid_ID.Equals(id));
+				.SingleOrDefaultAsync(ent => ent.Id.Equals(id));
 		}
 
 		public async Task<IEnumerable<User>> ListAsync()

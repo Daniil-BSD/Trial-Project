@@ -22,8 +22,8 @@ namespace Trial_Task_DAL.Repositories
 		public async Task<Airfield> GetAsync(Guid id)
 		{
 			return await _context.Airfields
-				.Include(ent => ent.StartFrom)
-				.Include(ent => ent.EndedAt)
+				.Include(ent => ent.StartFrom).ThenInclude(ent => ent.PlaceOfLanding)
+				.Include(ent => ent.EndedAt).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
@@ -33,7 +33,7 @@ namespace Trial_Task_DAL.Repositories
 				.SingleAsync(ent => ent.ID == id);
 		}
 
-		public async Task<Airfield> InsertAsync(Airfield airfield)
+		public async Task<Airfield> UnsafeInsertAsync(Airfield airfield)
 		{
 			var noCollision = _context.Airfields.Where(a => (GlobalPoint.Distance(a, airfield) < 3000)).Count() == 0;
 			if (noCollision)
@@ -58,6 +58,30 @@ namespace Trial_Task_DAL.Repositories
 		{
 			return _context.Airfields
 				.ToListAsync();
+		}
+
+		public async Task<List<Airfield>> FilterList(Func<Airfield, bool> func)
+		{
+			var list = await ListAsync();
+			List<Airfield> ret = new List<Airfield>();
+			foreach (Airfield airfield in list)
+			{
+				if (func(airfield))
+					ret.Add(airfield);
+			}
+			return ret;
+		}
+
+		public async Task<List<Airfield>> FilterListShallow(Func<Airfield, bool> func)
+		{
+			var list = await ListShallowAsync();
+			List<Airfield> ret = new List<Airfield>();
+			foreach (Airfield airfield in list)
+			{
+				if (func(airfield))
+					ret.Add(airfield);
+			}
+			return ret;
 		}
 	}
 }

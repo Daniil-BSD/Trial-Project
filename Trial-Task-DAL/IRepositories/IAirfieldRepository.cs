@@ -14,10 +14,14 @@ namespace Trial_Task_DAL.IRepositories
 
 		Task<Airfield> GetShallowAsync(Guid id);
 
-		Task<Airfield> InsertAsync(Airfield airfield);
+		Task<Airfield> UnsafeInsertAsync(Airfield airfield);
 
 		Task<List<Airfield>> ListAsync();
 
 		Task<List<Airfield>> ListShallowAsync();
+
+		Task<List<Airfield>> FilterList(Func<Airfield, bool> func);
+
+		Task<List<Airfield>> FilterListShallow(Func<Airfield, bool> func);
 	}
 }
