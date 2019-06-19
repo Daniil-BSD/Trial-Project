@@ -41,8 +41,8 @@ namespace Trial_Task_WEB.Controllers
 			try
 			{
 				var guid = new Guid(id);
-				var airfield = await _airfieldService.GetAsync(guid); ;
-				return new SpecificObjectResult<AirfieldDTO>(airfield);
+				var response = await _airfieldService.GetAsync(guid);
+				return new SpecificObjectResult<AirfieldDTO>(response);
 			}
 			catch (FormatException)
 			{
@@ -56,8 +56,8 @@ namespace Trial_Task_WEB.Controllers
 			try
 			{
 				var guid = new Guid(id);
-				var airfield = await _airfieldService.GetShallowAsync(guid);
-				return new SpecificObjectResult<AirfieldShallowDTO>(airfield);
+				var response = await _airfieldService.GetShallowAsync(guid);
+				return new SpecificObjectResult<AirfieldShallowDTO>(response);
 			}
 			catch (FormatException)
 			{

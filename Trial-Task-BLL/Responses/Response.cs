@@ -1,21 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Trial_Task_BLL.Responses
 {
-	public class Response<T> : BaseResponse where T: class
+	/// <summary>
+	/// Defines the <see cref="Response{T}" />
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	public class Response<T> : BaseResponse
 	{
-		public T Value { get; set; }
-			public Response(T value) : this(value, true, "")
+		public Response(BaseResponse baseResponse) : base(false, baseResponse.Message, baseResponse.NotFoundFlag)
+		{
+			if (baseResponse.Success)
 			{
-			}
-			private Response(T value, bool success, string message) : base(success, message)
-			{
-			Value = value;
-			}
-			public Response(string message) : this(null, false, message)
-			{
+				throw new ArithmeticException("Can only convert unsecsessful responses.");
 			}
 		}
+
+		public Response(string message, bool notFoundFlag = false) : base(false, message, notFoundFlag)
+		{
+		}
+
+		public Response(T value) : this(value, true, "", false)
+		{
+		}
+
+		protected Response(T value, bool success, string message, bool notFoundFlag) : base(success, message, notFoundFlag)
+		{
+			Value = value;
+		}
+
+		public T Value { get; set; }
+
+		public static async Task<Response<T>> CatchInvalidOperationException(Task<T> getTask)
+		{
+			try
+			{
+				return new Response<T>(await getTask);
+			}
+			catch (InvalidOperationException e)
+			{
+				return new Response<T>(e.Message, true);
+			}
+			catch (Exception e)
+			{
+				return new Response<T>(e.Message);
+			}
+		}
+
+		public static async Task<Response<T>> CatchInvalidOperationExceptionAndMap<T2>(Task<T2> getTask, IMapper mapper)
+		{
+			try
+			{
+				return new Response<T>(mapper.Map<T2, T>(await getTask));
+			}
+			catch (InvalidOperationException e)
+			{
+				return new Response<T>(e.Message, true);
+			}
+			catch (Exception e)
+			{
+				return new Response<T>(e.Message);
+			}
+		}
+	}
 }

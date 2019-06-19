@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
+using Trial_Task_BLL.Responses;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model.Models;
 
@@ -22,10 +23,10 @@ namespace Trial_Task_BLL.Services
 			_flightRepository = flightRepository;
 		}
 
-		public async Task<FlightDTO> GetAsync(Guid id)
+		public async Task<Response<FlightDTO>> GetAsync(Guid id)
 		{
-			var flight = await _flightRepository.GetAsync(id);
-			return _mapper.Map<Flight, FlightDTO>(flight);
+			var task = _flightRepository.GetAsync(id);
+			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
 		public async Task<IEnumerable<FlightShallowDTO>> ListAsync()

@@ -25,16 +25,16 @@ namespace Trial_Task_BLL.Services
 			_airfieldRepository = airfieldRepository;
 		}
 
-		public async Task<AirfieldDTO> GetAsync(Guid id)
+		public async Task<Response<AirfieldDTO>> GetAsync(Guid id)
 		{
-			var airfield = await _airfieldRepository.GetAsync(id);
-			return _mapper.Map<Airfield, AirfieldDTO>(airfield);
+			var task = _airfieldRepository.GetAsync(id);
+			return await Response<AirfieldDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
-		public async Task<AirfieldShallowDTO> GetShallowAsync(Guid id)
+		public async Task<Response<AirfieldShallowDTO>> GetShallowAsync(Guid id)
 		{
-			var airfield = await _airfieldRepository.GetAsync(id);
-			return _mapper.Map<Airfield, AirfieldShallowDTO>(airfield);
+			var task = _airfieldRepository.GetShallowAsync(id);
+			return await Response<AirfieldShallowDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
 		public async Task<IEnumerable<AirfieldDTO>> ListAsync()
@@ -54,9 +54,9 @@ namespace Trial_Task_BLL.Services
 			try
 			{
 				Airfield airfieldIm = _mapper.Map<AirfieldSaveDTO, Airfield>(airfieldSaveDTO);
-				if (await IsGlobalPointForNewAirfield(airfieldIm))
+				if (await IsGlobalPointValidForNewAirfield(airfieldIm))
 				{
-					var airfieldOut = await _airfieldRepository.UnsafeInsertAsync(airfieldIm);
+					var airfieldOut = await _airfieldRepository.UnvalidatedInsertAsync(airfieldIm);
 					return new Response<AirfieldShallowDTO>(_mapper.Map<Airfield, AirfieldShallowDTO>(airfieldOut));
 				} else
 				{
@@ -69,7 +69,7 @@ namespace Trial_Task_BLL.Services
 			}
 		}
 
-		internal async Task<bool> IsGlobalPointForNewAirfield(Airfield airfield)
+		internal async Task<bool> IsGlobalPointValidForNewAirfield(Airfield airfield)
 		{
 			var temp = await _airfieldRepository.FilterListShallow(ent => GlobalPoint.Distance(ent, airfield) < Constants.AIRFIELD_DESIGNATED_AREA_RADIUS);
 			return temp.Count == 0;

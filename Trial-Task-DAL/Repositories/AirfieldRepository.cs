@@ -19,47 +19,6 @@ namespace Trial_Task_DAL.Repositories
 		{
 		}
 
-		public async Task<Airfield> GetAsync(Guid id)
-		{
-			return await _context.Airfields
-				.Include(ent => ent.StartFrom).ThenInclude(ent => ent.PlaceOfLanding)
-				.Include(ent => ent.EndedAt).ThenInclude(ent => ent.PlaceOfTakeoff)
-				.SingleAsync(ent => ent.ID.Equals(id));
-		}
-
-		public async Task<Airfield> GetShallowAsync(Guid id)
-		{
-			return await _context.Airfields
-				.SingleAsync(ent => ent.ID == id);
-		}
-
-		public async Task<Airfield> UnsafeInsertAsync(Airfield airfield)
-		{
-			var noCollision = _context.Airfields.Where(a => (GlobalPoint.Distance(a, airfield) < 3000)).Count() == 0;
-			if (noCollision)
-			{
-				var ret = await _context.Airfields.AddAsync(airfield);
-				await _context.SaveChangesAsync();
-				return ret.Entity;
-			} else
-			{
-				throw new ArgumentException("New airfield is to close to already registered one. ");
-			}
-		}
-
-		public Task<List<Airfield>> ListAsync()
-		{
-			return _context.Airfields
-				.Include(ent => ent.StartFrom)
-				.Include(ent => ent.EndedAt).ToListAsync();
-		}
-
-		public Task<List<Airfield>> ListShallowAsync()
-		{
-			return _context.Airfields
-				.ToListAsync();
-		}
-
 		public async Task<List<Airfield>> FilterList(Func<Airfield, bool> func)
 		{
 			var list = await ListAsync();
@@ -82,6 +41,47 @@ namespace Trial_Task_DAL.Repositories
 					ret.Add(airfield);
 			}
 			return ret;
+		}
+
+		public async Task<Airfield> GetAsync(Guid id)
+		{
+			return await _context.Airfields
+				.Include(ent => ent.StartFrom).ThenInclude(ent => ent.PlaceOfLanding)
+				.Include(ent => ent.EndedAt).ThenInclude(ent => ent.PlaceOfTakeoff)
+				.SingleAsync(ent => ent.ID.Equals(id));
+		}
+
+		public async Task<Airfield> GetShallowAsync(Guid id)
+		{
+			return await _context.Airfields
+				.SingleAsync(ent => ent.ID == id);
+		}
+
+		public Task<List<Airfield>> ListAsync()
+		{
+			return _context.Airfields
+				.Include(ent => ent.StartFrom)
+				.Include(ent => ent.EndedAt).ToListAsync();
+		}
+
+		public Task<List<Airfield>> ListShallowAsync()
+		{
+			return _context.Airfields
+				.ToListAsync();
+		}
+
+		public async Task<Airfield> UnvalidatedInsertAsync(Airfield airfield)
+		{
+			var noCollision = _context.Airfields.Where(a => (GlobalPoint.Distance(a, airfield) < 3000)).Count() == 0;
+			if (noCollision)
+			{
+				var ret = await _context.Airfields.AddAsync(airfield);
+				await _context.SaveChangesAsync();
+				return ret.Entity;
+			} else
+			{
+				throw new ArgumentException("New airfield is to close to already registered one. ");
+			}
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -85,7 +86,7 @@ namespace Trial_Task
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
 				c.RoutePrefix = string.Empty;
 			});
-			//app.UseAuthentication();
+			app.UseAuthentication();
 			app.UseHttpsRedirection();
 			app.UseMvc();
 		}

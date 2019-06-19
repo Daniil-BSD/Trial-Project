@@ -6,10 +6,8 @@ namespace Trial_Task_Model.Enumerations
 	{
 		[Description("under approval")]
 		Pending = 0,
-
 		[Description("approved")]
 		Approved = 1,
-
 		[Description("rejected")]
 		Rejected = 2
 	}

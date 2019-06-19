@@ -37,6 +37,7 @@ namespace Trial_Task_BLL.Mapping
 			//DTOs => Model
 			CreateMap<AirfieldSaveDTO, Airfield>();
 			CreateMap<UserRegistrationDTO, User>();
+			CreateMap<UserLoginDTO, User>();
 
 		}
 	}

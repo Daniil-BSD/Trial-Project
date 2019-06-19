@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
@@ -16,17 +17,21 @@ namespace Trial_Task_WEB.Controllers
 	[Route("/api/[controller]")]
 	public class UsersController : BaseController
 	{
-		private readonly IUserService _userService;
 		protected readonly SignInManager<User> _signInManager;
 
-		public UsersController(IUserService userService, SignInManager<User> signInManager) : base()
+		private readonly IHttpContextAccessor _httpContextAccessor;
+
+		private readonly IUserService _userService;
+
+		public UsersController(IUserService userService, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor) : base()
 		{
 			_userService = userService;
 			_signInManager = signInManager;
+			_httpContextAccessor = httpContextAccessor;
 		}
 
 		[HttpGet]
-		public async Task<SpecificObjectResult< IEnumerable<UserShallowDTO>>> GetAllAsync()
+		public async Task<SpecificObjectResult<IEnumerable<UserShallowDTO>>> GetAllAsync()
 		{
 			var users = await _userService.ListAsync();
 			return new SpecificObjectResult<IEnumerable<UserShallowDTO>>(users);
@@ -54,6 +59,32 @@ namespace Trial_Task_WEB.Controllers
 			}
 		}
 
+		[HttpGet("userFull")]
+		public async Task<SpecificObjectResult<UserDTO>> GetCurrentFullUser()
+		{
+			var response = await _userService.GetCurrentUserFullAsync();
+			if (response.Success)
+			{
+				return new SpecificObjectResult<UserDTO>(response.Value);
+			} else
+			{
+				return new SpecificObjectResult<UserDTO>(BadRequest(response.Message));
+			}
+		}
+
+		[HttpGet("user")]
+		public async Task<SpecificObjectResult<UserShallowDTO>> GetCurrentUser()
+		{
+			var response = await _userService.GetCurrentUserAsync();
+			if (response.Success)
+			{
+				return new SpecificObjectResult<UserShallowDTO>(response.Value);
+			} else
+			{
+				return new SpecificObjectResult<UserShallowDTO>(response.Message, NoContent());
+			}
+		}
+
 		[HttpGet("GF{id}")]
 		public async Task<SpecificObjectResult<UserDTO>> GetFullAsync(string id)
 		{
@@ -69,6 +100,12 @@ namespace Trial_Task_WEB.Controllers
 			}
 		}
 
+		[HttpGet("IsSignedIn")]
+		public SpecificObjectResult<string> IsSignedIn()
+		{
+			return new SpecificObjectResult<string>(_signInManager.IsSignedIn(User).ToString());
+		}
+
 		[HttpPost("register")]
 		public async Task<SpecificObjectResult<UserBasicDTO>> Register([FromBody] UserRegistrationDTO userRegistrationDTO)
 		{
@@ -80,21 +117,21 @@ namespace Trial_Task_WEB.Controllers
 			return new SpecificObjectResult<UserBasicDTO>(BadRequest(response.Message));
 		}
 
-		[HttpGet("user")]
-		public async Task<SpecificObjectResult<UserBasicDTO>> GetCurrentUser()
+		[HttpPost("SignIn")]
+		public async Task<SpecificObjectResult<UserBasicDTO>> SignIn([FromBody] UserLoginDTO userRegistrationDTO)
 		{
-			var response = await _userService.GetCurrentUser();
+			if (!ModelState.IsValid)
+				return new SpecificObjectResult<UserBasicDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
+			var response = await _userService.SignInAsync(userRegistrationDTO);
 			if (response.Success)
-			{
 				return new SpecificObjectResult<UserBasicDTO>(response.Value);
-			} else { 
-				return new SpecificObjectResult<UserBasicDTO>(response.Message, NoContent());
-			}
+			return new SpecificObjectResult<UserBasicDTO>(BadRequest(response.Message));
 		}
-		[HttpGet("ISuser")]
-		public SpecificObjectResult<string> IsSignedInn()
+
+		[HttpPost("SignOut")]
+		public async void SignOut()
 		{
-			return new SpecificObjectResult<string>(_signInManager.IsSignedIn(User).ToString());
+			await _signInManager.SignOutAsync();
 		}
 	}
 }

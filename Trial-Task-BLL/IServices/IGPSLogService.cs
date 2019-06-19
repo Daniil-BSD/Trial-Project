@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Trial_Task_BLL.DTOs;
+using Trial_Task_BLL.Responses;
 
 namespace Trial_Task_BLL.IServices
 {
@@ -10,9 +11,9 @@ namespace Trial_Task_BLL.IServices
 	/// </summary>
 	public interface IGPSLogService
 	{
-		Task<GPSLogDTO> GetAsync(Guid id);
+		Task<Response<GPSLogDTO>> GetAsync(Guid id);
 
-		Task<GPSLogStandaloneDTO> GetFullAsync(Guid id);
+		Task<Response<GPSLogStandaloneDTO>> GetFullAsync(Guid id);
 
 		Task<IEnumerable<GPSLogDTO>> ListAsync();
 

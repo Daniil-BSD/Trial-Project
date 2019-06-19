@@ -11,15 +11,22 @@ namespace Trial_Task_BLL.IServices
 	/// </summary>
 	public interface IUserService
 	{
-		Task<UserShallowDTO> GetAsync(Guid id);
+		Task<Response<UserShallowDTO>> GetAsync(Guid id);
 
-		Task<UserDTO> GetFullAsync(Guid id);
+		Task<Response<UserShallowDTO>> GetCurrentUserAsync();
+
+		Task<Response<UserDTO>> GetCurrentUserFullAsync();
+
+		Response<Guid> GetCurrentUserID();
+
+		Task<Response<UserDTO>> GetFullAsync(Guid id);
 
 		Task<IEnumerable<UserShallowDTO>> ListAsync();
 
 		Task<IEnumerable<UserBasicDTO>> ListShallowAsync();
 
 		Task<Response<UserBasicDTO>> RegisterAsync(UserRegistrationDTO userRegistrationDTO);
-		Task<Response<UserBasicDTO>> GetCurrentUser();
+
+		Task<Response<UserBasicDTO>> SignInAsync(UserLoginDTO userRegistrationDTO);
 	}
 }

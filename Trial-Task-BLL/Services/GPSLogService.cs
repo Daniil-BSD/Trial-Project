@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
+using Trial_Task_BLL.Responses;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model.Models;
 
@@ -22,16 +23,16 @@ namespace Trial_Task_BLL.Services
 			_gpsLogRepository = gpsLogRepository;
 		}
 
-		public async Task<GPSLogDTO> GetAsync(Guid id)
+		public async Task<Response<GPSLogDTO>> GetAsync(Guid id)
 		{
-			var log = await _gpsLogRepository.GetAsync(id);
-			return _mapper.Map<GPSLog, GPSLogDTO>(log);
+			var task = _gpsLogRepository.GetAsync(id);
+			return await Response<GPSLogDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
-		public async Task<GPSLogStandaloneDTO> GetFullAsync(Guid id)
+		public async Task<Response<GPSLogStandaloneDTO>> GetFullAsync(Guid id)
 		{
-			var log = await _gpsLogRepository.GetFullAsync(id);
-			return _mapper.Map<GPSLog, GPSLogStandaloneDTO>(log);
+			var task = _gpsLogRepository.GetFullAsync(id);
+			return await Response<GPSLogStandaloneDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
 		public async Task<IEnumerable<GPSLogDTO>> ListAsync()

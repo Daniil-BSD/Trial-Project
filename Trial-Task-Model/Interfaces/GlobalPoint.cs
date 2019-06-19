@@ -2,14 +2,17 @@
 
 namespace Trial_Task_Model.Interfaces
 {
-
 	/*
 	 * Implementation for the distance measurement between IGlobalPoint.
 	 * Probably should be moved to BLL
 	 */
+	/// <summary>
+	/// Defines the <see cref="GlobalPoint" />
+	/// </summary>
 	public abstract class GlobalPoint : IGlobalPoint
 	{
 		public double Latitude { get; set; }
+
 		public double Longitude { get; set; }
 
 		/*

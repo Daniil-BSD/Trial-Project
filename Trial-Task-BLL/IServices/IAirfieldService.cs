@@ -11,9 +11,9 @@ namespace Trial_Task_BLL.IServices
 	/// </summary>
 	public interface IAirfieldService
 	{
-		Task<AirfieldDTO> GetAsync(Guid id);
+		Task<Response<AirfieldDTO>> GetAsync(Guid id);
 
-		Task<AirfieldShallowDTO> GetShallowAsync(Guid id);
+		Task<Response<AirfieldShallowDTO>> GetShallowAsync(Guid id);
 
 		Task<IEnumerable<AirfieldDTO>> ListAsync();
 

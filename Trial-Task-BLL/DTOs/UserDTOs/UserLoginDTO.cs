@@ -3,14 +3,10 @@
 namespace Trial_Task_BLL.DTOs
 {
 	/// <summary>
-	/// Defines the <see cref="UserRegistrationDTO" />
+	/// Defines the <see cref="UserLoginDTO" />
 	/// </summary>
-	public class UserRegistrationDTO
+	public class UserLoginDTO
 	{
-		[Required]
-		[EmailAddress]
-		public string Email { get; set; }
-
 		[Required]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
