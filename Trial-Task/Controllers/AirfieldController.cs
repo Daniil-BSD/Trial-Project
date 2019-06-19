@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
+using Trial_Task_BLL.Responses;
 using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.Controllers
@@ -74,6 +75,18 @@ namespace Trial_Task_WEB.Controllers
 			if (response.Success)
 				return new SpecificObjectResult<AirfieldShallowDTO>(response.Value);
 			return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest(response.Message));
+		}
+		[HttpPost("add")]
+		public async Task<SpecificObjectResult<IEnumerable<SpecificObjectResult<AirfieldShallowDTO>>>> PostListAsync([FromBody] IEnumerable<AirfieldSaveDTO> airfieldSaveDTOs)
+		{
+			if (!ModelState.IsValid)
+				return new SpecificObjectResult<IEnumerable<SpecificObjectResult<AirfieldShallowDTO>>>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
+			LinkedList< SpecificObjectResult < AirfieldShallowDTO >> saved = new LinkedList<SpecificObjectResult<AirfieldShallowDTO>> ();
+			 foreach (var airfield in airfieldSaveDTOs) {
+				var response = await _airfieldService.SaveAsync(airfield);
+				saved.AddLast(new SpecificObjectResult<AirfieldShallowDTO>(response));
+			}
+			return new SpecificObjectResult<IEnumerable<SpecificObjectResult<AirfieldShallowDTO>>>(saved);
 		}
 	}
 }

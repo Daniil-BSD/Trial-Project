@@ -101,9 +101,9 @@ namespace Trial_Task_WEB.Controllers
 		}
 
 		[HttpGet("IsSignedIn")]
-		public SpecificObjectResult<string> IsSignedIn()
+		public SpecificObjectResult<bool> IsSignedIn()
 		{
-			return new SpecificObjectResult<string>(_signInManager.IsSignedIn(User).ToString());
+			return new SpecificObjectResult<bool>(_signInManager.IsSignedIn(User));
 		}
 
 		[HttpPost("register")]

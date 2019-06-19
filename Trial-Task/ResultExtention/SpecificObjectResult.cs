@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
 using Trial_Task_BLL.Responses;
 
 namespace Trial_Task_WEB.ResultExtention
@@ -9,6 +10,7 @@ namespace Trial_Task_WEB.ResultExtention
 	/// Defines the <see cref="SpecificObjectResult{T}" />
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
+	[JsonObject(MemberSerialization.OptIn)]
 	public class SpecificObjectResult<T> : ObjectResult
 	{
 		public const string NOT_FOUND_MESSAGE_STRING = "Not Found";
@@ -30,7 +32,7 @@ namespace Trial_Task_WEB.ResultExtention
 			}
 		}
 
-		public SpecificObjectResult(Response<T> response) : base(response.Value)// base constructoor is redundant
+		public SpecificObjectResult(Response<T> response, int defaultExceptionStatusCod = 500) : base(response.Value)// base constructoor is redundant
 		{
 			if (response.Success)
 			{
@@ -44,7 +46,7 @@ namespace Trial_Task_WEB.ResultExtention
 				} else
 				{
 					Value = response.Message;
-					StatusCode = 500;
+					StatusCode = defaultExceptionStatusCod;
 				}
 			}
 		}
@@ -79,11 +81,13 @@ namespace Trial_Task_WEB.ResultExtention
 			}
 		}
 
+		[JsonIgnore]
 		public bool NotNull
 		{
 			get { return StatusCode == 200 && Value != null; }
 		}
 
+		[JsonIgnore]
 		public T Object
 		{
 			get {
@@ -102,24 +106,31 @@ namespace Trial_Task_WEB.ResultExtention
 			}
 		}
 
+		[JsonProperty]
+		public new int? StatusCode { get; set; }
+
+		[JsonIgnore]
 		public bool Valid
 		{
 			get { return StatusCode == 200; }
 		}
+
+		[JsonProperty]
+		public new object Value { get; set; }
 
 		public static SpecificObjectResult<T> InternalServerError(string message)
 		{
 			return new SpecificObjectResult<T>("Internal Server Error: " + message, 500);
 		}
 
-		public static SpecificObjectResult<T> TranslateResponse<T>(Response<T> response)
+		public static SpecificObjectResult<T> TranslateResponse(Response<T> response)
 		{
 			if (response.Success)
 				return new SpecificObjectResult<T>(response.Value);
 			else if (response.NotFoundFlag)
 				return new SpecificObjectResult<T>(response.Message, 404);
 			else
-				return new SpecificObjectResult<T>(response.Message, 500);
+				return new SpecificObjectResult<T>("Internal Server Error: " + response.Message, 500);
 		}
 	}
 }
