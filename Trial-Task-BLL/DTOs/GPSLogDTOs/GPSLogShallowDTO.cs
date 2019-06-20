@@ -10,7 +10,7 @@ namespace Trial_Task_BLL.DTOs
 	{
 		public TimeSpan Duration { get; set; }
 
-		public LinkedList<GPSLogEntryDTO> Entries { get; set; }
+		public List<GPSLogEntryDTO> Entries { get; set; }
 
 		public Guid ID { get; set; }
 

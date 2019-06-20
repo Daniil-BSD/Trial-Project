@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.Swagger;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Mapping;
@@ -18,6 +20,9 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task
 {
+	/// <summary>
+	/// Defines the <see cref="Startup" />
+	/// </summary>
 	public class Startup
 	{
 		public Startup(IConfiguration configuration)
@@ -26,6 +31,35 @@ namespace Trial_Task
 		}
 
 		public IConfiguration Configuration { get; }
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				//app.UseDeveloperExceptionPage();
+
+			} else
+			{
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+				app.UseHsts();
+			}
+
+			app.UseSwagger();
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+				c.RoutePrefix = string.Empty;
+			});
+			app.UseAuthentication();
+			app.UseHttpsRedirection();
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
+			});
+		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
@@ -64,30 +98,11 @@ namespace Trial_Task
 			IMapper mapper = mappingConfig.CreateMapper();
 			services.AddSingleton(mapper);
 
+			services.AddSingleton<IFileProvider>(
+				new PhysicalFileProvider(
+					Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-		}
-
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			} else
-			{
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
-			}
-
-			app.UseSwagger();
-			app.UseSwaggerUI(c =>
-			{
-				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-				c.RoutePrefix = string.Empty;
-			});
-			app.UseAuthentication();
-			app.UseHttpsRedirection();
-			app.UseMvc();
 		}
 	}
 }

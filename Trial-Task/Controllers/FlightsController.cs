@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
@@ -48,6 +50,24 @@ namespace Trial_Task_WEB.Controllers
 			{
 				return new SpecificObjectResult<FlightDTO>(BadRequest("Invalid id format"));
 			}
+		}
+
+		[HttpPost("upladIGC")]
+		public async Task<SpecificObjectResult<FlightDTO>> UploadIGCFile(IFormFile file)
+		{
+			if (file == null || file.Length == 0)
+				return new SpecificObjectResult<FlightDTO>(BadRequest("File not found."));
+			if (Path.GetExtension(file.FileName) != ".igc")
+				return new SpecificObjectResult<FlightDTO>(BadRequest("File type is not supported."));
+			var path = Path.Combine(
+						Directory.GetCurrentDirectory(), "wwwroot",
+						file.FileName);
+			using (var stream = new FileStream(path, FileMode.Create))
+			{
+				await file.CopyToAsync(stream);
+			}
+			var response = await _flightService.ParseIGCFile(path);
+			return new SpecificObjectResult<FlightDTO>(response);
 		}
 	}
 }

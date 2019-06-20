@@ -2,10 +2,6 @@
 
 namespace Trial_Task_Model.Interfaces
 {
-	/*
-	 * Implementation for the distance measurement between IGlobalPoint.
-	 * Probably should be moved to BLL
-	 */
 	/// <summary>
 	/// Defines the <see cref="GlobalPoint" />
 	/// </summary>

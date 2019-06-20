@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using OfficeOpenXml;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
@@ -31,6 +33,19 @@ namespace Trial_Task_BLL.Services
 			return await Response<AirfieldDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
+		public async Task<Response<Guid>> GetLocalAirfieldID(IGlobalPoint globalPoint)
+		{
+			try
+			{
+				var temp = await _airfieldRepository.FindAround(globalPoint);
+				return new Response<Guid>(temp.ID);
+			}
+			catch (InvalidOperationException)
+			{
+				return new Response<Guid>("No Airfields around this area", true);
+			}
+		}
+
 		public async Task<Response<AirfieldShallowDTO>> GetShallowAsync(Guid id)
 		{
 			var task = _airfieldRepository.GetShallowAsync(id);
@@ -47,6 +62,34 @@ namespace Trial_Task_BLL.Services
 		{
 			var airfields = await _airfieldRepository.ListShallowAsync();
 			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
+		}
+
+		public async Task<IEnumerable<Response<AirfieldShallowDTO>>> ParseXLSXFile(string path)
+		{
+			using (FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read))
+			{
+				using (ExcelPackage package = new ExcelPackage(stream))
+				{
+					ExcelWorksheet workSheet = package.Workbook.Worksheets[1];//hardcoded fiirst sheet
+					int totalRows = workSheet.Dimension.Rows;
+					var airfieldSaveDTOs = new List<AirfieldSaveDTO>();
+					for (int i = 2 ; i <= totalRows ; i++) // hardcoded start from the second row until the last
+					{
+						airfieldSaveDTOs.Add(new AirfieldSaveDTO
+						{
+							Name = workSheet.Cells[i, 1].Value.ToString(),
+							Latitude = double.Parse(workSheet.Cells[i, 2].Value.ToString()),
+							Longitude = double.Parse(workSheet.Cells[i, 3].Value.ToString())
+						});// hardcoded colums
+					}
+					var responses = new List<Response<AirfieldShallowDTO>>();
+					foreach (var airfieldSaveDTO in airfieldSaveDTOs)
+					{
+						responses.Add(await SaveAsync(airfieldSaveDTO));
+					}
+					return responses;
+				}
+			}
 		}
 
 		public async Task<Response<AirfieldShallowDTO>> SaveAsync(AirfieldSaveDTO airfieldSaveDTO)

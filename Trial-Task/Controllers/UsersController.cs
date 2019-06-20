@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
@@ -19,15 +18,12 @@ namespace Trial_Task_WEB.Controllers
 	{
 		protected readonly SignInManager<User> _signInManager;
 
-		private readonly IHttpContextAccessor _httpContextAccessor;
-
 		private readonly IUserService _userService;
 
-		public UsersController(IUserService userService, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor) : base()
+		public UsersController(IUserService userService, SignInManager<User> signInManager) : base()
 		{
 			_userService = userService;
 			_signInManager = signInManager;
-			_httpContextAccessor = httpContextAccessor;
 		}
 
 		[HttpGet]
@@ -106,7 +102,7 @@ namespace Trial_Task_WEB.Controllers
 			return new SpecificObjectResult<bool>(_signInManager.IsSignedIn(User));
 		}
 
-		[HttpPost("register")]
+		[HttpPost("Register")]
 		public async Task<SpecificObjectResult<UserBasicDTO>> Register([FromBody] UserRegistrationDTO userRegistrationDTO)
 		{
 			if (!ModelState.IsValid)

@@ -16,11 +16,14 @@ namespace Trial_Task_BLL.Services
 	/// </summary>
 	public class GPSLogService : BaseService, IGPSLogService
 	{
+		private readonly IAirfieldService _airfieldService;
+
 		private readonly IGPSLogRepository _gpsLogRepository;
 
-		public GPSLogService(IGPSLogRepository gpsLogRepository, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
+		public GPSLogService(IGPSLogRepository gpsLogRepository, IAirfieldService airfieldService, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
 		{
 			_gpsLogRepository = gpsLogRepository;
+			_airfieldService = airfieldService;
 		}
 
 		public async Task<Response<GPSLogDTO>> GetAsync(Guid id)
@@ -51,6 +54,20 @@ namespace Trial_Task_BLL.Services
 		{
 			var logs = await _gpsLogRepository.ListStandaloneAsync();
 			return _mapper.Map<IEnumerable<GPSLog>, IEnumerable<GPSLogStandaloneListDTO>>(logs);
+		}
+
+		public async Task<GPSLog> ParseGPSLogEntries(List<GPSLogEntry> entries)
+		{
+			var takeoff = await _airfieldService.GetLocalAirfieldID(entries[0]);
+			var landing = await _airfieldService.GetLocalAirfieldID(entries[entries.Count - 1]);
+			GPSLog ret = new GPSLog()
+			{
+				Entries = entries,
+				Duration = new TimeSpan(entries[entries.Count - 1].Time.Ticks - entries[0].Time.Ticks),
+				TakeoffID = (takeoff.Success) ? takeoff.Value : (Guid?)null,
+				LandingID = (landing.Success) ? landing.Value : (Guid?)null,
+			};
+			return ret;
 		}
 	}
 }

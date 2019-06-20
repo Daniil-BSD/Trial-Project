@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace Trial_Task_BLL.DTOs
 {
-	/*
-	*	A complete replica of the Airfield class, created to pivide a modification point and because there is no protected information in it
-	*/
 	/// <summary>
 	/// Defines the <see cref="AirfieldDTO" />
 	/// </summary>

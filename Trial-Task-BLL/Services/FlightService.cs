@@ -18,9 +18,15 @@ namespace Trial_Task_BLL.Services
 	{
 		private readonly IFlightRepository _flightRepository;
 
-		public FlightService(IFlightRepository flightRepository, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
+		private readonly IGPSLogService _gpsLogService;
+
+		private readonly IUserService _userService;
+
+		public FlightService(IFlightRepository flightRepository, IGPSLogService gpsLogService, IUserService userService, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
 		{
+			_gpsLogService = gpsLogService;
 			_flightRepository = flightRepository;
+			_userService = userService;
 		}
 
 		public async Task<Response<FlightDTO>> GetAsync(Guid id)
@@ -39,6 +45,23 @@ namespace Trial_Task_BLL.Services
 		{
 			var flights = await _flightRepository.ListReducedAsync();
 			return _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightBasicDTO>>(flights);
+		}
+
+		public async Task<Response<FlightDTO>> ParseIGCFile(string path)
+		{
+
+			var userIDResponse = _userService.GetCurrentUserID();
+			if (!userIDResponse.Success)
+				return new Response<FlightDTO>(userIDResponse);
+			List<GPSLogEntry> entries = GPSLogEntry.ParseFixRecords(System.IO.File.ReadAllLines(path));
+			Flight flight = new Flight()
+			{
+				Log = await _gpsLogService.ParseGPSLogEntries(entries),
+				Status = Trial_Task_Model.Enumerations.EFlightStatus.Pending,
+				UserID = userIDResponse.Value,
+				Date = DateTime.Now
+			};
+			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(_flightRepository.InsertNewFlight(flight), _mapper);
 		}
 	}
 }

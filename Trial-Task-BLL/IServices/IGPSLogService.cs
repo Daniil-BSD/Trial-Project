@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.Responses;
+using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.IServices
 {
@@ -20,5 +21,7 @@ namespace Trial_Task_BLL.IServices
 		Task<IEnumerable<GPSLogBasicDTO>> ListReducedAsync();
 
 		Task<IEnumerable<GPSLogStandaloneListDTO>> ListStandaloneAsync();
+
+		Task<GPSLog> ParseGPSLogEntries(List<GPSLogEntry> entries);
 	}
 }

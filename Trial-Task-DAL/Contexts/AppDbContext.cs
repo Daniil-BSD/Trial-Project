@@ -7,15 +7,25 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.Contexts
 {
+	/// <summary>
+	/// Defines the <see cref="AppDbContext" />
+	/// </summary>
 	public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 	{
+		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+		{
+		}
+
 		public DbSet<Airfield> Airfields { get; set; }
+
 		public DbSet<Flight> Flights { get; set; }
-		public DbSet<GPSLog> GPSLogs { get; set; }
+
 		public DbSet<GPSLogEntry> GPSLogEntries { get; set; }
+
+		public DbSet<GPSLog> GPSLogs { get; set; }
+
 		new public DbSet<User> Users { get; set; }
 
-		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
@@ -49,8 +59,8 @@ namespace Trial_Task_DAL.Contexts
 
 			builder.Entity<User>().HasKey(u => u.Id);
 			PopulateTablesWithTestingData(builder);
-
 		}
+
 		private void PopulateTablesWithTestingData(ModelBuilder builder)
 		{
 			// testing material

@@ -12,6 +12,8 @@ namespace Trial_Task_DAL.IRepositories
 	{
 		Task<Flight> GetAsync(Guid id);
 
+		Task<Flight> InsertNewFlight(Flight flightIn);
+
 		Task<List<Flight>> ListAsync();
 
 		Task<List<Flight>> ListReducedAsync();

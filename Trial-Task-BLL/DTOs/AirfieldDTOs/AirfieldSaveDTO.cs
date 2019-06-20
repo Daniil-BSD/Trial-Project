@@ -2,9 +2,6 @@
 
 namespace Trial_Task_BLL.DTOs
 {
-	/*
-	*	DTO for adding a new airfield.
-	*/
 	/// <summary>
 	/// Defines the <see cref="AirfieldSaveDTO" />
 	/// </summary>

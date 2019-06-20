@@ -4,8 +4,47 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Trial_Task.Migrations
 {
-	public partial class _114418062019 : Migration
+	/// <summary>
+	/// Defines the <see cref="Initial" />
+	/// </summary>
+	public partial class Initial : Migration
 	{
+		protected override void Down(MigrationBuilder migrationBuilder)
+		{
+			migrationBuilder.DropTable(
+				name: "AspNetRoleClaims");
+
+			migrationBuilder.DropTable(
+				name: "AspNetUserClaims");
+
+			migrationBuilder.DropTable(
+				name: "AspNetUserLogins");
+
+			migrationBuilder.DropTable(
+				name: "AspNetUserRoles");
+
+			migrationBuilder.DropTable(
+				name: "AspNetUserTokens");
+
+			migrationBuilder.DropTable(
+				name: "Flights");
+
+			migrationBuilder.DropTable(
+				name: "GPSLogEntries");
+
+			migrationBuilder.DropTable(
+				name: "AspNetRoles");
+
+			migrationBuilder.DropTable(
+				name: "AspNetUsers");
+
+			migrationBuilder.DropTable(
+				name: "GPSLogs");
+
+			migrationBuilder.DropTable(
+				name: "Airfields");
+		}
+
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
 			migrationBuilder.CreateTable(
@@ -13,9 +52,9 @@ namespace Trial_Task.Migrations
 				columns: table => new
 				{
 					ID = table.Column<Guid>(nullable: false),
-					Name = table.Column<string>(maxLength: 60, nullable: false),
 					Latitude = table.Column<double>(nullable: false),
-					Longitude = table.Column<double>(nullable: false)
+					Longitude = table.Column<double>(nullable: false),
+					Name = table.Column<string>(maxLength: 60, nullable: false)
 				},
 				constraints: table =>
 				{
@@ -67,8 +106,8 @@ namespace Trial_Task.Migrations
 				{
 					ID = table.Column<Guid>(nullable: false),
 					Duration = table.Column<TimeSpan>(nullable: false),
-					TakeoffID = table.Column<Guid>(nullable: false),
-					LandingID = table.Column<Guid>(nullable: false)
+					LandingID = table.Column<Guid>(nullable: true),
+					TakeoffID = table.Column<Guid>(nullable: true)
 				},
 				constraints: table =>
 				{
@@ -199,8 +238,8 @@ namespace Trial_Task.Migrations
 				{
 					ID = table.Column<Guid>(nullable: false),
 					Date = table.Column<DateTime>(nullable: false),
-					Status = table.Column<byte>(nullable: false),
 					LogID = table.Column<Guid>(nullable: false),
+					Status = table.Column<byte>(nullable: false),
 					UserID = table.Column<Guid>(nullable: false)
 				},
 				constraints: table =>
@@ -288,17 +327,17 @@ namespace Trial_Task.Migrations
 				columns: new[] { "LogID", "Time", "Latitude", "Longitude" },
 				values: new object[,]
 				{
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 412, DateTimeKind.Unspecified).AddTicks(5177), 45.0, 45.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(5738), 46.0, 45.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(6771), 46.0, 46.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(7783), 45.0, 46.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(8791), 45.0, 45.0 },
-					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(4801), 44.0, 44.0 },
-					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(5809), 44.5, 44.5 },
-					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(6817), 45.0, 45.0 },
-					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(4827), 45.0, 45.0 },
-					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(5836), 44.5, 44.5 },
-					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 18, 11, 44, 16, 414, DateTimeKind.Unspecified).AddTicks(6844), 44.0, 44.0 }
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 557, DateTimeKind.Unspecified).AddTicks(8149), 45.0, 45.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5494), 46.0, 45.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6530), 46.0, 46.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(7543), 45.0, 46.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(8552), 45.0, 45.0 },
+					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(4562), 44.0, 44.0 },
+					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5570), 44.5, 44.5 },
+					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6581), 45.0, 45.0 },
+					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(4593), 45.0, 45.0 },
+					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5604), 44.5, 44.5 },
+					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6613), 44.0, 44.0 }
 				});
 
 			migrationBuilder.CreateIndex(
@@ -360,42 +399,6 @@ namespace Trial_Task.Migrations
 				name: "IX_GPSLogs_TakeoffID",
 				table: "GPSLogs",
 				column: "TakeoffID");
-		}
-
-		protected override void Down(MigrationBuilder migrationBuilder)
-		{
-			migrationBuilder.DropTable(
-				name: "AspNetRoleClaims");
-
-			migrationBuilder.DropTable(
-				name: "AspNetUserClaims");
-
-			migrationBuilder.DropTable(
-				name: "AspNetUserLogins");
-
-			migrationBuilder.DropTable(
-				name: "AspNetUserRoles");
-
-			migrationBuilder.DropTable(
-				name: "AspNetUserTokens");
-
-			migrationBuilder.DropTable(
-				name: "Flights");
-
-			migrationBuilder.DropTable(
-				name: "GPSLogEntries");
-
-			migrationBuilder.DropTable(
-				name: "AspNetRoles");
-
-			migrationBuilder.DropTable(
-				name: "AspNetUsers");
-
-			migrationBuilder.DropTable(
-				name: "GPSLogs");
-
-			migrationBuilder.DropTable(
-				name: "Airfields");
 		}
 	}
 }

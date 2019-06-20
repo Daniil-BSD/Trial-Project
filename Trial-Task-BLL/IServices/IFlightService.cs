@@ -16,5 +16,7 @@ namespace Trial_Task_BLL.IServices
 		Task<IEnumerable<FlightShallowDTO>> ListAsync();
 
 		Task<IEnumerable<FlightBasicDTO>> ListReducedAsync();
+
+		Task<Response<FlightDTO>> ParseIGCFile(string path);
 	}
 }

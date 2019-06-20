@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Trial_Task_Model.Interfaces;
 using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.IRepositories
@@ -13,6 +14,8 @@ namespace Trial_Task_DAL.IRepositories
 		Task<List<Airfield>> FilterList(Func<Airfield, bool> func);
 
 		Task<List<Airfield>> FilterListShallow(Func<Airfield, bool> func);
+
+		Task<Airfield> FindAround(IGlobalPoint globalPoint);
 
 		Task<Airfield> GetAsync(Guid id);
 

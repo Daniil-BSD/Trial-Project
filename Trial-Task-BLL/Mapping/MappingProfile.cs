@@ -4,6 +4,9 @@ using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Mapping
 {
+	/// <summary>
+	/// Defines the <see cref="MappingProfile" />
+	/// </summary>
 	public class MappingProfile : Profile
 	{
 		public MappingProfile()
@@ -38,7 +41,6 @@ namespace Trial_Task_BLL.Mapping
 			CreateMap<AirfieldSaveDTO, Airfield>();
 			CreateMap<UserRegistrationDTO, User>();
 			CreateMap<UserLoginDTO, User>();
-
 		}
 	}
 }

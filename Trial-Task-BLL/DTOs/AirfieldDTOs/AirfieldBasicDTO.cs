@@ -2,9 +2,6 @@
 
 namespace Trial_Task_BLL.DTOs
 {
-	/*
-	*	Contains only Name and ID, could be used for the reduction of traffic, for cases when name would be enough.
-	*/
 	/// <summary>
 	/// Defines the <see cref="AirfieldBasicDTO" />
 	/// </summary>

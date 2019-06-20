@@ -11,20 +11,18 @@ namespace Trial_Task_Model.Models
 		//Computed on creation
 		public TimeSpan Duration { get; set; }
 
-		public LinkedList<GPSLogEntry> Entries { get; set; }
+		public List<GPSLogEntry> Entries { get; set; }
 
-		//Computed
 		public Flight Flight { get; set; }
 
-		//Stored
 		public Guid ID { get; set; }
 
-		public Guid LandingID { get; set; }
+		public Guid? LandingID { get; set; }
 
 		public Airfield PlaceOfLanding { get; set; }
 
 		public Airfield PlaceOfTakeoff { get; set; }
 
-		public Guid TakeoffID { get; set; }
+		public Guid? TakeoffID { get; set; }
 	}
 }

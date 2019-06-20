@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
@@ -66,6 +68,19 @@ namespace Trial_Task_WEB.Controllers
 			}
 		}
 
+		[HttpPost("add")]
+		public async Task<SpecificObjectResultList<AirfieldShallowDTO>> PostListAsync([FromBody] IEnumerable<AirfieldSaveDTO> airfieldSaveDTOs)
+		{
+			if (!ModelState.IsValid)
+				return new SpecificObjectResultList<AirfieldShallowDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
+			List<Response<AirfieldShallowDTO>> responses = new List<Response<AirfieldShallowDTO>>();
+			foreach (var airfield in airfieldSaveDTOs)
+			{
+				responses.Add(await _airfieldService.SaveAsync(airfield));
+			}
+			return new SpecificObjectResultList<AirfieldShallowDTO>(responses);
+		}
+
 		[HttpPost("addSingle")]
 		public async Task<SpecificObjectResult<AirfieldShallowDTO>> PostSingleAsync([FromBody] AirfieldSaveDTO airfieldSaveDTO)
 		{
@@ -76,17 +91,23 @@ namespace Trial_Task_WEB.Controllers
 				return new SpecificObjectResult<AirfieldShallowDTO>(response.Value);
 			return new SpecificObjectResult<AirfieldShallowDTO>(BadRequest(response.Message));
 		}
-		[HttpPost("add")]
-		public async Task<SpecificObjectResult<IEnumerable<SpecificObjectResult<AirfieldShallowDTO>>>> PostListAsync([FromBody] IEnumerable<AirfieldSaveDTO> airfieldSaveDTOs)
+
+		[HttpPost("upladXLSX")]
+		public async Task<SpecificObjectResultList<AirfieldShallowDTO>> UploadXLSXFile(IFormFile file)
 		{
-			if (!ModelState.IsValid)
-				return new SpecificObjectResult<IEnumerable<SpecificObjectResult<AirfieldShallowDTO>>>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
-			LinkedList< SpecificObjectResult < AirfieldShallowDTO >> saved = new LinkedList<SpecificObjectResult<AirfieldShallowDTO>> ();
-			 foreach (var airfield in airfieldSaveDTOs) {
-				var response = await _airfieldService.SaveAsync(airfield);
-				saved.AddLast(new SpecificObjectResult<AirfieldShallowDTO>(response));
+			if (file == null || file.Length == 0)
+				return new SpecificObjectResultList<AirfieldShallowDTO>(BadRequest("File not found."));
+			if (Path.GetExtension(file.FileName) != ".xlsx")
+				return new SpecificObjectResultList<AirfieldShallowDTO>(BadRequest("File type is not supported."));
+			var path = Path.Combine(
+						Directory.GetCurrentDirectory(), "wwwroot",
+						file.FileName);
+			using (var stream = new FileStream(path, FileMode.Create))
+			{
+				await file.CopyToAsync(stream);
 			}
-			return new SpecificObjectResult<IEnumerable<SpecificObjectResult<AirfieldShallowDTO>>>(saved);
+			var responses = await _airfieldService.ParseXLSXFile(path);
+			return new SpecificObjectResultList<AirfieldShallowDTO>(responses);
 		}
 	}
 }
