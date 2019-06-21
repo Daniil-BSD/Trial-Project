@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Trial_Task
 {
@@ -14,7 +17,16 @@ namespace Trial_Task
 
 		public static void Main(string[] args)
 		{
-			CreateWebHostBuilder(args).Build().Run();
+			var host = CreateWebHostBuilder(args).Build();
+			using (var scope = host.Services.CreateScope())
+			{
+				var services = scope.ServiceProvider;
+				var serviceProvider = services.GetRequiredService<IServiceProvider>();
+				var configuration = services.GetRequiredService<IConfiguration>();
+				Trial_Task_BLL.RoleManagment.Policies.CreateRoles(serviceProvider, configuration).Wait();
+			}
+
+			host.Run();
 		}
 	}
 }

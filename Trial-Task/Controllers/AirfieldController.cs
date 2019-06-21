@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.Controllers
@@ -15,6 +17,7 @@ namespace Trial_Task_WEB.Controllers
 	/// Defines the <see cref="AirfieldsController" />
 	/// </summary>
 	[Route("/api/[controller]")]
+	[Authorize(Policy = Policies.MEMBERS)]
 	public class AirfieldsController : BaseController
 	{
 		private readonly IAirfieldService _airfieldService;

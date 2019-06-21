@@ -12,6 +12,7 @@ using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.Swagger;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Mapping;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_BLL.Services;
 using Trial_Task_DAL.Contexts;
 using Trial_Task_DAL.IRepositories;
@@ -96,6 +97,7 @@ namespace Trial_Task
 				mc.AddProfile(new MappingProfile());
 			});
 			IMapper mapper = mappingConfig.CreateMapper();
+
 			services.AddSingleton(mapper);
 
 			services.AddSingleton<IFileProvider>(
@@ -103,6 +105,12 @@ namespace Trial_Task
 					Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(Policies.MEMBERS, Policies.GetAuthorizationPolicy(Policies.MEMBERS));
+				options.AddPolicy(Policies.ADMINS, Policies.GetAuthorizationPolicy(Policies.ADMINS));
+				options.AddPolicy(Policies.RESTRICTED, Policies.GetAuthorizationPolicy(Policies.RESTRICTED));
+			});
 		}
 	}
 }
