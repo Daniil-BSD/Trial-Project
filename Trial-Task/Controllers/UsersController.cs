@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
@@ -56,6 +57,7 @@ namespace Trial_Task_WEB.Controllers
 		}
 
 		[HttpGet("userFull")]
+		[Authorize]
 		public async Task<SpecificObjectResult<UserDTO>> GetCurrentFullUser()
 		{
 			var response = await _userService.GetCurrentUserFullAsync();
@@ -68,6 +70,7 @@ namespace Trial_Task_WEB.Controllers
 			}
 		}
 
+		[Authorize]
 		[HttpGet("user")]
 		public async Task<SpecificObjectResult<UserShallowDTO>> GetCurrentUser()
 		{

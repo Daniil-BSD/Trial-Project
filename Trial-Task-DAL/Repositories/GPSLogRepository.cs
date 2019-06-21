@@ -42,6 +42,11 @@ namespace Trial_Task_DAL.Repositories
 				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
+		public async Task<GPSLog> GetRowAsync(Guid id)
+		{
+			return await _context.GPSLogs.SingleAsync(ent => ent.ID.Equals(id));
+		}
+
 		/*
 		 * Standart list of all logs (not including data form the flight)
 		 */

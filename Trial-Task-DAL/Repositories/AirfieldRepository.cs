@@ -59,6 +59,11 @@ namespace Trial_Task_DAL.Repositories
 				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
+		public Task<Airfield> GetRowAsync(Guid id)
+		{
+			return GetShallowAsync(id);
+		}
+
 		public async Task<Airfield> GetShallowAsync(Guid id)
 		{
 			return await _context.Airfields

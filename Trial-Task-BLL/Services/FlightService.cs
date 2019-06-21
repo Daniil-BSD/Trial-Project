@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model.Models;
 
@@ -62,6 +64,16 @@ namespace Trial_Task_BLL.Services
 				Date = DateTime.Now
 			};
 			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(_flightRepository.InsertNewFlight(flight), _mapper);
+		}
+
+		[Authorize(Policy = Policies.ADMINS)]
+		public async Task<Response<FlightBasicDTO>> UpdaateStatus(FlightStatusUpdateDTO flightStatusUpdateDTO)
+		{
+			var userIDResponse = _userService.GetCurrentUserID();
+			if (!userIDResponse.Success)
+				return new Response<FlightBasicDTO>(userIDResponse);
+			var flight = _flightRepository.UpdateStatusAsync(flightStatusUpdateDTO.Target, flightStatusUpdateDTO.Status);
+			return await Response<FlightBasicDTO>.CatchInvalidOperationExceptionAndMap(flight, _mapper);
 		}
 	}
 }

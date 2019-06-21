@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.Controllers
@@ -50,6 +52,18 @@ namespace Trial_Task_WEB.Controllers
 			{
 				return new SpecificObjectResult<FlightDTO>(BadRequest("Invalid id format"));
 			}
+		}
+
+		[Authorize(Policy = Policies.ADMINS)]
+		[HttpPost("updateStatus")]
+		public async Task<SpecificObjectResult<FlightBasicDTO>> UpdaateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO)
+		{
+			if (!ModelState.IsValid)
+				return new SpecificObjectResult<FlightBasicDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
+			var response = await _flightService.UpdaateStatus(flightStatusUpdateDTO);
+			if (response.Success)
+				return new SpecificObjectResult<FlightBasicDTO>(response.Value);
+			return new SpecificObjectResult<FlightBasicDTO>(BadRequest(response.Message));
 		}
 
 		[HttpPost("upladIGC")]

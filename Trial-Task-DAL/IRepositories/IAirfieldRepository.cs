@@ -9,7 +9,7 @@ namespace Trial_Task_DAL.IRepositories
 	/// <summary>
 	/// Defines the <see cref="IAirfieldRepository" />
 	/// </summary>
-	public interface IAirfieldRepository
+	public interface IAirfieldRepository : IRepositoryForGuiDIdentifyables<Airfield>
 	{
 		Task<List<Airfield>> FilterList(Func<Airfield, bool> func);
 

@@ -7,7 +7,7 @@ namespace Trial_Task_Model.Models
 	/// <summary>
 	/// Defines the <see cref="Airfield" />
 	/// </summary>
-	public class Airfield : IGlobalPoint
+	public class Airfield : IGlobalPoint, IGuidIdentifyable
 	{
 		public ICollection<GPSLog> EndedAt { get; set; }
 

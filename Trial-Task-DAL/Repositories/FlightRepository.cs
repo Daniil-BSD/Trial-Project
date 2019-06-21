@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Trial_Task_DAL.Contexts;
 using Trial_Task_DAL.IRepositories;
+using Trial_Task_Model.Enumerations;
 using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.Repositories
@@ -25,6 +26,11 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.Entries)
 				.SingleAsync(ent => ent.ID.Equals(id));
+		}
+
+		public async Task<Flight> GetRowAsync(Guid id)
+		{
+			return await _context.Flights.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
 		public async Task<Flight> InsertNewFlight(Flight flightIn)
@@ -72,6 +78,15 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff)
 				.ToListAsync();
+		}
+
+		public async Task<Flight> UpdateStatusAsync(Guid id, EFlightStatus status)
+		{
+			var flight = await GetRowAsync(id);
+			flight.Status = status;
+			var ent = _context.Flights.Update(flight);
+			_context.SaveChanges();
+			return ent.Entity;
 		}
 	}
 }

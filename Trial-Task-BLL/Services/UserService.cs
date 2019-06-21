@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
@@ -37,6 +38,7 @@ namespace Trial_Task_BLL.Services
 			return await Response<UserShallowDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
+		[Authorize]
 		public async Task<Response<UserShallowDTO>> GetCurrentUserAsync()
 		{
 			var response = GetCurrentUserID();
@@ -50,6 +52,7 @@ namespace Trial_Task_BLL.Services
 			}
 		}
 
+		[Authorize]
 		public async Task<Response<UserDTO>> GetCurrentUserFullAsync()
 		{
 			var response = GetCurrentUserID();

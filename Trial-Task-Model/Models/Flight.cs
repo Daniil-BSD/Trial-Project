@@ -1,12 +1,13 @@
 ﻿using System;
 using Trial_Task_Model.Enumerations;
+using Trial_Task_Model.Interfaces;
 
 namespace Trial_Task_Model.Models
 {
 	/// <summary>
 	/// Defines the <see cref="Flight" />
 	/// </summary>
-	public class Flight
+	public class Flight : IGuidIdentifyable
 	{
 		public DateTime Date { get; set; }
 

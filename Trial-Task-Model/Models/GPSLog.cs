@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Trial_Task_Model.Interfaces;
 
 namespace Trial_Task_Model.Models
 {
 	/// <summary>
 	/// Defines the <see cref="GPSLog" />
 	/// </summary>
-	public class GPSLog
+	public class GPSLog : IGuidIdentifyable
 	{
 		//Computed on creation
 		public TimeSpan Duration { get; set; }

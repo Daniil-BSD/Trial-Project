@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Trial_Task_Model.Enumerations;
 using Trial_Task_Model.Models;
 
 namespace Trial_Task_DAL.IRepositories
@@ -8,7 +9,7 @@ namespace Trial_Task_DAL.IRepositories
 	/// <summary>
 	/// Defines the <see cref="IFlightRepository" />
 	/// </summary>
-	public interface IFlightRepository
+	public interface IFlightRepository : IRepositoryForGuiDIdentifyables<Flight>
 	{
 		Task<Flight> GetAsync(Guid id);
 
@@ -17,5 +18,7 @@ namespace Trial_Task_DAL.IRepositories
 		Task<List<Flight>> ListAsync();
 
 		Task<List<Flight>> ListReducedAsync();
+
+		Task<Flight> UpdateStatusAsync(Guid id, EFlightStatus status);
 	}
 }

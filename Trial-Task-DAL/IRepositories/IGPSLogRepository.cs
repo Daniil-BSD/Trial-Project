@@ -8,7 +8,7 @@ namespace Trial_Task_DAL.IRepositories
 	/// <summary>
 	/// Defines the <see cref="IGPSLogRepository" />
 	/// </summary>
-	public interface IGPSLogRepository
+	public interface IGPSLogRepository : IRepositoryForGuiDIdentifyables<GPSLog>
 	{
 		Task<GPSLog> GetAsync(Guid id);
 
