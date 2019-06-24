@@ -1,7 +1,7 @@
 ﻿namespace Trial_Task_BLL.Responses
 {
 	/// <summary>
-	/// Defines the <see cref="ResponseString" />
+	/// Clarification of constructors in case the Response is wrapping <see cref="string"/>.
 	/// </summary>
 	public class ResponseString : Response<string>
 	{

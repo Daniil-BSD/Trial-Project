@@ -10,7 +10,9 @@ using static Trial_Task_BLL.RoleManagment.Role;
 namespace Trial_Task_BLL.RoleManagment
 {
 	/// <summary>
-	/// Defines the <see cref="Policies" />
+	/// Class for managment of <see cref="Microsoft.AspNetCore.Authorization.AuthorizationPolicy" /> across the application.
+	/// 
+	/// Constants of this class contain policy names, so all services and controllers requiring them should use these coonstants.
 	/// </summary>
 	public static class Policies
 	{
@@ -20,6 +22,15 @@ namespace Trial_Task_BLL.RoleManagment
 
 		public const string RESTRICTED = "SUPER ADMIN RESTRICTED";
 
+		// additional policies are to be added here
+
+
+		/// <summary>
+		/// Creates missing Roles and registers the Superadmin, meant to run before the startup.
+		/// </summary>
+		/// <param name="serviceProvider">The serviceProvider<see cref="IServiceProvider"/></param>
+		/// <param name="configuration">The configuration<see cref="IConfiguration"/></param>
+		/// <returns>The <see cref="Task"/></returns>
 		public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
 		{
 			var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
@@ -50,7 +61,13 @@ namespace Trial_Task_BLL.RoleManagment
 			}
 		}
 
-		// additional policies are to be added here
+		/// <summary>
+		/// Meant to be used during the Authentication configuration to assign proper policies to the proper constants
+		/// </summary>
+		/// <param name="policyName">here the constant of this class is meant to be passed as a parameter</param>
+		/// <returns>The <see cref="AuthorizationPolicy"/> meant for the provided constant.</returns>
+		/// When adding a new policy, it should be defined here, and then referenced in the services.AddAuthorization is startup like so:
+		/// "options.AddPolicy(Policies.NEWPOLICY, Policies.GetAuthorizationPolicy(Policies.NEWPOLICY));"
 		public static AuthorizationPolicy GetAuthorizationPolicy(string policyName)
 		{
 			AuthorizationPolicyBuilder builder = new AuthorizationPolicyBuilder();
