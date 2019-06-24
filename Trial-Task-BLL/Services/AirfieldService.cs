@@ -114,7 +114,7 @@ namespace Trial_Task_BLL.Services
 
 		internal async Task<bool> IsGlobalPointValidForNewAirfield(Airfield airfield)
 		{
-			var temp = await _airfieldRepository.FilterListShallow(ent => GlobalPoint.Distance(ent, airfield) < Constants.AIRFIELD_DESIGNATED_AREA_RADIUS);
+			var temp = await _airfieldRepository.FilterListShallowAsync(ent => GlobalPoint.Distance(ent, airfield) < Constants.AIRFIELD_DESIGNATED_AREA_RADIUS);
 			return temp.Count == 0;
 		}
 	}

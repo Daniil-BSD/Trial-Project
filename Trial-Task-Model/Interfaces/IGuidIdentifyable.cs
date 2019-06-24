@@ -3,7 +3,8 @@
 namespace Trial_Task_Model.Interfaces
 {
 	/// <summary>
-	/// Defines the <see cref="IGuidIdentifyable" />
+	/// Interface that Indicates that the implementing class members will be Identified by <see cref="Guid"/> ID field.
+	/// Used for creation of generalized get requests
 	/// </summary>
 	public interface IGuidIdentifyable
 	{

@@ -8,14 +8,10 @@ using Trial_Task_Model.Models;
 namespace Trial_Task_DAL.Contexts
 {
 	/// <summary>
-	/// Defines the <see cref="AppDbContext" />
+	/// Defines the <see cref=" DbContext" /> for this app.
 	/// </summary>
 	public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 	{
-		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-		{
-		}
-
 		public DbSet<Airfield> Airfields { get; set; }
 
 		public DbSet<Flight> Flights { get; set; }
@@ -26,6 +22,14 @@ namespace Trial_Task_DAL.Contexts
 
 		new public DbSet<User> Users { get; set; }
 
+		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+		{
+		}
+
+		/// <summary>
+		/// DB definition
+		/// </summary>
+		/// <param name="builder">The builder<see cref="ModelBuilder"/></param>
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
@@ -61,6 +65,10 @@ namespace Trial_Task_DAL.Contexts
 			PopulateTablesWithTestingData(builder);
 		}
 
+		/// <summary>
+		/// The PopulateTablesWithTestingData does whaat it says, a seed for all the tables with disrigard for Identity.
+		/// </summary>
+		/// <param name="builder">The builder<see cref="ModelBuilder"/></param>
 		private void PopulateTablesWithTestingData(ModelBuilder builder)
 		{
 			// testing material

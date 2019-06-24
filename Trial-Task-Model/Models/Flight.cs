@@ -5,16 +5,14 @@ using Trial_Task_Model.Interfaces;
 namespace Trial_Task_Model.Models
 {
 	/// <summary>
-	/// Defines the <see cref="Flight" />
+	/// Defines the <see cref="Flight" /> data structure.
 	/// </summary>
 	public class Flight : IGuidIdentifyable
 	{
 		public DateTime Date { get; set; }
 
-		//Stored
 		public Guid ID { get; set; }
 
-		//Computed
 		public GPSLog Log { get; set; }
 
 		public Guid LogID { get; set; }

@@ -5,11 +5,10 @@ using Trial_Task_Model.Interfaces;
 namespace Trial_Task_Model.Models
 {
 	/// <summary>
-	/// Defines the <see cref="GPSLog" />
+	/// Defines the <see cref="GPSLog" /> data structure.
 	/// </summary>
 	public class GPSLog : IGuidIdentifyable
 	{
-		//Computed on creation
 		public TimeSpan Duration { get; set; }
 
 		public List<GPSLogEntry> Entries { get; set; }

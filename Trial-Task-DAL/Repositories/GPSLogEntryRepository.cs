@@ -11,18 +11,34 @@ namespace Trial_Task_DAL.Repositories
 {
 	/// <summary>
 	/// Defines the <see cref="GPSLogEntryRepository" />
+	/// Missin method summeries coould be found in <see cref="IGPSLogEntryRepository"/>
 	/// </summary>
-	public class GPSLogEntryRepository : BaseRepository, IGPSLogEntryRepository
+	public class GPSLogEntryRepository : BaseRepository<GPSLogEntry>, IGPSLogEntryRepository
 	{
 		public GPSLogEntryRepository(AppDbContext context) : base(context)
 		{
 		}
 
-		public async Task<IEnumerable<GPSLogEntry>> ListAsync(Guid id)
+		public Task<List<GPSLogEntry>> ListAsync(Guid id)
 		{
-			return await _context.GPSLogEntries
+			return _context.GPSLogEntries
 			.Where(ent => ent.LogID.Equals(id))
 			.ToListAsync();
+		}
+
+		protected override IQueryable<GPSLogEntry> GetFullIncludes()
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override IQueryable<GPSLogEntry> GetNoIncludes()
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override IQueryable<GPSLogEntry> GetStandartIncludes()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

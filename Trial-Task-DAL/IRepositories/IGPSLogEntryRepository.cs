@@ -10,6 +10,11 @@ namespace Trial_Task_DAL.IRepositories
 	/// </summary>
 	public interface IGPSLogEntryRepository
 	{
-		Task<IEnumerable<GPSLogEntry>> ListAsync(Guid id);
+		/// <summary>
+		/// Lists all the Entries In the Database with a specified LogID.
+		/// </summary>
+		/// <param name="id">The <see cref="Guid"/> id of the <see cref="GPSLog"/> requested entries belong to.</param>
+		/// <returns>The <see cref="Task{List{GPSLogEntry}}"/></returns>
+		Task<List<GPSLogEntry>> ListAsync(Guid id);
 	}
 }

@@ -3,17 +3,21 @@
 namespace Trial_Task_Model.Interfaces
 {
 	/// <summary>
-	/// Defines the <see cref="GlobalPoint" />
+	/// Structure that Could be used as a standalone property instead of implementing <see cref="IGlobalPoint"/>.
+	/// Also Implements all the static methods meant for the <see cref="IGlobalPoint"/>, like distance measurement.
 	/// </summary>
-	public abstract class GlobalPoint : IGlobalPoint
+	public struct GlobalPoint : IGlobalPoint
 	{
 		public double Latitude { get; set; }
 
 		public double Longitude { get; set; }
 
-		/*
-		 * Computes distance between two points in meters.
-		 */
+		/// <summary>
+		/// The Distance between two points.
+		/// </summary>
+		/// <param name="start">First <see cref="IGlobalPoint"/> point.</param>
+		/// <param name="end">Second <see cref="IGlobalPoint"/> point.</param>
+		/// <returns>The number of meters between two points as <see cref="double"/></returns>
 		public static double Distance(IGlobalPoint start, IGlobalPoint end)
 		{
 			double rlat1 = Math.PI * start.Latitude / 180;

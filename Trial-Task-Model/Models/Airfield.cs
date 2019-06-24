@@ -5,13 +5,12 @@ using Trial_Task_Model.Interfaces;
 namespace Trial_Task_Model.Models
 {
 	/// <summary>
-	/// Defines the <see cref="Airfield" />
+	/// Defines the <see cref="Airfield" /> data structure.
 	/// </summary>
 	public class Airfield : IGlobalPoint, IGuidIdentifyable
 	{
 		public ICollection<GPSLog> EndedAt { get; set; }
 
-		//Stored
 		public Guid ID { get; set; }
 
 		public double Latitude { get; set; }
@@ -20,7 +19,6 @@ namespace Trial_Task_Model.Models
 
 		public string Name { get; set; }
 
-		//Computed
 		public ICollection<GPSLog> StartFrom { get; set; }
 	}
 }
