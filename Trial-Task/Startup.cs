@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.Swagger;
+using Trial_Task.APIInterface;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Mapping;
 using Trial_Task_BLL.RoleManagment;
@@ -18,6 +19,7 @@ using Trial_Task_DAL.Contexts;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_DAL.Repositories;
 using Trial_Task_Model.Models;
+using Trial_Task_WEB.ControllersAPI;
 
 namespace Trial_Task
 {
@@ -45,7 +47,6 @@ namespace Trial_Task
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
-
 			app.UseSwagger();
 			app.UseSwaggerUI(c =>
 			{
@@ -54,6 +55,7 @@ namespace Trial_Task
 			});
 			app.UseAuthentication();
 			app.UseHttpsRedirection();
+			app.UseStaticFiles();
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
@@ -91,6 +93,8 @@ namespace Trial_Task
 
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IUserService, UserService>();
+
+			services.AddScoped<IAPIFlightsController, APIFlightsController>();
 
 			var mappingConfig = new MapperConfiguration(mc =>
 			{

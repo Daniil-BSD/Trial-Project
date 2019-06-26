@@ -20,13 +20,13 @@ namespace Trial_Task_DAL.Repositories
 		{
 		}
 
-		public  Task<GPSLog> GetAsync(Guid id)
+		public Task<GPSLog> GetAsync(Guid id)
 		{
 			return GetStandartIncludes()
 				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
-		
+
 		public Task<GPSLog> GetFullAsync(Guid id)
 		{
 			return GetFullIncludes()
@@ -38,21 +38,21 @@ namespace Trial_Task_DAL.Repositories
 			return _context.GPSLogs.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
-		
+
 		public Task<List<GPSLog>> ListAsync()
 		{
 			return GetStandartIncludes()
 				.ToListAsync();
 		}
 
-		
+
 		public Task<List<GPSLog>> ListReducedAsync()
 		{
 			return GetNoIncludes()
 				.ToListAsync();
 		}
 
-		
+
 		public Task<List<GPSLog>> ListStandaloneAsync()
 		{
 			return GetFullIncludes()

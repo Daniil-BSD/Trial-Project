@@ -36,11 +36,17 @@ namespace Trial_Task_BLL.Services
 			var task = _flightRepository.GetAsync(id);
 			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
+		public async Task<Response<FlightBasicDTO>> GetBasicAsync(Guid id)
+		{
+			var task = _flightRepository.GetBasicAsync(id);
+			return await Response<FlightBasicDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
+		}
 
 		public async Task<IEnumerable<FlightShallowDTO>> ListAsync()
 		{
-			var flights = await _flightRepository.ListAsync();
-			return _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightShallowDTO>>(flights);
+			throw new NotImplementedException();
+			//var flights = await _flightRepository.ListAsync();
+			//return _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightShallowDTO>>(flights);
 		}
 
 		public async Task<IEnumerable<FlightBasicDTO>> ListReducedAsync()

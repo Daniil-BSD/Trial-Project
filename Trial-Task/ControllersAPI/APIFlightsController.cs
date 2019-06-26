@@ -5,22 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Trial_Task.APIInterface;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.RoleManagment;
 using Trial_Task_WEB.ResultExtention;
 
-namespace Trial_Task_WEB.Controllers
+namespace Trial_Task_WEB.ControllersAPI
 {
 	/// <summary>
-	/// Defines the <see cref="FlightsController" />
+	/// Defines the <see cref="APIFlightsController" />
 	/// </summary>
 	[Route("/api/[controller]")]
-	public class FlightsController : BaseController
+	public class APIFlightsController : APIBaseController , IAPIFlightsController
 	{
 		private readonly IFlightService _flightService;
 
-		public FlightsController(IFlightService flightService) : base()
+		public APIFlightsController(IFlightService flightService) : base()
 		{
 			_flightService = flightService;
 		}
@@ -54,9 +55,24 @@ namespace Trial_Task_WEB.Controllers
 			}
 		}
 
+		[HttpGet("GS{id}")]
+		public async Task<SpecificObjectResult<FlightBasicDTO>> GetBaisicAsync(string id)
+		{
+			try
+			{
+				var guid = new Guid(id);
+				var flight = await _flightService.GetBasicAsync(guid);
+				return new SpecificObjectResult<FlightBasicDTO>(flight);
+			}
+			catch (FormatException)
+			{
+				return new SpecificObjectResult<FlightBasicDTO>(BadRequest("Invalid id format"));
+			}
+		}
+
 		[Authorize(Policy = Policies.ADMINS)]
 		[HttpPost("updateStatus")]
-		public async Task<SpecificObjectResult<FlightBasicDTO>> UpdaateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO)
+		public async Task<SpecificObjectResult<FlightBasicDTO>> UpdateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO)
 		{
 			if (!ModelState.IsValid)
 				return new SpecificObjectResult<FlightBasicDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));

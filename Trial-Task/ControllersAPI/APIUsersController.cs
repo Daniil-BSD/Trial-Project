@@ -9,19 +9,19 @@ using Trial_Task_BLL.IServices;
 using Trial_Task_Model.Models;
 using Trial_Task_WEB.ResultExtention;
 
-namespace Trial_Task_WEB.Controllers
+namespace Trial_Task_WEB.ControllersAPI
 {
 	/// <summary>
-	/// Defines the <see cref="UsersController" />
+	/// Defines the <see cref="APIUsersController" />
 	/// </summary>
 	[Route("/api/[controller]")]
-	public class UsersController : BaseController
+	public class APIUsersController : APIBaseController
 	{
 		protected readonly SignInManager<User> _signInManager;
 
 		private readonly IUserService _userService;
 
-		public UsersController(IUserService userService, SignInManager<User> signInManager) : base()
+		public APIUsersController(IUserService userService, SignInManager<User> signInManager) : base()
 		{
 			_userService = userService;
 			_signInManager = signInManager;

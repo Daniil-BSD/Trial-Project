@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Trial_Task_WEB.Controllers
+namespace Trial_Task_WEB.ControllersAPI
 {
 	/// <summary>
-	/// Defines the <see cref="BaseController" />
+	/// Defines the <see cref="APIBaseController" />
 	/// </summary>
-	public abstract class BaseController : Controller
+	public abstract class APIBaseController : Controller
 	{
 		public const string INVALID_ID_MESSAGE_STRING = "Invalid id format";
 

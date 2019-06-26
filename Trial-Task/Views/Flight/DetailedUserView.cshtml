@@ -1,0 +1,11 @@
+﻿@model Trial_Task_BLL.DTOs.FlightDTO
+@using Trial_Task_BLL.DTOs
+@{
+	Layout = "_DetailedView.cshtml";
+}
+@section tableBottom{
+	<tr>
+		<th scope="row">Status</th>
+		<td>@Model.Status.ToString()</td>
+	</tr>
+}

@@ -26,6 +26,7 @@ namespace Trial_Task_DAL.IRepositories
 		/// <param name="flightIn">The <see cref="Flight"/> to be inserted.</param>
 		/// <returns>The same <see cref="Task{Flight}"/>, returned as it was recorded in a database (ID field is now populated)</returns>
 		Task<Flight> InsertNewFlight(Flight flightIn);
+		Task<Flight> GetBasicAsync(Guid id);
 
 		/// <summary>
 		/// Lists Fully information of all flights in the database.

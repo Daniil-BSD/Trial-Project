@@ -13,7 +13,11 @@ namespace Trial_Task_BLL.Responses
 		/// <summary>
 		/// Gets or sets the Value
 		/// </summary>
-		public new T Value { get; set; }
+		public new T Value
+		{
+			get { return (T)base.Value; }
+			protected set { base.Value = value; }
+		}
 
 		public Response(BaseResponse baseResponse) : base(baseResponse.Value, baseResponse.Success, baseResponse.Message, baseResponse.NotFoundFlag)
 		{

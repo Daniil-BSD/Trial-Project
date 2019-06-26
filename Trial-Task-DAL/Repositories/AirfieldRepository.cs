@@ -29,26 +29,26 @@ namespace Trial_Task_DAL.Repositories
 				.ToListAsync();
 		}
 
-		public  Task<List<Airfield>> FilterListShallowAsync(Expression<Func<Airfield, bool>> func)
+		public Task<List<Airfield>> FilterListShallowAsync(Expression<Func<Airfield, bool>> func)
 		{
 			return GetNoIncludes()
 				.Where(func)
 				.ToListAsync();
 		}
 
-		public  Task<Airfield> FindAround(IGlobalPoint globalPoint)
+		public Task<Airfield> FindAround(IGlobalPoint globalPoint)
 		{
-			return  GetFullIncludes()
+			return GetFullIncludes()
 				.SingleAsync(ent => GlobalPoint.Distance(ent, globalPoint) <= Constants.AIRFIELD_DESIGNATED_AREA_RADIUS);
 		}
 
-		public  Task<Airfield> GetAsync(Guid id)
+		public Task<Airfield> GetAsync(Guid id)
 		{
-			return  GetFullIncludes()
+			return GetFullIncludes()
 				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
-		public  Task<Airfield> GetRowAsync(Guid id)
+		public Task<Airfield> GetRowAsync(Guid id)
 		{
 			return _context.Airfields
 				.SingleAsync(ent => ent.ID == id);
@@ -89,12 +89,12 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.StartFrom).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.EndedAt).ThenInclude(ent => ent.PlaceOfTakeoff);
 		}
-		
+
 		/// <summary>
-		 /// A single point for managing default includes (meaning loading all the rows required by the standart DTOs)
-		 /// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
-		 /// </summary>
-		 /// <returns>The <see cref="IQueryable{Airfield}"/> that could b expanded upon</returns>
+		/// A single point for managing default includes (meaning loading all the rows required by the standart DTOs)
+		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
+		/// </summary>
+		/// <returns>The <see cref="IQueryable{Airfield}"/> that could b expanded upon</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected override IQueryable<Airfield> GetStandartIncludes()
 		{

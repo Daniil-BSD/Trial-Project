@@ -57,10 +57,10 @@ namespace Trial_Task_Model.Models
 						),
 						Latitude =
 						int.Parse(record.Substring(7, 2)) +
-						(60000 / (double.Parse(record.Substring(9, 5)))),
+						(double.Parse(record.Substring(9, 5)) / 60000),
 						Longitude =
 						int.Parse(record.Substring(15, 3)) +
-						(60000 / (double.Parse(record.Substring(18, 5))))
+						(double.Parse(record.Substring(18, 5)) / 60000)
 					};
 					return ret;
 				}

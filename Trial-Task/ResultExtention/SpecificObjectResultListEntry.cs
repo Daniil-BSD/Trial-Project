@@ -9,10 +9,10 @@ namespace Trial_Task_WEB.ResultExtention
 	/// <typeparam name="T">Wrapped type</typeparam>
 	public class SpecificObjectResultListEntry<T>
 	{
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the Message of the response, in case of faliure
 		/// </summary>
-        public string Message { get; protected set; }
+		public string Message { get; protected set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether Success

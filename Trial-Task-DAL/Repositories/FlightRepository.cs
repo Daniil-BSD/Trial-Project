@@ -23,13 +23,19 @@ namespace Trial_Task_DAL.Repositories
 
 		public Task<Flight> GetAsync(Guid id)
 		{
-			return  GetFullIncludes()
+			return GetFullIncludes()
+				.SingleAsync(ent => ent.ID.Equals(id));
+		}
+
+		public Task<Flight> GetBasicAsync(Guid id)
+		{
+			return GetStandartIncludes()
 				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
 		public Task<Flight> GetRowAsync(Guid id)
 		{
-			return  _context.Flights.SingleAsync(ent => ent.ID.Equals(id));
+			return _context.Flights.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
 		/// <summary>

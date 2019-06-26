@@ -10,6 +10,6 @@ namespace Trial_Task_BLL.IServices
 	/// </summary>
 	public interface IGPSLogEntryService
 	{
-		Task<IEnumerable<GPSLogEntryDTO>> ListAsync(Guid id);
+		Task<List<GPSLogEntryDTO>> ListAsync(Guid id);
 	}
 }

@@ -6,17 +6,17 @@ using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_WEB.ResultExtention;
 
-namespace Trial_Task_WEB.Controllers
+namespace Trial_Task_WEB.ControllersAPI
 {
 	/// <summary>
-	/// Defines the <see cref="GPSLogsController" />
+	/// Defines the <see cref="APIGPSLogsController" />
 	/// </summary>
 	[Route("/api/[controller]")]
-	public class GPSLogsController : BaseController
+	public class APIGPSLogsController : APIBaseController
 	{
 		private readonly IGPSLogService _gpsLogService;
 
-		public GPSLogsController(IGPSLogService gpsLogService) : base()
+		public APIGPSLogsController(IGPSLogService gpsLogService) : base()
 		{
 			_gpsLogService = gpsLogService;
 		}

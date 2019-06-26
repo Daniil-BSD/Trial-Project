@@ -22,10 +22,10 @@ namespace Trial_Task_BLL.Services
 			_gpsLogEntryRepository = gpsLogEntryRepository;
 		}
 
-		public async Task<IEnumerable<GPSLogEntryDTO>> ListAsync(Guid id)
+		public async Task<List<GPSLogEntryDTO>> ListAsync(Guid id)
 		{
 			var entries = await _gpsLogEntryRepository.ListAsync(id);
-			return _mapper.Map<IEnumerable<GPSLogEntry>, IEnumerable<GPSLogEntryDTO>>(entries);
+			return _mapper.Map<List<GPSLogEntry>, List<GPSLogEntryDTO>>(entries);
 		}
 	}
 }

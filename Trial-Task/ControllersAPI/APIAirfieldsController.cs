@@ -9,17 +9,17 @@ using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
 using Trial_Task_WEB.ResultExtention;
 
-namespace Trial_Task_WEB.Controllers
+namespace Trial_Task_WEB.ControllersAPI
 {
 	/// <summary>
-	/// Defines the <see cref="AirfieldsController" />
+	/// Defines the <see cref="APIAirfieldsController" />
 	/// </summary>
 	[Route("/api/[controller]")]
-	public class AirfieldsController : BaseController
+	public class APIAirfieldsController : APIBaseController
 	{
 		private readonly IAirfieldService _airfieldService;
 
-		public AirfieldsController(IAirfieldService airfieldService) : base()
+		public APIAirfieldsController(IAirfieldService airfieldService) : base()
 		{
 			_airfieldService = airfieldService;
 		}

@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trial-Task-WEB", "Trial-Task\Trial-Task-WEB.csproj", "{97673C48-8F19-4CEF-981C-64E91CB72CF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trial-Task-DAL", "Trial-Task-DAL\Trial-Task-DAL.csproj", "{2F1D2449-8786-4739-B29E-26790DF6CD6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trial-Task-DAL", "Trial-Task-DAL\Trial-Task-DAL.csproj", "{2F1D2449-8786-4739-B29E-26790DF6CD6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trial-Task-BLL", "Trial-Task-BLL\Trial-Task-BLL.csproj", "{86DB84DE-6F71-43C0-A43A-BF8911E29553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trial-Task-BLL", "Trial-Task-BLL\Trial-Task-BLL.csproj", "{86DB84DE-6F71-43C0-A43A-BF8911E29553}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trial-Task-Model", "Trial-Task-Model\Trial-Task-Model.csproj", "{F3BC470B-BE84-45E6-B009-7717EF8F1158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trial-Task-Model", "Trial-Task-Model\Trial-Task-Model.csproj", "{F3BC470B-BE84-45E6-B009-7717EF8F1158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -24,7 +24,7 @@
 		/// <summary>
 		/// Gets or sets the Value
 		/// </summary>
-		public object Value { get; protected set; }
+		public virtual object Value { get; protected set; }
 
 		protected BaseResponse(object value, bool success, string message, bool notFoundFlag)
 		{
