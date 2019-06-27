@@ -95,6 +95,7 @@ namespace Trial_Task
 			services.AddScoped<IUserService, UserService>();
 
 			services.AddScoped<IAPIFlightsController, APIFlightsController>();
+			services.AddScoped<IAPIUsersController, APIUsersController>();
 
 			var mappingConfig = new MapperConfiguration(mc =>
 			{

@@ -5,34 +5,32 @@
 	Layout = "_DetailedView.cshtml";
 }
 @section belowTable{
-
-	
-	<form id="StatusForm" action="https://localhost:5001/Flight/updateStatus" method="post" class="row justify-content-md-center">
+	<form id="StatusForm" action="https://localhost:5001/Flight/updateStatus" method="post" class="row justify-content-center">
 		<input type="hidden" name="Target" value="@Model.ID" />
 		<div class="btn-group col-auto " role="group">
-		@{
-			switch (Model.Status)
-			{
-				case EFlightStatus.Pending:
-					<text>
-						<button form_id="StatusForm" type="submit" class="btn btn-success" name="Status" value="1">Approve</button>
-						<button form_id="StatusForm" type="submit" class="btn btn-danger" name="Status" value="2">Reject</button>
-					</text>
-					break;
-				case EFlightStatus.Approved:
-					<text>
-						<button form_id="StatusForm" type="submit" class="btn btn-outline-success" name="Status" value="1" disabled>Approved</button>
-						<button form_id="StatusForm" type="submit" class="btn btn-danger" name="Status" value="2">Reject</button>
-					</text>
-					break;
-				case EFlightStatus.Rejected:
-					<text>
-						<button form_id="StatusForm" type="submit" class="btn btn-success" name="Status" value="1">Approve</button>
-						<button form_id="StatusForm" type="submit" class="btn btn-outline-danger" name="Status" value="2" disabled>Rejected</button>
-					</text>
-					break;
+			@{
+				switch (Model.Status)
+				{
+					case EFlightStatus.Pending:
+						<text>
+							<button form_id="StatusForm" type="submit" class="btn btn-success" name="Status" value="1">Approve</button>
+							<button form_id="StatusForm" type="submit" class="btn btn-danger" name="Status" value="2">Reject</button>
+						</text>
+						break;
+					case EFlightStatus.Approved:
+						<text>
+							<button form_id="StatusForm" type="submit" class="btn btn-outline-success" name="Status" value="1" disabled>Approved</button>
+							<button form_id="StatusForm" type="submit" class="btn btn-danger" name="Status" value="2">Reject</button>
+						</text>
+						break;
+					case EFlightStatus.Rejected:
+						<text>
+							<button form_id="StatusForm" type="submit" class="btn btn-success" name="Status" value="1">Approve</button>
+							<button form_id="StatusForm" type="submit" class="btn btn-outline-danger" name="Status" value="2" disabled>Rejected</button>
+						</text>
+						break;
+				}
 			}
-		}
 		</div>
 	</form>
 }

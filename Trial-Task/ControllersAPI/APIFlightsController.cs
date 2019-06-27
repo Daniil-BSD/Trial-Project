@@ -26,18 +26,11 @@ namespace Trial_Task_WEB.ControllersAPI
 			_flightService = flightService;
 		}
 
-		[HttpGet]
-		public async Task<SpecificObjectResult<IEnumerable<FlightShallowDTO>>> GetAllAsync()
-		{
-			var flights = await _flightService.ListAsync();
-			return new SpecificObjectResult<IEnumerable<FlightShallowDTO>>(flights);
-		}
-
 		[HttpGet("reduced")]
-		public async Task<SpecificObjectResult<IEnumerable<FlightBasicDTO>>> GetAllReducedAsync()
+		public async Task<SpecificObjectResult<List<FlightBasicDTO>>> GetAllReducedAsync()
 		{
 			var flights = await _flightService.ListReducedAsync();
-			return new SpecificObjectResult<IEnumerable<FlightBasicDTO>>(flights);
+			return new SpecificObjectResult<List<FlightBasicDTO>>(flights);
 		}
 
 		[HttpGet("GF{id}")]
@@ -70,7 +63,6 @@ namespace Trial_Task_WEB.ControllersAPI
 			}
 		}
 
-		[Authorize(Policy = Policies.ADMINS)]
 		[HttpPost("updateStatus")]
 		public async Task<SpecificObjectResult<FlightBasicDTO>> UpdateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO)
 		{
@@ -83,6 +75,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("upladIGC")]
+		[Authorize(Policies.MEMBERS)]
 		public async Task<SpecificObjectResult<FlightDTO>> UploadIGCFile(IFormFile file)
 		{
 			if (file == null || file.Length == 0)

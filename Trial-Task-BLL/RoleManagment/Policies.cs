@@ -56,7 +56,9 @@ namespace Trial_Task_BLL.RoleManagment
 				var createPowerUser = await UserManager.CreateAsync(poweruser, userPassword);
 				if (createPowerUser.Succeeded)
 				{
-					await UserManager.AddToRoleAsync(poweruser, RoleEnum.SuperAddmin.GetName());
+					await UserManager.AddToRoleAsync(poweruser, RoleEnum.Member.GetName());
+					await UserManager.AddToRoleAsync(poweruser, RoleEnum.Admin.GetName());
+					await UserManager.AddToRoleAsync(poweruser, RoleEnum.SuperAdmin.GetName());
 				}
 			}
 		}
@@ -78,7 +80,7 @@ namespace Trial_Task_BLL.RoleManagment
 				case ADMINS:
 					return builder.RequireRole(RoleEnum.Admin.GetName()).Build();
 				case RESTRICTED:
-					return builder.RequireRole(RoleEnum.SuperAddmin.GetName()).Build();
+					return builder.RequireRole(RoleEnum.SuperAdmin.GetName()).Build();
 			}
 			throw new ArgumentException("Must recive one of the constants of this class as a policyName");
 		}

@@ -6,7 +6,7 @@
 }
 @section head{
 	<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
-	<style>
+	<style type="text/css">
 	</style>
 	<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
 	<title>OpenLayers example</title>
@@ -73,7 +73,6 @@
 
 			var animating = false;
 			var speed, now;
-			var speedInput = document.getElementById('speed');
 			var startButton = document.getElementById('start-animation');
 
 			var vectorLayer = new ol.layer.Vector({
@@ -134,7 +133,7 @@
 				} else {
 					animating = true;
 					now = new Date().getTime();
-					speed = speedInput.value;
+					speed = 20;
 					startButton.textContent = 'Cancel Animation';
 					// hide geoMarker
 					geoMarker.setStyle(null);
@@ -162,18 +161,22 @@
 		}
 	</script>
 }
-<div class="row">
-	<div class="col-lg-auto align-self-center">
+<div class="row row-eq-height">
+	<div class="col-sm-auto align-self-center">
 		<table class="table">
 			@if (IsSectionDefined("aboveTable"))
 			{
-				@RenderSection("aboveTable", false)
+				@RenderSection("aboveTable")
 			}
 			<tbody>
 				@if (IsSectionDefined("tableTop"))
 				{
-					@RenderSection("tableTop", false)
+					@RenderSection("tableTop")
 				}
+				<tr>
+					<th scope="row">Name</th>
+					<td>@Model.Pilot.UserName</td>
+				</tr>
 				<tr>
 					<th scope="row">Date</th>
 					<td>@Model.Date.ToShortDateString()</td>
@@ -190,7 +193,7 @@
 							@Model.Log.PlaceOfTakeoff.Name
 						} else
 						{
-							<span class="text-muted">UnIdentified</span>
+							<span class="text-muted">Unidentified</span>
 						}
 					</td>
 				</tr>
@@ -214,13 +217,22 @@
 		</table>
 		@if (IsSectionDefined("belowTable"))
 		{
-			@RenderSection("belowTable", false)
+			@RenderSection("belowTable")
 		}
-		<label for="speed">
-			speed:&nbsp;
-			<input id="speed" type="range" min="10" max="999" step="10" value="60">
-		</label>
-		<button id="start-animation">Start Animation</button>
 	</div>
-	<div id="map" class="map col"></div>
+	<div class="col-sm" id="map-container" style="
+	padding-right: 0;
+	padding-left: 0;
+	border-radius: .25rem;
+	min-height: 30rem;
+	">
+		<div id="map" class="map rounded" style=" position: absolute; height: 100%; width: 100%; "></div>
+		<button id="start-animation" class="btn btn-light" style="
+		position: absolute;
+		bottom: .25rem;
+		left: .25rem;
+	">
+			Start Animation
+		</button>
+	</div>
 </div>

@@ -29,7 +29,7 @@ namespace Trial_Task_Model.Models
 		/// NOTE: it returns Null rather then Exception in order to enable parsing the whole IGC file line-by-line where only around 90% of lines are valid records.
 		public static GPSLogEntry ParseFixRecord(string record)
 		{
-			return ParseFixRecord(record, new DateTime(2010, 1, 1, 0, 0, 0));
+			return ParseFixRecord(record, new DateTime(1, 1, 1, 0, 0, 0));
 		}
 		/// <summary>
 		/// The ParseFixRecord is a method that is accepting <see cref="string"/> from an IGC file.
@@ -75,19 +75,34 @@ namespace Trial_Task_Model.Models
 		/// <summary>
 		/// Performs <see cref="ParseFixRecord(string)"/> on all valid strings.
 		/// </summary>
-		/// <param name="records">The records as <see cref="IEnumerable{string}"/></param>
+		/// <param name="records">The records as <see cref="IList{string}"/></param>
 		/// <returns>The <see cref="List{GPSLogEntry}"/>generated from the records.</returns>
-		public static List<GPSLogEntry> ParseFixRecords(IEnumerable<string> records)
+		public static List<GPSLogEntry> ParseFixRecords(IList<string> records)
 		{
-			return ParseFixRecords(records, new DateTime(2010, 1, 1, 0, 0, 0));
+			List<GPSLogEntry> ret = new List<GPSLogEntry>();
+			string str = records[1];
+			DateTime date = new DateTime(
+				int.Parse(str.Substring(9, 2)),
+				int.Parse(str.Substring(7, 2)),
+				int.Parse(str.Substring(5, 2))
+				);
+			foreach (string record in records)
+			{
+				var temp = ParseFixRecord(record, date);
+				if (temp != null)
+				{
+					ret.Add(temp);
+				}
+			}
+			return ret;
 		}
 
 		/// <summary>
 		/// Performs <see cref="ParseFixRecord(string, DateTime)"/> on all valid strings.
 		/// </summary>
-		/// <param name="records">The records as <see cref="IEnumerable{string}"/></param>
+		/// <param name="records">The records as <see cref="IList{string}"/></param>
 		/// <param name="date">The Date to be given to this record(<see cref="DateTime"/>)</param>
-		public static List<GPSLogEntry> ParseFixRecords(IEnumerable<string> records, DateTime date)
+		public static List<GPSLogEntry> ParseFixRecords(IList<string> records, DateTime date)
 		{
 			List<GPSLogEntry> ret = new List<GPSLogEntry>();
 			foreach (string str in records)

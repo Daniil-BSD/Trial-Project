@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_WEB.ResultExtention;
 
 namespace Trial_Task_WEB.ControllersAPI
@@ -93,6 +95,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("upladXLSX")]
+		[Authorize(Policies.ADMINS)]
 		public async Task<SpecificObjectResultList<AirfieldShallowDTO>> UploadXLSXFile(IFormFile file)
 		{
 			if (file == null || file.Length == 0)

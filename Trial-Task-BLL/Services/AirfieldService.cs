@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using OfficeOpenXml;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model;
 using Trial_Task_Model.Interfaces;
@@ -64,6 +66,7 @@ namespace Trial_Task_BLL.Services
 			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
 		}
 
+		[Authorize(Policies.ADMINS)]
 		public async Task<IEnumerable<Response<AirfieldShallowDTO>>> ParseXLSXFile(string path)
 		{
 			using (FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read))
@@ -72,26 +75,22 @@ namespace Trial_Task_BLL.Services
 				{
 					ExcelWorksheet workSheet = package.Workbook.Worksheets[1];//hardcoded fiirst sheet
 					int totalRows = workSheet.Dimension.Rows;
-					var airfieldSaveDTOs = new List<AirfieldSaveDTO>();
+					var responses = new List<Response<AirfieldShallowDTO>>();
 					for (int i = 2 ; i <= totalRows ; i++) // hardcoded start from the second row until the last
 					{
-						airfieldSaveDTOs.Add(new AirfieldSaveDTO
+						responses.Add(await SaveAsync(new AirfieldSaveDTO
 						{
 							Name = workSheet.Cells[i, 1].Value.ToString(),
 							Latitude = double.Parse(workSheet.Cells[i, 2].Value.ToString()),
 							Longitude = double.Parse(workSheet.Cells[i, 3].Value.ToString())
-						});// hardcoded colums
-					}
-					var responses = new List<Response<AirfieldShallowDTO>>();
-					foreach (var airfieldSaveDTO in airfieldSaveDTOs)
-					{
-						responses.Add(await SaveAsync(airfieldSaveDTO));
+						}));// hardcoded colums
 					}
 					return responses;
 				}
 			}
 		}
 
+		[Authorize(Policies.ADMINS)]
 		public async Task<Response<AirfieldShallowDTO>> SaveAsync(AirfieldSaveDTO airfieldSaveDTO)
 		{
 			try

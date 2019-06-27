@@ -73,12 +73,6 @@ namespace Trial_Task_DAL.Repositories
 			}
 		}
 
-		public Task<List<Flight>> ListAsync()
-		{
-			return GetFullIncludes()
-				.ToListAsync();
-		}
-
 		public Task<List<Flight>> ListReducedAsync()
 		{
 			return GetStandartIncludes()

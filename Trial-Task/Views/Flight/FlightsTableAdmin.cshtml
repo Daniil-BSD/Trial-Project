@@ -1,0 +1,54 @@
+﻿@model List<Trial_Task_BLL.DTOs.FlightBasicDTO>
+@using Trial_Task_BLL.DTOs
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	IgnoreBody();
+}
+@section head{
+}
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th scope="col">Pilot</th>
+			<th scope="col">Date</th>
+			<th scope="col">Duration</th>
+			<th scope="col">From</th>
+			<th scope="col">To</th>
+			<th scope="col">Status</th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var flight in Model)
+		{
+		<tr>
+			<th scope="row">@flight.Pilot.UserName</th>
+			<td>@flight.Date.ToShortDateString()</td>
+			<td>@flight.Log.Duration</td>
+			<td>
+				@if (flight.Log.PlaceOfTakeoff != null)
+				{
+					@flight.Log.PlaceOfTakeoff.Name
+				} else
+				{
+					<span class="text-muted">Unidentified</span>
+				}
+			</td>
+			<td>
+				@if (flight.Log.PlaceOfLanding != null)
+				{
+					@flight.Log.PlaceOfLanding.Name
+				} else
+				{
+					<span class="text-muted">Outlanding</span>
+				}
+			</td>
+
+			<td>@flight.Status</td>
+			<td>
+				<a class="btn btn-outline-primary" href="@("/Flight/DAV " + flight.ID)">Detailed view</a>
+			</td>
+		</tr>
+		}
+	</tbody>
+</table>

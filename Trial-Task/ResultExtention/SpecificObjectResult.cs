@@ -147,6 +147,8 @@ namespace Trial_Task_WEB.ResultExtention
 			if (value == null)
 			{
 				StatusCode = 404;
+			} else {
+				StatusCode = 200;
 			}
 		}
 

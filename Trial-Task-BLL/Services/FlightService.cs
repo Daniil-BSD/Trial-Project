@@ -42,22 +42,14 @@ namespace Trial_Task_BLL.Services
 			return await Response<FlightBasicDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
-		public async Task<IEnumerable<FlightShallowDTO>> ListAsync()
-		{
-			throw new NotImplementedException();
-			//var flights = await _flightRepository.ListAsync();
-			//return _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightShallowDTO>>(flights);
-		}
-
-		public async Task<IEnumerable<FlightBasicDTO>> ListReducedAsync()
+		public async Task<List<FlightBasicDTO>> ListReducedAsync()
 		{
 			var flights = await _flightRepository.ListReducedAsync();
-			return _mapper.Map<IEnumerable<Flight>, IEnumerable<FlightBasicDTO>>(flights);
+			return _mapper.Map<List<Flight>, List<FlightBasicDTO>>(flights);
 		}
 
 		public async Task<Response<FlightDTO>> ParseIGCFile(string path)
 		{
-
 			var userIDResponse = _userService.GetCurrentUserID();
 			if (!userIDResponse.Success)
 				return new Response<FlightDTO>(userIDResponse);

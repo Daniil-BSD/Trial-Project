@@ -16,7 +16,7 @@ namespace Trial_Task_BLL.RoleManagment
 			/// Defines the SuperAddmin Role.
 			/// </summary>
 			[DisplayName("Super Admin")]
-			SuperAddmin = 255,
+			SuperAdmin = 255,
 
 			/// <summary>
 			/// Defines the Admin Role.

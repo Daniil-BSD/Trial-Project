@@ -29,14 +29,6 @@ namespace Trial_Task_DAL.IRepositories
 		Task<Flight> GetBasicAsync(Guid id);
 
 		/// <summary>
-		/// Lists Fully information of all flights in the database.
-		/// Practically dumps the database contents, should be removed
-		/// </summary>
-		/// <returns>The <see cref="Task{List{Flight}}"/></returns>
-		[Obsolete("Returns the entire Database, Testing only!")]
-		Task<List<Flight>> ListAsync();
-
-		/// <summary>
 		/// Lists Basic information of all flights in the Database.
 		/// </summary>
 		/// <returns>The <see cref="Task{List{Flight}}"/></returns>

@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model.Models;
+using static Trial_Task_BLL.RoleManagment.Role;
 
 namespace Trial_Task_BLL.Services
 {
@@ -112,6 +114,7 @@ namespace Trial_Task_BLL.Services
 				if (result.Succeeded)
 				{
 					await _signInManager.SignInAsync(user, true, "Registration");
+					await _userManager.AddToRoleAsync(user, RoleEnum.Member.GetName());
 					return new Response<UserBasicDTO>(_mapper.Map<User, UserBasicDTO>(user));
 				} else
 				{

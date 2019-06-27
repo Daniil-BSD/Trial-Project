@@ -8,8 +8,7 @@ namespace Trial_Task.APIInterface
 {
 	public interface IAPIFlightsController
 	{
-		Task<SpecificObjectResult<IEnumerable<FlightShallowDTO>>> GetAllAsync();
-		Task<SpecificObjectResult<IEnumerable<FlightBasicDTO>>> GetAllReducedAsync();
+		Task<SpecificObjectResult<List<FlightBasicDTO>>> GetAllReducedAsync();
 		Task<SpecificObjectResult<FlightDTO>> GetAsync(string id);
 		Task<SpecificObjectResult<FlightBasicDTO>> GetBaisicAsync(string id);
 		Task<SpecificObjectResult<FlightBasicDTO>> UpdateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO);

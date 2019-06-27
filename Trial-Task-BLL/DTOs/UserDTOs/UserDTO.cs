@@ -8,8 +8,8 @@ namespace Trial_Task_BLL.DTOs
 	/// </summary>
 	public class UserDTO
 	{
-		public ICollection<FlightShallowPilotOriginatedDTO> Flights { get; set; }
-
+		public List<FlightShallowPilotOriginatedDTO> Flights { get; set; }
 		public Guid Id { get; set; }
+		public string UserName { get; set; }
 	}
 }

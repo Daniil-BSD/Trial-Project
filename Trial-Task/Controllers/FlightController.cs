@@ -19,8 +19,21 @@ namespace Trial_Task.Controllers
 	public class FlightController : Controller
 	{
 		private readonly IAPIFlightsController flightsController;
-		public FlightController(IAPIFlightsController api) {
-			flightsController = api;
+		private readonly IAPIUsersController usersController;
+		private readonly IAuthorizationService authorizationService;
+		public FlightController(IAPIFlightsController aPIFlights, IAPIUsersController aPIUsers, IAuthorizationService authorization) {
+			flightsController = aPIFlights;
+			usersController = aPIUsers;
+			authorizationService = authorization;
+		}
+
+		[HttpGet("DV{id}")]
+		public async Task<IActionResult> DetailedView(string id)
+		{
+			if((await authorizationService.AuthorizeAsync(User, Policies.ADMINS)).Succeeded) {
+				return Redirect("DAV" + id);
+			}
+			return Redirect("DUV" + id); 
 		}
 
 		// GET: /<controller>/
@@ -53,6 +66,44 @@ namespace Trial_Task.Controllers
 			{
 			}
 			return Redirect("~/Flight/DAV" + target);
+		}
+
+		[Authorize(Policy = Policies.ADMINS)]
+		[HttpGet("allFFlights/{filter}")]
+		public async Task<IActionResult> FlightsTableAdmin(string filter)
+		{
+			EFlightStatus status = EFlightStatus.Pending;
+			var flightsAll = (await flightsController.GetAllReducedAsync()).Object;
+			try
+			{
+				status.SetTo(filter);
+				List<FlightBasicDTO> flights = new List<FlightBasicDTO>();
+				foreach (var flight in flightsAll)
+				{
+					if (flight.Status == status)
+					{
+						flights.Add(flight);
+					}
+				}
+				return View(model: flights);
+			}
+			catch (ArgumentException)
+			{
+				return View(model: flightsAll);
+			}
+		}
+
+		[HttpGet("allFFlights")]
+		public async Task<IActionResult> FlightsTableAdmin() {
+			var flightsAll = (await flightsController.GetAllReducedAsync()).Object;
+			return View(model: flightsAll);
+		}
+
+		[HttpGet("myFlights")]
+		public async Task<IActionResult> FlightsTableUser()
+		{
+			var user = (await usersController.GetCurrentFullUser()).Object;
+			return View(model: user);
 		}
 	}
 }

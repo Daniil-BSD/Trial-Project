@@ -110,7 +110,7 @@ namespace Trial_Task_BLL.RoleManagment
 			{
 				case "superadmin":
 				case "super admin":
-					return RoleEnum.SuperAddmin;
+					return RoleEnum.SuperAdmin;
 				case "admin":
 				case "administrator":
 					return RoleEnum.Admin;
@@ -119,7 +119,7 @@ namespace Trial_Task_BLL.RoleManagment
 				case "standartmember":
 				case "standartuser":
 				case "user":
-					return RoleEnum.SuperAddmin;
+					return RoleEnum.SuperAdmin;
 			}
 			throw new ArgumentException("invalid Role Name");
 		}

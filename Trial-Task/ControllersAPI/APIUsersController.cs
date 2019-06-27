@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Trial_Task.APIInterface;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_Model.Models;
@@ -15,7 +16,7 @@ namespace Trial_Task_WEB.ControllersAPI
 	/// Defines the <see cref="APIUsersController" />
 	/// </summary>
 	[Route("/api/[controller]")]
-	public class APIUsersController : APIBaseController
+	public class APIUsersController : APIBaseController, IAPIUsersController
 	{
 		protected readonly SignInManager<User> _signInManager;
 
@@ -57,7 +58,6 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpGet("userFull")]
-		[Authorize]
 		public async Task<SpecificObjectResult<UserDTO>> GetCurrentFullUser()
 		{
 			var response = await _userService.GetCurrentUserFullAsync();
@@ -70,7 +70,6 @@ namespace Trial_Task_WEB.ControllersAPI
 			}
 		}
 
-		[Authorize]
 		[HttpGet("user")]
 		public async Task<SpecificObjectResult<UserShallowDTO>> GetCurrentUser()
 		{
