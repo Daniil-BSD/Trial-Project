@@ -4,7 +4,6 @@ using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using OfficeOpenXml;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
@@ -54,16 +53,16 @@ namespace Trial_Task_BLL.Services
 			return await Response<AirfieldShallowDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
-		public async Task<IEnumerable<AirfieldDTO>> ListAsync()
+		public async Task<List<AirfieldDTO>> ListAsync()
 		{
 			var airfields = await _airfieldRepository.ListAsync();
-			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldDTO>>(airfields);
+			return _mapper.Map<List<Airfield>, List<AirfieldDTO>>(airfields);
 		}
 
-		public async Task<IEnumerable<AirfieldShallowDTO>> ListShallowAsync()
+		public async Task<List<AirfieldShallowDTO>> ListShallowAsync()
 		{
 			var airfields = await _airfieldRepository.ListShallowAsync();
-			return _mapper.Map<IEnumerable<Airfield>, IEnumerable<AirfieldShallowDTO>>(airfields);
+			return _mapper.Map<List<Airfield>, List<AirfieldShallowDTO>>(airfields);
 		}
 
 		[Authorize(Policies.ADMINS)]

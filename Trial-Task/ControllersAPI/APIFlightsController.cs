@@ -17,7 +17,7 @@ namespace Trial_Task_WEB.ControllersAPI
 	/// Defines the <see cref="APIFlightsController" />
 	/// </summary>
 	[Route("/api/[controller]")]
-	public class APIFlightsController : APIBaseController , IAPIFlightsController
+	public class APIFlightsController : APIBaseController, IAPIFlightsController
 	{
 		private readonly IFlightService _flightService;
 

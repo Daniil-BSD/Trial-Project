@@ -21,6 +21,8 @@ namespace Trial_Task_BLL.IServices
 
 		Task<Response<UserDTO>> GetFullAsync(Guid id);
 
+		Task<Response<bool>> GrantAdminStatusAsync(string login);
+
 		Task<IEnumerable<UserShallowDTO>> ListAsync();
 
 		Task<IEnumerable<UserBasicDTO>> ListShallowAsync();
@@ -28,6 +30,5 @@ namespace Trial_Task_BLL.IServices
 		Task<Response<UserBasicDTO>> RegisterAsync(UserRegistrationDTO userRegistrationDTO);
 
 		Task<Response<UserBasicDTO>> SignInAsync(UserLoginDTO userRegistrationDTO);
-		Task<Response<bool>> GrantAdminStatusAsync(string login);
 	}
 }

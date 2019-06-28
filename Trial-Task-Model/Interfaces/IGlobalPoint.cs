@@ -1,6 +1,5 @@
 ﻿namespace Trial_Task_Model.Interfaces
 {
-
 	/// <summary>
 	/// Interface shared by Model classes that include global position information.
 	/// Meant for measuring distances between different objects with appropriate attributes.

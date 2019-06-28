@@ -4,8 +4,6 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	IgnoreBody();
 }
-@section head{
-}
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
@@ -21,34 +19,34 @@
 	<tbody>
 		@foreach (var flight in Model)
 		{
-		<tr>
-			<th scope="row">@flight.Pilot.UserName</th>
-			<td>@flight.Date.ToShortDateString()</td>
-			<td>@flight.Log.Duration</td>
-			<td>
-				@if (flight.Log.PlaceOfTakeoff != null)
-				{
-					@flight.Log.PlaceOfTakeoff.Name
-				} else
-				{
-					<span class="text-muted">Unidentified</span>
-				}
-			</td>
-			<td>
-				@if (flight.Log.PlaceOfLanding != null)
-				{
-					@flight.Log.PlaceOfLanding.Name
-				} else
-				{
-					<span class="text-muted">Outlanding</span>
-				}
-			</td>
+			<tr>
+				<th scope="row">@flight.Pilot.UserName</th>
+				<td>@flight.Date.ToShortDateString()</td>
+				<td>@flight.Log.Duration</td>
+				<td>
+					@if (flight.Log.PlaceOfTakeoff != null)
+					{
+						@flight.Log.PlaceOfTakeoff.Name
+					} else
+					{
+						<span class="text-muted">Unidentified</span>
+					}
+				</td>
+				<td>
+					@if (flight.Log.PlaceOfLanding != null)
+					{
+						@flight.Log.PlaceOfLanding.Name
+					} else
+					{
+						<span class="text-muted">Outlanding</span>
+					}
+				</td>
 
-			<td>@flight.Status</td>
-			<td>
-				<a class="btn btn-outline-primary" href="@("/Flight/DAV " + flight.ID)">Detailed view</a>
-			</td>
-		</tr>
+				<td>@flight.Status</td>
+				<td>
+					<a class="btn btn-outline-primary" href="@("/Flight/DAV " + flight.ID)">Detailed view</a>
+				</td>
+			</tr>
 		}
 	</tbody>
 </table>

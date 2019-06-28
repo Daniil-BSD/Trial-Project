@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Trial_Task_Model.Models;
 
 namespace Trial_Task_BLL.Services
 {

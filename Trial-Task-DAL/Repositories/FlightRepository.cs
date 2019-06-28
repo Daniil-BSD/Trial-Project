@@ -103,6 +103,16 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Log).ThenInclude(ent => ent.Entries);
 		}
 
+		/// <summary>
+		/// A single point for managing minimal includes (none), in case some additiona includes or filters have to be added in every minimal request.
+		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
+		/// </summary>
+		/// <returns>The <see cref="IQueryable{Airfield}"/> that could b expanded upon</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		protected override IQueryable<Flight> GetNoIncludes()
+		{
+			return _context.Flights;
+		}
 
 		/// <summary>
 		/// A single point for managing default includes (meaning loading all the rows required by the standart DTOs)
@@ -116,17 +126,6 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.Pilot)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.Log).ThenInclude(ent => ent.PlaceOfTakeoff);
-		}
-
-		/// <summary>
-		/// A single point for managing minimal includes (none), in case some additiona includes or filters have to be added in every minimal request.
-		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
-		/// </summary>
-		/// <returns>The <see cref="IQueryable{Airfield}"/> that could b expanded upon</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override IQueryable<Flight> GetNoIncludes()
-		{
-			return _context.Flights;
 		}
 	}
 }

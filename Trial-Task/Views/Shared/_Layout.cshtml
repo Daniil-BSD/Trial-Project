@@ -15,7 +15,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-			jQuery("#headerContent").load("https://localhost:5001/Shared/header", function () {
+			jQuery("#headerContent").load("/Shared/header", function () {
 				jQuery("#headerContent").fadeIn(250)
 
 				$('a').click(function () {
@@ -26,8 +26,10 @@
 			});
 		})
 	</script>
-
-	@RenderSection("head", false)
+	@if (IsSectionDefined("head"))
+	{
+		@RenderSection("head")
+	}
 </head>
 <body>
 
@@ -40,9 +42,13 @@
 			<div id="headerContent" class="navbar-collapse" style="display:none"></div>
 		</div>
 	</nav>
-		
+
 	<div class="container-fluid" style="margin-top: 1rem">
 		@RenderBody()
 	</div>
 </body>
+@if (IsSectionDefined("script"))
+{
+	@RenderSection("script")
+}
 </html>

@@ -26,7 +26,6 @@ namespace Trial_Task_DAL.Repositories
 				.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
-
 		public Task<GPSLog> GetFullAsync(Guid id)
 		{
 			return GetFullIncludes()
@@ -38,13 +37,11 @@ namespace Trial_Task_DAL.Repositories
 			return _context.GPSLogs.SingleAsync(ent => ent.ID.Equals(id));
 		}
 
-
 		public Task<List<GPSLog>> ListAsync()
 		{
 			return GetStandartIncludes()
 				.ToListAsync();
 		}
-
 
 		public Task<List<GPSLog>> ListReducedAsync()
 		{
@@ -52,13 +49,11 @@ namespace Trial_Task_DAL.Repositories
 				.ToListAsync();
 		}
 
-
 		public Task<List<GPSLog>> ListStandaloneAsync()
 		{
 			return GetFullIncludes()
 				.ToListAsync();
 		}
-
 
 		/// <summary>
 		/// A single point for managing full includes (meaning loading all the rows required by the most extensive DTO)
@@ -75,6 +70,18 @@ namespace Trial_Task_DAL.Repositories
 				.Include(ent => ent.PlaceOfTakeoff);
 		}
 
+		/// <summary>
+		/// A single point for managing minimal includes, in case some additiona includes or filters have to be added in every minimal request.
+		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
+		/// </summary>
+		/// <returns>The <see cref="IQueryable{GPSLog}"/> that could b expanded upon</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		protected override IQueryable<GPSLog> GetNoIncludes()
+		{
+			return _context.GPSLogs
+				.Include(ent => ent.PlaceOfLanding)
+				.Include(ent => ent.PlaceOfTakeoff);
+		}
 
 		/// <summary>
 		/// A single point for managing default includes (meaning loading all the rows required by the standart DTOs)
@@ -86,19 +93,6 @@ namespace Trial_Task_DAL.Repositories
 		{
 			return _context.GPSLogs
 				.Include(ent => ent.Entries)
-				.Include(ent => ent.PlaceOfLanding)
-				.Include(ent => ent.PlaceOfTakeoff);
-		}
-
-		/// <summary>
-		/// A single point for managing minimal includes, in case some additiona includes or filters have to be added in every minimal request.
-		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
-		/// </summary>
-		/// <returns>The <see cref="IQueryable{GPSLog}"/> that could b expanded upon</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override IQueryable<GPSLog> GetNoIncludes()
-		{
-			return _context.GPSLogs
 				.Include(ent => ent.PlaceOfLanding)
 				.Include(ent => ent.PlaceOfTakeoff);
 		}

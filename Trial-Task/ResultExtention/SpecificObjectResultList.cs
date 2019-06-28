@@ -50,7 +50,6 @@ namespace Trial_Task_WEB.ResultExtention
 		{
 		}
 
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpecificObjectResultList{T}"/> class identically to <see cref="SpecificObjectResult{T}.SpecificObjectResult(string, int)"/>.
 		/// </summary>

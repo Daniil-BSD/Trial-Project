@@ -22,6 +22,7 @@ namespace Trial_Task_DAL.Repositories
 		public AirfieldRepository(AppDbContext context) : base(context)
 		{
 		}
+
 		public Task<List<Airfield>> FilterListAsync(Expression<Func<Airfield, bool>> func)
 		{
 			return GetFullIncludes()
@@ -65,11 +66,13 @@ namespace Trial_Task_DAL.Repositories
 			return GetFullIncludes()
 				.ToListAsync();
 		}
+
 		public Task<List<Airfield>> ListShallowAsync()
 		{
 			return GetNoIncludes()
 				.ToListAsync();
 		}
+
 		public async Task<Airfield> UnvalidatedInsertAsync(Airfield airfield)
 		{
 			var ret = _context.Airfields.Add(airfield);
@@ -91,6 +94,17 @@ namespace Trial_Task_DAL.Repositories
 		}
 
 		/// <summary>
+		/// A single point for managing minimal includes (none), in case some additiona includes or filters have to be added in every minimal request.
+		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
+		/// </summary>
+		/// <returns>The <see cref="IQueryable{Airfield}"/> that could b expanded upon</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		protected override IQueryable<Airfield> GetNoIncludes()
+		{
+			return _context.Airfields;
+		}
+
+		/// <summary>
 		/// A single point for managing default includes (meaning loading all the rows required by the standart DTOs)
 		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
 		/// </summary>
@@ -101,17 +115,6 @@ namespace Trial_Task_DAL.Repositories
 			return _context.Airfields
 				.Include(ent => ent.StartFrom)
 				.Include(ent => ent.EndedAt);
-		}
-
-		/// <summary>
-		/// A single point for managing minimal includes (none), in case some additiona includes or filters have to be added in every minimal request.
-		/// (marked with [MethodImpl(MethodImplOptions.AggressiveInlining)])
-		/// </summary>
-		/// <returns>The <see cref="IQueryable{Airfield}"/> that could b expanded upon</returns>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override IQueryable<Airfield> GetNoIncludes()
-		{
-			return _context.Airfields;
 		}
 	}
 }

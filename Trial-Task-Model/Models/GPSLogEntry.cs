@@ -31,6 +31,7 @@ namespace Trial_Task_Model.Models
 		{
 			return ParseFixRecord(record, new DateTime(1, 1, 1, 0, 0, 0));
 		}
+
 		/// <summary>
 		/// The ParseFixRecord is a method that is accepting <see cref="string"/> from an IGC file.
 		/// (Ignores the hemisphere making it valid only for logs within europe)
@@ -82,7 +83,7 @@ namespace Trial_Task_Model.Models
 			List<GPSLogEntry> ret = new List<GPSLogEntry>();
 			string str = records[1];
 			DateTime date = new DateTime(
-				int.Parse(str.Substring(9, 2)),
+				2000 + int.Parse(str.Substring(9, 2)),
 				int.Parse(str.Substring(7, 2)),
 				int.Parse(str.Substring(5, 2))
 				);

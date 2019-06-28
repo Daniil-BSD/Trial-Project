@@ -101,6 +101,20 @@ namespace Trial_Task_WEB.ControllersAPI
 			}
 		}
 
+		[HttpPost("GrantAdminStatus/{userName}")]
+		[Authorize(Policy = Policies.RESTRICTED)]
+		public async Task<SpecificObjectResult<bool>> GrantAdminStatusAsync(string userName)
+		{
+			try
+			{
+				return new SpecificObjectResult<bool>(await _userService.GrantAdminStatusAsync(userName));
+			}
+			catch (FormatException)
+			{
+				return new SpecificObjectResult<bool>(false);
+			}
+		}
+
 		[HttpGet("IsSignedIn")]
 		public SpecificObjectResult<bool> IsSignedIn()
 		{
@@ -136,19 +150,6 @@ namespace Trial_Task_WEB.ControllersAPI
 		public async void SignOut()
 		{
 			await _signInManager.SignOutAsync();
-		}
-
-		[HttpPost("GrantAdminStatus/{userName}")]
-		//[Authorize(Policy = Policies.RESTRICTED)]
-		public async void GrantAdminStatusAsync(string userName)
-		{
-			try
-			{
-				await _userService.GrantAdminStatusAsync(userName);
-			}
-			catch (FormatException)
-			{
-			}
 		}
 	}
 }

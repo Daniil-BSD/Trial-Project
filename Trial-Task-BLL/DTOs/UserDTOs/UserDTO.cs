@@ -9,7 +9,9 @@ namespace Trial_Task_BLL.DTOs
 	public class UserDTO
 	{
 		public List<FlightShallowPilotOriginatedDTO> Flights { get; set; }
+
 		public Guid Id { get; set; }
+
 		public string UserName { get; set; }
 	}
 }

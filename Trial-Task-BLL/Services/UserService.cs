@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
@@ -19,9 +18,9 @@ namespace Trial_Task_BLL.Services
 	/// </summary>
 	public class UserService : BaseService, IUserService
 	{
-		protected readonly UserManager<User> _userManager;
-
 		protected readonly SignInManager<User> _signInManager;
+
+		protected readonly UserManager<User> _userManager;
 
 		private readonly IUserRepository _userRepository;
 
@@ -94,6 +93,17 @@ namespace Trial_Task_BLL.Services
 			return await Response<UserDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
+		public async Task<Response<bool>> GrantAdminStatusAsync(string login)
+		{
+			var user = await _userManager.FindByNameAsync(login);
+			if (user != null)
+			{
+				await _userManager.AddToRoleAsync(user, RoleEnum.Admin.GetName());
+				return new Response<bool>(true);
+			}
+			return new Response<bool>(false);
+		}
+
 		public async Task<IEnumerable<UserShallowDTO>> ListAsync()
 		{
 			var users = await _userRepository.ListAsync();
@@ -149,15 +159,6 @@ namespace Trial_Task_BLL.Services
 					return new Response<UserBasicDTO>("Not Allowed to log in.");
 				return new Response<UserBasicDTO>("Specified user does not exsist, or password is incorrect");
 			}
-		}
-
-		public async Task<Response<bool>> GrantAdminStatusAsync(string login) {
-			var user = await _userManager.FindByNameAsync(login);
-			if (user != null) {
-				await _userManager.AddToRoleAsync(user, RoleEnum.Admin.GetName());
-				return new Response<bool>(true);
-			}
-			return new Response<bool>(false);
 		}
 	}
 }

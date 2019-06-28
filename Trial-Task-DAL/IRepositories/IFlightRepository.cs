@@ -18,6 +18,8 @@ namespace Trial_Task_DAL.IRepositories
 		/// <returns>The <see cref="Task{Flight}"/></returns>
 		Task<Flight> GetAsync(Guid id);
 
+		Task<Flight> GetBasicAsync(Guid id);
+
 		/// <summary>
 		/// Inserts a new <see cref="Flight"/> into the Database.
 		/// Note that <see cref="Flight"/> has <see cref="Guid"/>field indecating <see cref="User"/> and includes <see cref="GPSLog"/> which includes multiple <see cref="GPSLogEntry"/>;
@@ -26,7 +28,6 @@ namespace Trial_Task_DAL.IRepositories
 		/// <param name="flightIn">The <see cref="Flight"/> to be inserted.</param>
 		/// <returns>The same <see cref="Task{Flight}"/>, returned as it was recorded in a database (ID field is now populated)</returns>
 		Task<Flight> InsertNewFlight(Flight flightIn);
-		Task<Flight> GetBasicAsync(Guid id);
 
 		/// <summary>
 		/// Lists Basic information of all flights in the Database.

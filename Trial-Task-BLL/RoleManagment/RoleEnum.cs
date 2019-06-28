@@ -17,13 +17,11 @@ namespace Trial_Task_BLL.RoleManagment
 			/// </summary>
 			[DisplayName("Super Admin")]
 			SuperAdmin = 255,
-
 			/// <summary>
 			/// Defines the Admin Role.
 			/// </summary>
 			[DisplayName("Administrator")]
 			Admin = 200,
-
 			/// <summary>
 			/// Defines the Member Role.
 			/// </summary>

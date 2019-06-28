@@ -273,77 +273,77 @@ namespace Trial_Task.Migrations
 						new
 						{
 							LogID = new Guid("11111111-0000-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 557, DateTimeKind.Unspecified).AddTicks(8149),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 308, DateTimeKind.Unspecified).AddTicks(6225),
 							Latitude = 45.0,
 							Longitude = 45.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-0000-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5494),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(8406),
 							Latitude = 46.0,
 							Longitude = 45.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-0000-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6530),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(9438),
 							Latitude = 46.0,
 							Longitude = 46.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-0000-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(7543),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 311, DateTimeKind.Unspecified).AddTicks(448),
 							Latitude = 45.0,
 							Longitude = 46.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-0000-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(8552),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 311, DateTimeKind.Unspecified).AddTicks(1456),
 							Latitude = 45.0,
 							Longitude = 45.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-1111-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(4562),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(7468),
 							Latitude = 44.0,
 							Longitude = 44.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-1111-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5570),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(8476),
 							Latitude = 44.5,
 							Longitude = 44.5
 						},
 						new
 						{
 							LogID = new Guid("11111111-1111-1111-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6581),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(9484),
 							Latitude = 45.0,
 							Longitude = 45.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-0000-0000-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(4593),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(7494),
 							Latitude = 45.0,
 							Longitude = 45.0
 						},
 						new
 						{
 							LogID = new Guid("11111111-0000-0000-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5604),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(8502),
 							Latitude = 44.5,
 							Longitude = 44.5
 						},
 						new
 						{
 							LogID = new Guid("11111111-0000-0000-1111-111111111111"),
-							Time = new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6613),
+							Time = new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(9511),
 							Latitude = 44.0,
 							Longitude = 44.0
 						});

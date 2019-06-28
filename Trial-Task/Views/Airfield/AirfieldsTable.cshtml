@@ -1,0 +1,29 @@
+﻿@model List<Trial_Task_BLL.DTOs.AirfieldDTO>
+@using Trial_Task_BLL.DTOs
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	IgnoreBody();
+}
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Latitude</th>
+			<th scope="col">Longitude</th>
+			<th scope="col"># Flights out</th>
+			<th scope="col"># Flights in</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var airfield in Model)
+		{
+			<tr>
+				<td>@airfield.Name</td>
+				<td>@airfield.Latitude</td>
+				<td>@airfield.Longitude</td>
+				<td>@airfield.StartFrom.Count</td>
+				<td>@airfield.EndedAt.Count</td>
+			</tr>
+		}
+	</tbody>
+</table>

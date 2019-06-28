@@ -12,13 +12,11 @@ namespace Trial_Task_Model.Enumerations
 		/// </summary>
 		[Description("under approval")]
 		Pending = 0,
-
 		/// <summary>
 		/// State after a sucessful approval (likly public visibility).
 		/// </summary>
 		[Description("approved")]
 		Approved = 1,
-
 		/// <summary>
 		/// State after a regection (likly limited visibility).
 		/// </summary>

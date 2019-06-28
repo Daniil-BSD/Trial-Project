@@ -10,7 +10,6 @@ namespace Trial_Task_DAL.IRepositories
 	/// </summary>
 	public interface IGPSLogRepository : IRepositoryForGuiDIdentifyables<GPSLog>
 	{
-
 		/// <summary>
 		/// Standart Get method for a single <see cref="GPSLog"/>
 		/// (Does not include <see cref="Flight"/> Information)

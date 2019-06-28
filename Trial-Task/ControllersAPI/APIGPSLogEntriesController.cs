@@ -21,21 +21,20 @@ namespace Trial_Task_WEB.ControllersAPI
 			_gpsLogEntryService = gpsLogEntryService;
 		}
 
-		[HttpGet("JSON{id}")]
-		public async Task<SpecificObjectResult<List<GPSLogEntryDTO>>> GetJSONAsync(string id)
+		[HttpGet("Arr{id}")]
+		public async Task<SpecificObjectResult<List<float[]>>> GetAsArrayAsync(string id)
 		{
 			try
 			{
 				Guid guid = new Guid(id);
 				var entries = await _gpsLogEntryService.ListAsync(guid);
-				return new SpecificObjectResult<List<GPSLogEntryDTO>>(entries);
+				return new SpecificObjectResult<List<float[]>>(MapLoocationsLongLat(entries));
 			}
 			catch (FormatException)
 			{
-				return new SpecificObjectResult<List<GPSLogEntryDTO>>(BadRequest(INVALID_ID_MESSAGE_STRING));
+				return new SpecificObjectResult<List<float[]>>(BadRequest(INVALID_ID_MESSAGE_STRING));
 			}
 		}
-
 
 		[HttpGet("D{id}")]
 		public async Task<SpecificObjectResult<string>> GetAsStringAsync(string id)
@@ -52,21 +51,32 @@ namespace Trial_Task_WEB.ControllersAPI
 			}
 		}
 
-		[HttpGet("Arr{id}")]
-		public async Task<SpecificObjectResult<List<float[]>>> GetAsArrayAsync(string id)
+		[HttpGet("JSON{id}")]
+		public async Task<SpecificObjectResult<List<GPSLogEntryDTO>>> GetJSONAsync(string id)
 		{
 			try
 			{
 				Guid guid = new Guid(id);
 				var entries = await _gpsLogEntryService.ListAsync(guid);
-				return new SpecificObjectResult<List<float[]>>(MapLoocationsLongLat(entries));
+				return new SpecificObjectResult<List<GPSLogEntryDTO>>(entries);
 			}
 			catch (FormatException)
 			{
-				return new SpecificObjectResult<List<float[]>>(BadRequest(INVALID_ID_MESSAGE_STRING));
+				return new SpecificObjectResult<List<GPSLogEntryDTO>>(BadRequest(INVALID_ID_MESSAGE_STRING));
 			}
 		}
-		private string MapLoocationsLongLatToString( List<GPSLogEntryDTO> entries)
+
+		private List<float[]> MapLoocationsLongLat(List<GPSLogEntryDTO> entries)
+		{
+			List<float[]> ret = new List<float[]>();
+			foreach (var entry in entries)
+			{
+				ret.Add(new float[] { (float)entry.Latitude, (float)entry.Longitude });
+			}
+			return ret;
+		}
+
+		private string MapLoocationsLongLatToString(List<GPSLogEntryDTO> entries)
 		{
 			//int stride = (Entries.Count / MAX_DISPLAYED_ENTRIES) + 1;
 			int stride = 1;
@@ -81,15 +91,6 @@ namespace Trial_Task_WEB.ControllersAPI
 				ret += ",[" + entries[entries.Count - 1].Longitude.ToString().Replace(",", ".") + "," + entries[entries.Count - 1].Latitude.ToString().Replace(",", ".") + "]";
 			}
 			return ret + "]";
-		}
-
-		private List<float[]> MapLoocationsLongLat(List<GPSLogEntryDTO> entries)
-		{
-			List<float[]> ret = new List<float[]>();
-			foreach (var entry in entries) {
-				ret.Add(new float[] { (float)entry.Latitude, (float)entry.Longitude});
-			}
-			return ret;
 		}
 	}
 }

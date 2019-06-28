@@ -1,0 +1,42 @@
+﻿@model string
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	IgnoreBody();
+}
+
+<div class="row justify-content-sm-center">
+	<h2 class="col-md-auto">Flight Upload</h2>
+</div>
+
+<div class="row justify-content-sm-center">
+	<h5 class="col-md-auto">Upload your IGC file to view your flight route.</h5>
+</div>
+<div class="row justify-content-sm-center">
+	<form id="uploadForm" class="col input-group" style="max-width: 800px" method="post" enctype="multipart/form-data">
+		<div class="custom-file">
+			<input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" name="file">
+			<label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+		</div>
+		<div class="input-group-append">
+			<button class="btn btn-outline-secondary" type="submit" id="inputGroupFileSubmit">Upload</button>
+		</div>
+	</form>
+	<div class="alert alert-primary" role="alert" id="uploadAlert" style="display: none">
+		File is being processed, it takes up to 30 seconds, please be patient.
+	</div>
+</div>
+
+@section script{
+	<script>
+		$('#inputGroupFile04').on('change', function () {
+			var fileName = $(this).val();
+			$(this).next('.custom-file-label').html(fileName);
+		})
+		$('#inputGroupFileSubmit').on('click', function () {
+			$('#inputGroupFileSubmit').prop("disabled", true);
+			$('#uploadForm').hide(500, function () {
+				$('#uploadAlert').show(500)
+			})
+		})
+	</script>
+}

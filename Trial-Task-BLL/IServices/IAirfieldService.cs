@@ -18,9 +18,9 @@ namespace Trial_Task_BLL.IServices
 
 		Task<Response<AirfieldShallowDTO>> GetShallowAsync(Guid id);
 
-		Task<IEnumerable<AirfieldDTO>> ListAsync();
+		Task<List<AirfieldDTO>> ListAsync();
 
-		Task<IEnumerable<AirfieldShallowDTO>> ListShallowAsync();
+		Task<List<AirfieldShallowDTO>> ListShallowAsync();
 
 		Task<IEnumerable<Response<AirfieldShallowDTO>>> ParseXLSXFile(string path);
 

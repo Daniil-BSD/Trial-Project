@@ -327,17 +327,17 @@ namespace Trial_Task.Migrations
 				columns: new[] { "LogID", "Time", "Latitude", "Longitude" },
 				values: new object[,]
 				{
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 557, DateTimeKind.Unspecified).AddTicks(8149), 45.0, 45.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5494), 46.0, 45.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6530), 46.0, 46.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(7543), 45.0, 46.0 },
-					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(8552), 45.0, 45.0 },
-					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(4562), 44.0, 44.0 },
-					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5570), 44.5, 44.5 },
-					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6581), 45.0, 45.0 },
-					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(4593), 45.0, 45.0 },
-					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(5604), 44.5, 44.5 },
-					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 20, 16, 17, 45, 561, DateTimeKind.Unspecified).AddTicks(6613), 44.0, 44.0 }
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 308, DateTimeKind.Unspecified).AddTicks(6225), 45.0, 45.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(8406), 46.0, 45.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(9438), 46.0, 46.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 311, DateTimeKind.Unspecified).AddTicks(448), 45.0, 46.0 },
+					{ new Guid("11111111-0000-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 311, DateTimeKind.Unspecified).AddTicks(1456), 45.0, 45.0 },
+					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(7468), 44.0, 44.0 },
+					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(8476), 44.5, 44.5 },
+					{ new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(9484), 45.0, 45.0 },
+					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(7494), 45.0, 45.0 },
+					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(8502), 44.5, 44.5 },
+					{ new Guid("11111111-0000-0000-1111-111111111111"), new DateTime(2019, 6, 28, 12, 54, 8, 310, DateTimeKind.Unspecified).AddTicks(9511), 44.0, 44.0 }
 				});
 
 			migrationBuilder.CreateIndex(

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Trial_Task.APIInterface;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
@@ -17,7 +18,7 @@ namespace Trial_Task_WEB.ControllersAPI
 	/// Defines the <see cref="APIAirfieldsController" />
 	/// </summary>
 	[Route("/api/[controller]")]
-	public class APIAirfieldsController : APIBaseController
+	public class APIAirfieldsController : APIBaseController, IAPIAirfieldsController
 	{
 		private readonly IAirfieldService _airfieldService;
 
@@ -27,17 +28,17 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpGet]
-		public async Task<SpecificObjectResult<IEnumerable<AirfieldShallowDTO>>> GetAllAsync()
+		public async Task<SpecificObjectResult<List<AirfieldShallowDTO>>> GetAllAsync()
 		{
 			var airfields = await _airfieldService.ListShallowAsync();
-			return new SpecificObjectResult<IEnumerable<AirfieldShallowDTO>>(airfields);
+			return new SpecificObjectResult<List<AirfieldShallowDTO>>(airfields);
 		}
 
 		[HttpGet("full")]
-		public async Task<SpecificObjectResult<IEnumerable<AirfieldDTO>>> GetAllFullAsync()
+		public async Task<SpecificObjectResult<List<AirfieldDTO>>> GetAllFullAsync()
 		{
 			var airfields = await _airfieldService.ListAsync();
-			return new SpecificObjectResult<IEnumerable<AirfieldDTO>>(airfields);
+			return new SpecificObjectResult<List<AirfieldDTO>>(airfields);
 		}
 
 		[HttpGet("GF{id}")]

@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
-using Trial_Task_BLL.RoleManagment;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model.Models;
 
@@ -36,6 +33,7 @@ namespace Trial_Task_BLL.Services
 			var task = _flightRepository.GetAsync(id);
 			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
+
 		public async Task<Response<FlightBasicDTO>> GetBasicAsync(Guid id)
 		{
 			var task = _flightRepository.GetBasicAsync(id);
@@ -59,7 +57,7 @@ namespace Trial_Task_BLL.Services
 				Log = await _gpsLogService.ParseGPSLogEntries(entries),
 				Status = Trial_Task_Model.Enumerations.EFlightStatus.Pending,
 				UserID = userIDResponse.Value,
-				Date = DateTime.Now
+				Date = entries[0].Time
 			};
 			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(_flightRepository.InsertNewFlight(flight), _mapper);
 		}

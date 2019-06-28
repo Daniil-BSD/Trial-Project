@@ -3,6 +3,7 @@ using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,12 +29,12 @@ namespace Trial_Task
 	/// </summary>
 	public class Startup
 	{
+		public IConfiguration Configuration { get; }
+
 		public Startup(IConfiguration configuration)
 		{
 			Configuration = configuration;
 		}
-
-		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -73,7 +74,10 @@ namespace Trial_Task
 				   b => b.MigrationsAssembly("Trial-Task-WEB")));
 
 			services.AddIdentity<User, IdentityRole<Guid>>().AddEntityFrameworkStores<AppDbContext>();
-
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.LoginPath = new PathString("/User/login");
+			});
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -96,6 +100,7 @@ namespace Trial_Task
 
 			services.AddScoped<IAPIFlightsController, APIFlightsController>();
 			services.AddScoped<IAPIUsersController, APIUsersController>();
+			services.AddScoped<IAPIAirfieldsController, APIAirfieldsController>();
 
 			var mappingConfig = new MapperConfiguration(mc =>
 			{

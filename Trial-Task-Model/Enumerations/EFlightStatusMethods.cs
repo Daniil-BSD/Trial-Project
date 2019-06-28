@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Trial_Task_Model.Enumerations
 {
+	/// <summary>
+	/// Defines the <see cref="EFlightStatusMethods" />
+	/// </summary>
 	public static class EFlightStatusMethods
 	{
 		public static string GetName(this EFlightStatus role)
 		{
 			return Enum.GetName(typeof(EFlightStatus), role);
 		}
+
 		public static EFlightStatus SetTo(this ref EFlightStatus target, string roleName)
 		{
 			switch (roleName.ToLower().Trim())
@@ -28,6 +30,5 @@ namespace Trial_Task_Model.Enumerations
 			}
 			throw new ArgumentException("invalid Role Name");
 		}
-
 	}
 }
