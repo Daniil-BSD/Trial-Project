@@ -20,7 +20,7 @@ namespace Trial_Task_BLL.Services
 
 		private readonly IGPSLogRepository _gpsLogRepository;
 
-		public GPSLogService(IGPSLogRepository gpsLogRepository, IAirfieldService airfieldService, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
+		public GPSLogService(IGPSLogRepository gpsLogRepository, IAirfieldService airfieldService, IMapper mapper) : base(mapper)
 		{
 			_gpsLogRepository = gpsLogRepository;
 			_airfieldService = airfieldService;

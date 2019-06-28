@@ -4,8 +4,8 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width" />
-
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
 			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -15,12 +15,12 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-			jQuery("#navbarSupportedContent").load("https://localhost:5001/Shared/header", function () {
-				jQuery("#navbarSupportedContent").fadeIn(250)
-				
+			jQuery("#headerContent").load("https://localhost:5001/Shared/header", function () {
+				jQuery("#headerContent").fadeIn(250)
+
 				$('a').click(function () {
-					jQuery("#navbarSupportedContent").fadeOut(250, function () {
-						jQuery("#navbarSupportedContent").remove()
+					jQuery("#headerContent").fadeOut(250, function () {
+						jQuery("#headerContent").remove()
 					})
 				});
 			});
@@ -31,12 +31,13 @@
 </head>
 <body>
 
-	<nav id="header" class="navbar navbar-expand-lg navbar-light bg-light" style="position:sticky; top: 0; z-index:1000000">
+	<nav id="header" class="navbar navbar-expand-md navbar-light bg-light" style="position:sticky; top: 0; z-index:1000000">
 		<span class="navbar-brand" href="#">Planner Club</span>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent" style="display:none">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div id="headerContent" class="navbar-collapse" style="display:none"></div>
 		</div>
 	</nav>
 		

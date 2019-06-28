@@ -71,6 +71,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("add")]
+		[Authorize(Policy = Policies.ADMINS)]
 		public async Task<SpecificObjectResultList<AirfieldShallowDTO>> PostListAsync([FromBody] IEnumerable<AirfieldSaveDTO> airfieldSaveDTOs)
 		{
 			if (!ModelState.IsValid)
@@ -84,6 +85,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("addSingle")]
+		[Authorize(Policy = Policies.ADMINS)]
 		public async Task<SpecificObjectResult<AirfieldShallowDTO>> PostSingleAsync([FromBody] AirfieldSaveDTO airfieldSaveDTO)
 		{
 			if (!ModelState.IsValid)
@@ -95,7 +97,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("upladXLSX")]
-		[Authorize(Policies.ADMINS)]
+		[Authorize(Policy = Policies.ADMINS)]
 		public async Task<SpecificObjectResultList<AirfieldShallowDTO>> UploadXLSXFile(IFormFile file)
 		{
 			if (file == null || file.Length == 0)

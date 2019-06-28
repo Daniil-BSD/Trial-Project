@@ -64,6 +64,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("updateStatus")]
+		[Authorize(Policy = Policies.ADMINS)]
 		public async Task<SpecificObjectResult<FlightBasicDTO>> UpdateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO)
 		{
 			if (!ModelState.IsValid)
@@ -75,7 +76,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("upladIGC")]
-		[Authorize(Policies.MEMBERS)]
+		[Authorize(Policy = Policies.MEMBERS)]
 		public async Task<SpecificObjectResult<FlightDTO>> UploadIGCFile(IFormFile file)
 		{
 			if (file == null || file.Length == 0)

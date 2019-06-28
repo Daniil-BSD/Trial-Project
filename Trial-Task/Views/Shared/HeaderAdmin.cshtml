@@ -1,19 +1,20 @@
-﻿@{
-	Layout = "_Header.cshtml";
+﻿@model Trial_Task_BLL.DTOs.UserBasicDTO
+@{
+	Layout = "_HeaderBase.cshtml";
 }
 @section navbar {
-	<li class="nav-item">
-		<li class="nav-item dropdown">
-			<div class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Flights
-			</div>
-			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-				<a class="dropdown-item" href="~/Flight/allFFlights">All flights</a>
-				<div class="dropdown-divider"></div>
-				<a class="dropdown-item" href="~/Flight/allFFlights/Pending">Pending</a>
-				<a class="dropdown-item" href="~/Flight/allFFlights/Approved">Approved</a>
-				<a class="dropdown-item" href="~/Flight/allFFlights/Rejected">Rejected</a>
-			</div>
-		</li>
+<li class="nav-item">
+	<li class="nav-item dropdown">
+		<div class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Flights
+		</div>
+		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			<a class="dropdown-item" href="~/Flight/allFFlights">All flights</a>
+			<div class="dropdown-divider"></div>
+			<a class="dropdown-item" href="~/Flight/allFFlights/Pending">Pending</a>
+			<a class="dropdown-item" href="~/Flight/allFFlights/Approved">Approved</a>
+			<a class="dropdown-item" href="~/Flight/allFFlights/Rejected">Rejected</a>
+		</div>
 	</li>
+</li>
 }

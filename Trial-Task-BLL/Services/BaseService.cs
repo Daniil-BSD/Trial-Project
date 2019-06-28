@@ -11,12 +11,9 @@ namespace Trial_Task_BLL.Services
 	{
 		protected readonly IMapper _mapper;
 
-		protected readonly SignInManager<User> _signInManager;
-
-		public BaseService(IMapper mapper, SignInManager<User> signInManager)
+		public BaseService(IMapper mapper)
 		{
 			_mapper = mapper;
-			_signInManager = signInManager;
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace Trial_Task_BLL.Services
 	{
 		private readonly IAirfieldRepository _airfieldRepository;
 
-		public AirfieldService(IAirfieldRepository airfieldRepository, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
+		public AirfieldService(IAirfieldRepository airfieldRepository, IMapper mapper) : base(mapper)
 		{
 			_airfieldRepository = airfieldRepository;
 		}
@@ -90,7 +90,6 @@ namespace Trial_Task_BLL.Services
 			}
 		}
 
-		[Authorize(Policies.ADMINS)]
 		public async Task<Response<AirfieldShallowDTO>> SaveAsync(AirfieldSaveDTO airfieldSaveDTO)
 		{
 			try

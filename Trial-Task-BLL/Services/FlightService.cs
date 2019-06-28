@@ -24,7 +24,7 @@ namespace Trial_Task_BLL.Services
 
 		private readonly IUserService _userService;
 
-		public FlightService(IFlightRepository flightRepository, IGPSLogService gpsLogService, IUserService userService, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
+		public FlightService(IFlightRepository flightRepository, IGPSLogService gpsLogService, IUserService userService, IMapper mapper) : base(mapper)
 		{
 			_gpsLogService = gpsLogService;
 			_flightRepository = flightRepository;
@@ -64,7 +64,6 @@ namespace Trial_Task_BLL.Services
 			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(_flightRepository.InsertNewFlight(flight), _mapper);
 		}
 
-		[Authorize(Policy = Policies.ADMINS)]
 		public async Task<Response<FlightBasicDTO>> UpdaateStatus(FlightStatusUpdateDTO flightStatusUpdateDTO)
 		{
 			var userIDResponse = _userService.GetCurrentUserID();

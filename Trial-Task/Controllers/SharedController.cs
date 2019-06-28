@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Trial_Task.APIInterface;
 using Trial_Task_BLL.RoleManagment;
+using Trial_Task_BLL.DTOs;
 
 namespace Trial_Task_WEB.Controllers
 {
@@ -12,8 +14,10 @@ namespace Trial_Task_WEB.Controllers
 	public class SharedController : Controller
     {
 		private readonly IAuthorizationService authorizationService;
-		public SharedController(IAuthorizationService authorization) {
+		private readonly IAPIUsersController usersController;
+		public SharedController(IAuthorizationService authorization, IAPIUsersController _usersController) {
 			authorizationService = authorization;
+			usersController = _usersController;
 		}
 
 		[HttpGet("header")]
@@ -21,20 +25,33 @@ namespace Trial_Task_WEB.Controllers
 		{
 			if ((await authorizationService.AuthorizeAsync(User, Policies.ADMINS)).Succeeded)
 			{
-				return Redirect("header-admin");
+				return Redirect("/Shared/header-admin");
+			} else if ((await authorizationService.AuthorizeAsync(User, Policies.MEMBERS)).Succeeded) {
+
+				return Redirect("/Shared/header-user");
 			}
-			return Redirect("header-user");
+			return Redirect("/Shared/header-guest");
 		}
+		//[Authorize(Policies.ADMINS)]
 		[HttpGet("header-admin")]
-		public IActionResult HeaderAdmin()
+		public async Task<IActionResult> HeaderAdmin()
 		{
-			return View();
+			var user = (UserBasicDTO)(await usersController.GetCurrentUser()).Object;
+			return View(model: user);
 		}
 
+		//[Authorize(Policies.MEMBERS)]
 		[HttpGet("header-user")]
-		public IActionResult HeaderUser()
+		public async Task<IActionResult> HeaderUser()
+		{
+			var user = (UserBasicDTO)(await usersController.GetCurrentUser()).Object;
+			return View(model: user);
+		}
+
+		[HttpGet("header-guest")]
+		public IActionResult HeaderGuest()
 		{
 			return View();
-		} 
+		}
 	}
 }

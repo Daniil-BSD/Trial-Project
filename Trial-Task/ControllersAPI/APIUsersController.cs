@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Trial_Task.APIInterface;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
+using Trial_Task_BLL.RoleManagment;
 using Trial_Task_Model.Models;
 using Trial_Task_WEB.ResultExtention;
 
@@ -58,6 +59,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpGet("userFull")]
+		[Authorize]
 		public async Task<SpecificObjectResult<UserDTO>> GetCurrentFullUser()
 		{
 			var response = await _userService.GetCurrentUserFullAsync();
@@ -71,6 +73,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpGet("user")]
+		[Authorize]
 		public async Task<SpecificObjectResult<UserShallowDTO>> GetCurrentUser()
 		{
 			var response = await _userService.GetCurrentUserAsync();
@@ -109,6 +112,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		{
 			if (!ModelState.IsValid)
 				return new SpecificObjectResult<UserBasicDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
+			SignOut();
 			var response = await _userService.RegisterAsync(userRegistrationDTO);
 			if (response.Success)
 				return new SpecificObjectResult<UserBasicDTO>(response.Value);
@@ -120,6 +124,7 @@ namespace Trial_Task_WEB.ControllersAPI
 		{
 			if (!ModelState.IsValid)
 				return new SpecificObjectResult<UserBasicDTO>(BadRequest(INVALID_MODEL_MESSAGE_STRING));
+			SignOut();
 			var response = await _userService.SignInAsync(userRegistrationDTO);
 			if (response.Success)
 				return new SpecificObjectResult<UserBasicDTO>(response.Value);
@@ -127,9 +132,23 @@ namespace Trial_Task_WEB.ControllersAPI
 		}
 
 		[HttpPost("SignOut")]
+		[Authorize]
 		public async void SignOut()
 		{
 			await _signInManager.SignOutAsync();
+		}
+
+		[HttpPost("GrantAdminStatus/{userName}")]
+		//[Authorize(Policy = Policies.RESTRICTED)]
+		public async void GrantAdminStatusAsync(string userName)
+		{
+			try
+			{
+				await _userService.GrantAdminStatusAsync(userName);
+			}
+			catch (FormatException)
+			{
+			}
 		}
 	}
 }

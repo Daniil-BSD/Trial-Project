@@ -1,0 +1,15 @@
+﻿@model Trial_Task_BLL.DTOs.UserBasicDTO
+@{
+	IgnoreBody();
+}
+<ul class="navbar-nav mr-auto">
+
+	<li class="nav-item">
+		<a class="nav-link" href="~/Flight/myFlights">My Flights</a>
+	</li>
+	@RenderSection("navbar")
+</ul>
+<form class="form-inline" action="/User/logout" method="post">
+	<span style="margin-right: 1rem">@Model.UserName</span>
+	<button class="btn btn-outline-primary" type="submit">Log Out</button>
+</form>

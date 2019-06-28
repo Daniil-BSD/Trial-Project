@@ -17,7 +17,7 @@ namespace Trial_Task_BLL.Services
 	{
 		private readonly IGPSLogEntryRepository _gpsLogEntryRepository;
 
-		public GPSLogEntryService(IGPSLogEntryRepository gpsLogEntryRepository, IMapper mapper, SignInManager<User> signInManager) : base(mapper, signInManager)
+		public GPSLogEntryService(IGPSLogEntryRepository gpsLogEntryRepository, IMapper mapper) : base(mapper)
 		{
 			_gpsLogEntryRepository = gpsLogEntryRepository;
 		}

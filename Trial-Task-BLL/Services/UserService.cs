@@ -21,6 +21,8 @@ namespace Trial_Task_BLL.Services
 	{
 		protected readonly UserManager<User> _userManager;
 
+		protected readonly SignInManager<User> _signInManager;
+
 		private readonly IUserRepository _userRepository;
 
 		public UserService(
@@ -28,10 +30,11 @@ namespace Trial_Task_BLL.Services
 			UserManager<User> userManager,
 			IMapper mapper,
 			SignInManager<User> signInManager
-			) : base(mapper, signInManager)
+			) : base(mapper)
 		{
 			_userRepository = userRepository;
 			_userManager = userManager;
+			_signInManager = signInManager;
 		}
 
 		public async Task<Response<UserShallowDTO>> GetAsync(Guid id)
@@ -40,7 +43,6 @@ namespace Trial_Task_BLL.Services
 			return await Response<UserShallowDTO>.CatchInvalidOperationExceptionAndMap(task, _mapper);
 		}
 
-		[Authorize]
 		public async Task<Response<UserShallowDTO>> GetCurrentUserAsync()
 		{
 			var response = GetCurrentUserID();
@@ -54,7 +56,6 @@ namespace Trial_Task_BLL.Services
 			}
 		}
 
-		[Authorize]
 		public async Task<Response<UserDTO>> GetCurrentUserFullAsync()
 		{
 			var response = GetCurrentUserID();
@@ -113,15 +114,15 @@ namespace Trial_Task_BLL.Services
 				IdentityResult result = await _userManager.CreateAsync(user, userRegistrationDTO.Password);
 				if (result.Succeeded)
 				{
-					await _signInManager.SignInAsync(user, true, "Registration");
 					await _userManager.AddToRoleAsync(user, RoleEnum.Member.GetName());
+					await _signInManager.SignInAsync(user, true, "Registration");
 					return new Response<UserBasicDTO>(_mapper.Map<User, UserBasicDTO>(user));
 				} else
 				{
 					string message = "";
 					foreach (var error in result.Errors)
 					{
-						message += error.Description + " ";
+						message += error.Description + "|";
 					}
 					return new Response<UserBasicDTO>(message);
 				}
@@ -146,8 +147,17 @@ namespace Trial_Task_BLL.Services
 					return new Response<UserBasicDTO>("User is locked out.");
 				if (result.IsNotAllowed)
 					return new Response<UserBasicDTO>("Not Allowed to log in.");
-				return new Response<UserBasicDTO>("Specified user does not exsist, or forbidden from logging in.");
+				return new Response<UserBasicDTO>("Specified user does not exsist, or password is incorrect");
 			}
+		}
+
+		public async Task<Response<bool>> GrantAdminStatusAsync(string login) {
+			var user = await _userManager.FindByNameAsync(login);
+			if (user != null) {
+				await _userManager.AddToRoleAsync(user, RoleEnum.Admin.GetName());
+				return new Response<bool>(true);
+			}
+			return new Response<bool>(false);
 		}
 	}
 }
