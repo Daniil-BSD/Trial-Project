@@ -20,6 +20,8 @@ namespace Trial_Task_DAL.Contexts
 
 		public DbSet<GPSLog> GPSLogs { get; set; }
 
+		public DbSet<IGCFileRecord> UnporcessedFiles { get; set; }
+
 		new public DbSet<User> Users { get; set; }
 
 		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -62,7 +64,9 @@ namespace Trial_Task_DAL.Contexts
 			builder.Entity<GPSLogEntry>().Property(le => le.Longitude).IsRequired();
 
 			builder.Entity<User>().HasKey(u => u.Id);
-			PopulateTablesWithTestingData(builder);
+
+			builder.Entity<IGCFileRecord>().HasKey(fr => new { fr.UserID, fr.FilePath });
+			builder.Entity<IGCFileRecord>().HasOne(f => f.Pilot).WithMany().HasForeignKey(f => f.UserID).OnDelete(DeleteBehavior.ClientSetNull);
 		}
 
 		/// <summary>

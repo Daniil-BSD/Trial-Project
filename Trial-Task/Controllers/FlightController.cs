@@ -120,19 +120,21 @@ namespace Trial_Task.Controllers
 		[HttpGet("upload")]
 		public async Task<IActionResult> UploadFlight()
 		{
-			return View();
+			return View(model: false);
 		}
 
 		[Authorize(Policy = Policies.MEMBERS)]
 		[HttpPost("upload")]
 		public async Task<IActionResult> UploadFlight(IFormFile file)
 		{
+			if (file == null)
+				return View(model: false);
 			var result = await flightsController.UploadIGCFile(file);
-			if (result.NotNull)
+			if (result.Object)
 			{
-				return Redirect("~/Flight/DV" + result.Object.ID);
+				return View(model: true);
 			}
-			return View();
+			return View(model: false);
 		}
 	}
 }

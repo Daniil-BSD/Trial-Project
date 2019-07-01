@@ -19,11 +19,16 @@ namespace Trial_Task_WEB.ControllersAPI
 	[Route("/api/[controller]")]
 	public class APIFlightsController : APIBaseController, IAPIFlightsController
 	{
+		private readonly IIGCFileRecordService _fileRecordService;
+
 		private readonly IFlightService _flightService;
 
-		public APIFlightsController(IFlightService flightService) : base()
+		private object processAllFilesLock = new object();
+
+		public APIFlightsController(IFlightService flightService, IIGCFileRecordService fileRecordService) : base()
 		{
 			_flightService = flightService;
+			_fileRecordService = fileRecordService;
 		}
 
 		[HttpGet("reduced")]
@@ -63,6 +68,38 @@ namespace Trial_Task_WEB.ControllersAPI
 			}
 		}
 
+		[HttpPost("forceProcessing")]
+		[Authorize(Policy = Policies.RESTRICTED)]
+		public SpecificObjectResult<bool> ProcessAllFiles()
+		{
+			Hangfire.RecurringJob.AddOrUpdate("Parse", () => this.ProcessAllFiles(), Hangfire.Cron.Minutely);
+			lock (processAllFilesLock)
+			{
+				_fileRecordService.ProcessAllFiles().Wait();
+				return new SpecificObjectResult<bool>();
+			}
+		}
+
+		[HttpPost("processIGC")]
+		[Authorize(Policy = Policies.ADMINS)]
+		public async Task<SpecificObjectResult<FlightDTO>> ProcessIGCFile(IFormFile file)
+		{
+			if (file == null || file.Length == 0)
+				return new SpecificObjectResult<FlightDTO>(BadRequest("File not found."));
+			if (Path.GetExtension(file.FileName) != ".igc")
+				return new SpecificObjectResult<FlightDTO>(BadRequest("File type is not supported."));
+			var path = Path.Combine(
+						Directory.GetCurrentDirectory(), "wwwroot",
+						Guid.NewGuid().ToString() + ".igc");
+			using (var stream = new FileStream(path, FileMode.Create))
+			{
+				await file.CopyToAsync(stream);
+			}
+			var response = await _flightService.ParseIGCFile(path);
+			System.IO.File.Delete(path);
+			return new SpecificObjectResult<FlightDTO>(response);
+		}
+
 		[HttpPost("updateStatus")]
 		[Authorize(Policy = Policies.ADMINS)]
 		public async Task<SpecificObjectResult<FlightBasicDTO>> UpdateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO)
@@ -77,21 +114,21 @@ namespace Trial_Task_WEB.ControllersAPI
 
 		[HttpPost("upladIGC")]
 		[Authorize(Policy = Policies.MEMBERS)]
-		public async Task<SpecificObjectResult<FlightDTO>> UploadIGCFile(IFormFile file)
+		public async Task<SpecificObjectResult<bool>> UploadIGCFile(IFormFile file)
 		{
 			if (file == null || file.Length == 0)
-				return new SpecificObjectResult<FlightDTO>(BadRequest("File not found."));
+				return new SpecificObjectResult<bool>(BadRequest("File not found."));
 			if (Path.GetExtension(file.FileName) != ".igc")
-				return new SpecificObjectResult<FlightDTO>(BadRequest("File type is not supported."));
+				return new SpecificObjectResult<bool>(BadRequest("File type is not supported."));
 			var path = Path.Combine(
 						Directory.GetCurrentDirectory(), "wwwroot",
-						file.FileName);
+						Guid.NewGuid().ToString() + ".igc");
 			using (var stream = new FileStream(path, FileMode.Create))
 			{
 				await file.CopyToAsync(stream);
 			}
-			var response = await _flightService.ParseIGCFile(path);
-			return new SpecificObjectResult<FlightDTO>(response);
+			await _fileRecordService.InsertAsync(path);
+			return new SpecificObjectResult<bool>(true);
 		}
 	}
 }

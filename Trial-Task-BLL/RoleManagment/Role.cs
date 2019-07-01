@@ -126,6 +126,7 @@ namespace Trial_Task_BLL.RoleManagment
 
 
 
+
 		public static implicit operator string(Role role)
 		{
 			return role.Value.GetName();

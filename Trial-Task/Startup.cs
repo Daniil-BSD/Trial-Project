@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using AutoMapper;
+using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +41,7 @@ namespace Trial_Task
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
+
 			if (env.IsDevelopment())
 			{
 				//app.UseDeveloperExceptionPage();
@@ -69,9 +72,25 @@ namespace Trial_Task
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<AppDbContext>(options =>
-			   options.UseSqlServer(
-				   Configuration.GetConnectionString("DefaultConnection"),
-				   b => b.MigrationsAssembly("Trial-Task-WEB")));
+					   options.UseSqlServer(
+						   Configuration.GetConnectionString("DefaultConnection"),
+						   b => b.MigrationsAssembly("Trial-Task-WEB")));
+			services.AddHangfire(configuration => configuration
+				.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+				.UseSimpleAssemblyNameTypeSerializer()
+				.UseRecommendedSerializerSettings()
+				.UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+				{
+					CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+					SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+					QueuePollInterval = TimeSpan.Zero,
+					UseRecommendedIsolationLevel = true,
+					UsePageLocksOnDequeue = true,
+					DisableGlobalLocks = true
+				}));
+
+			// Add the processing server as IHostedService
+			services.AddHangfireServer();
 
 			services.AddIdentity<User, IdentityRole<Guid>>().AddEntityFrameworkStores<AppDbContext>();
 			services.ConfigureApplicationCookie(options =>
@@ -97,6 +116,9 @@ namespace Trial_Task
 
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IUserService, UserService>();
+
+			services.AddScoped<IIGCFileRecordRepository, IGCFileRecordRepository>();
+			services.AddScoped<IIGCFileRecordService, IGCFileRecordService>();
 
 			services.AddScoped<IAPIFlightsController, APIFlightsController>();
 			services.AddScoped<IAPIUsersController, APIUsersController>();

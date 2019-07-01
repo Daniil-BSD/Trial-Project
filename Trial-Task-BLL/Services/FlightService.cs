@@ -51,12 +51,17 @@ namespace Trial_Task_BLL.Services
 			var userIDResponse = _userService.GetCurrentUserID();
 			if (!userIDResponse.Success)
 				return new Response<FlightDTO>(userIDResponse);
+			return await ParseIGCFile(path, userIDResponse.Value);
+		}
+
+		public async Task<Response<FlightDTO>> ParseIGCFile(string path, Guid userID)
+		{
 			List<GPSLogEntry> entries = GPSLogEntry.ParseFixRecords(System.IO.File.ReadAllLines(path));
 			Flight flight = new Flight()
 			{
 				Log = await _gpsLogService.ParseGPSLogEntries(entries),
 				Status = Trial_Task_Model.Enumerations.EFlightStatus.Pending,
-				UserID = userIDResponse.Value,
+				UserID = userID,
 				Date = entries[0].Time
 			};
 			return await Response<FlightDTO>.CatchInvalidOperationExceptionAndMap(_flightRepository.InsertNewFlight(flight), _mapper);

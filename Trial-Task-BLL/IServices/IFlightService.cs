@@ -19,6 +19,8 @@ namespace Trial_Task_BLL.IServices
 
 		Task<Response<FlightDTO>> ParseIGCFile(string path);
 
+		Task<Response<FlightDTO>> ParseIGCFile(string path, Guid userID);
+
 		Task<Response<FlightBasicDTO>> UpdaateStatus(FlightStatusUpdateDTO flightStatusUpdateDTO);
 	}
 }

@@ -49,12 +49,6 @@ namespace Trial_Task_BLL.Services
 			return _mapper.Map<IEnumerable<GPSLog>, IEnumerable<GPSLogBasicDTO>>(logs);
 		}
 
-		public async Task<IEnumerable<GPSLogStandaloneListDTO>> ListStandaloneAsync()
-		{
-			var logs = await _gpsLogRepository.ListStandaloneAsync();
-			return _mapper.Map<IEnumerable<GPSLog>, IEnumerable<GPSLogStandaloneListDTO>>(logs);
-		}
-
 		public async Task<GPSLog> ParseGPSLogEntries(List<GPSLogEntry> entries)
 		{
 			var takeoff = await _airfieldService.GetLocalAirfieldID(entries[0]);

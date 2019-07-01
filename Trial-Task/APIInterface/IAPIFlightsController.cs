@@ -18,8 +18,10 @@ namespace Trial_Task.APIInterface
 
 		Task<SpecificObjectResult<FlightBasicDTO>> GetBaisicAsync(string id);
 
+		Task<SpecificObjectResult<FlightDTO>> ProcessIGCFile(IFormFile file);
+
 		Task<SpecificObjectResult<FlightBasicDTO>> UpdateStatus([FromBody] FlightStatusUpdateDTO flightStatusUpdateDTO);
 
-		Task<SpecificObjectResult<FlightDTO>> UploadIGCFile(IFormFile file);
+		Task<SpecificObjectResult<bool>> UploadIGCFile(IFormFile file);
 	}
 }

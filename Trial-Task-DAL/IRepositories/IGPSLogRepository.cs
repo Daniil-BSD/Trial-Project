@@ -36,12 +36,5 @@ namespace Trial_Task_DAL.IRepositories
 		/// </summary>
 		/// <returns>The <see cref="Task{List{GPSLog}}"/></returns>
 		Task<List<GPSLog>> ListReducedAsync();
-
-		/// <summary>
-		/// Equivivalent of <see cref="IFlightRepository.ListAsync()"/>
-		/// </summary>
-		/// <returns>The <see cref="Task{List{GPSLog}}"/></returns>
-		[Obsolete("Returns the entire Database, Testing only!")]
-		Task<List<GPSLog>> ListStandaloneAsync();
 	}
 }

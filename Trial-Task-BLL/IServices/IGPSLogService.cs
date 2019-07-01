@@ -20,8 +20,6 @@ namespace Trial_Task_BLL.IServices
 
 		Task<IEnumerable<GPSLogBasicDTO>> ListReducedAsync();
 
-		Task<IEnumerable<GPSLogStandaloneListDTO>> ListStandaloneAsync();
-
 		Task<GPSLog> ParseGPSLogEntries(List<GPSLogEntry> entries);
 	}
 }

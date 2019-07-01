@@ -37,10 +37,13 @@ namespace Trial_Task_BLL.Mapping
 			CreateMap<User, UserShallowDTO>();
 			CreateMap<User, UserBasicDTO>();
 
+			CreateMap<IGCFileRecord, IGCFileRecordDTO>();
+
 			//DTOs => Model
 			CreateMap<AirfieldSaveDTO, Airfield>();
 			CreateMap<UserRegistrationDTO, User>();
 			CreateMap<UserLoginDTO, User>();
+			CreateMap<IGCFileRecordDTO, IGCFileRecord>();
 		}
 	}
 }

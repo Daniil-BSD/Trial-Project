@@ -28,13 +28,6 @@ namespace Trial_Task_WEB.ControllersAPI
 			return new SpecificObjectResult<IEnumerable<GPSLogBasicDTO>>(logs);
 		}
 
-		[HttpGet("full")]
-		public async Task<SpecificObjectResult<IEnumerable<GPSLogStandaloneListDTO>>> GetAllFullAsync()
-		{
-			var logs = await _gpsLogService.ListStandaloneAsync();
-			return new SpecificObjectResult<IEnumerable<GPSLogStandaloneListDTO>>(logs);
-		}
-
 		[HttpGet("GS{id}")]
 		public async Task<SpecificObjectResult<GPSLogDTO>> GetAsync(string id)
 		{
