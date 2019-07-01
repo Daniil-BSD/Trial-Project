@@ -33,9 +33,8 @@ namespace Trial_Task.Controllers
 
 		[Authorize(Policy = Policies.MEMBERS)]
 		[HttpGet("upload")]
-		public async Task<IActionResult> UploadAirfields()
+		public IActionResult UploadAirfields()
 		{
-			var user = (await usersController.GetCurrentFullUser()).Object;
 			return View();
 		}
 

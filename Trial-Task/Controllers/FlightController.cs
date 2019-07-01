@@ -94,7 +94,7 @@ namespace Trial_Task.Controllers
 		[HttpGet("myFlights")]
 		public async Task<IActionResult> FlightsTableUser()
 		{
-			var user = (await usersController.GetCurrentFullUser()).Object;
+			var user = (await usersController.GetCurrentUser()).Object;
 			return View(model: user);
 		}
 
@@ -120,7 +120,6 @@ namespace Trial_Task.Controllers
 		[HttpGet("upload")]
 		public async Task<IActionResult> UploadFlight()
 		{
-			var user = (await usersController.GetCurrentFullUser()).Object;
 			return View();
 		}
 
