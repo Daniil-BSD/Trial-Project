@@ -8,7 +8,6 @@ using OfficeOpenXml;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;
 using Trial_Task_BLL.Responses;
-using Trial_Task_BLL.RoleManagment;
 using Trial_Task_DAL.IRepositories;
 using Trial_Task_Model;
 using Trial_Task_Model.Interfaces;
@@ -65,7 +64,6 @@ namespace Trial_Task_BLL.Services
 			return _mapper.Map<List<Airfield>, List<AirfieldShallowDTO>>(airfields);
 		}
 
-		[Authorize(Policies.ADMINS)]
 		public async Task<IEnumerable<Response<AirfieldShallowDTO>>> ParseXLSXFile(string path)
 		{
 			using (FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read))
@@ -111,7 +109,7 @@ namespace Trial_Task_BLL.Services
 
 		internal async Task<bool> IsGlobalPointValidForNewAirfield(Airfield airfield)
 		{
-			var temp = await _airfieldRepository.FilterListShallowAsync(ent => GlobalPoint.Distance(ent, airfield) < Constants.AIRFIELD_DESIGNATED_AREA_RADIUS);
+			var temp = await _airfieldRepository.FilterListShallowAsync(ent => GlobalPoint.Distance(ent, airfield) < 2 * Constants.AIRFIELD_DESIGNATED_AREA_RADIUS);
 			return temp.Count == 0;
 		}
 	}

@@ -15,7 +15,7 @@ namespace Trial_Task_DAL.Repositories
 {
 	/// <summary>
 	/// Defines the <see cref="AirfieldRepository" />
-	/// Missin method summeries coould be found in <see cref="IAirfieldRepository"/>
+	/// Missing method summeries coould be found in <see cref="IAirfieldRepository"/>
 	/// </summary>
 	public class AirfieldRepository : BaseRepository<Airfield>, IAirfieldRepository
 	{

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Trial_Task_BLL.DTOs
 {
 	/// <summary>
-	/// Defines the <see cref="IGCFileRecordDTO" />
+	/// Defines the <see cref="IGCFileRecordDTO" /> which is used to register newly uploaded files.
 	/// </summary>
 	public class IGCFileRecordDTO
 	{

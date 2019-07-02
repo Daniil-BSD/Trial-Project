@@ -11,7 +11,7 @@ namespace Trial_Task_DAL.Repositories
 {
 	/// <summary>
 	/// Defines the <see cref="GPSLogEntryRepository" />
-	/// Missin method summeries coould be found in <see cref="IGPSLogEntryRepository"/>
+	/// Missing method summeries coould be found in <see cref="IGPSLogEntryRepository"/>
 	/// </summary>
 	public class GPSLogEntryRepository : BaseRepository<GPSLogEntry>, IGPSLogEntryRepository
 	{

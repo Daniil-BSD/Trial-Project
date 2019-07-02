@@ -8,6 +8,7 @@ namespace Trial_Task_DAL.Repositories
 {
 	/// <summary>
 	/// Defines the <see cref="IGCFileRecordRepository" />
+	/// Missing method summeries coould be found in <see cref="IIGCFileRecordRepository"/>
 	/// </summary>
 	public class IGCFileRecordRepository : IIGCFileRecordRepository
 	{

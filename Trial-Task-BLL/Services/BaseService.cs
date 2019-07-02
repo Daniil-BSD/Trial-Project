@@ -4,6 +4,7 @@ namespace Trial_Task_BLL.Services
 {
 	/// <summary>
 	/// Defines the <see cref="BaseService" />
+	/// Essentially used to ensure all Services have a mapper.
 	/// </summary>
 	public class BaseService
 	{

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Trial_Task_BLL.Responses;
@@ -24,6 +25,7 @@ namespace Trial_Task_WEB.ResultExtention
 		/// <summary>
 		/// Type specific <see cref="Value"/> that has special behaviours on set and throws <see cref="NullReferenceException"/> if invalid.
 		/// </summary>
+		[IgnoreDataMember]
 		public T Object
 		{
 			get {

@@ -52,7 +52,6 @@ namespace Trial_Task_DAL.IRepositories
 		/// List all the Airfields in the database fully.
 		/// (<see cref="GetAsync(Guid)"/> for each guid and optimised)
 		/// </summary>
-		/// <param name="id">The <see cref="Guid"/> id.</param>
 		/// <returns>The <see cref="Task{Airfield}"/></returns>
 		Task<List<Airfield>> ListAsync();
 
@@ -60,7 +59,6 @@ namespace Trial_Task_DAL.IRepositories
 		/// List basic information of all the Airfields in the database.
 		/// (<see cref="GetShallowAsync(Guid)"/> for each guid and optimised)
 		/// </summary>
-		/// <param name="id">The <see cref="Guid"/> id.</param>
 		/// <returns>The <see cref="Task{Airfield}"/></returns>
 		Task<List<Airfield>> ListShallowAsync();
 

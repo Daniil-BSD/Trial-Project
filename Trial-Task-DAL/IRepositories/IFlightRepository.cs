@@ -18,6 +18,11 @@ namespace Trial_Task_DAL.IRepositories
 		/// <returns>The <see cref="Task{Flight}"/></returns>
 		Task<Flight> GetAsync(Guid id);
 
+		/// <summary>
+		/// The GetBasicAsync
+		/// </summary>
+		/// <param name="id">The id<see cref="Guid"/></param>
+		/// <returns>The <see cref="Task{Flight}"/></returns>
 		Task<Flight> GetBasicAsync(Guid id);
 
 		/// <summary>

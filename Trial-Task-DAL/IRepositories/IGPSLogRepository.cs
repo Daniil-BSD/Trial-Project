@@ -19,7 +19,7 @@ namespace Trial_Task_DAL.IRepositories
 		Task<GPSLog> GetAsync(Guid id);
 
 		/// <summary>
-		/// Get method for a single <see cref="GPSLog"/> with all inclludes for <see cref="Flight"/> 
+		/// Get method for a single <see cref="GPSLog"/> with all inclludes for its <see cref="Flight"/>
 		/// </summary>
 		/// <param name="id">The <see cref="Guid"/> id.</param>
 		/// <returns>The <see cref="Task{GPSLog}"/></returns>

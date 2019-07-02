@@ -10,6 +10,11 @@ namespace Trial_Task_BLL.IServices
 	/// </summary>
 	public interface IGPSLogEntryService
 	{
+		/// <summary>
+		/// The ListAsync
+		/// </summary>
+		/// <param name="id">The id<see cref="Guid"/></param>
+		/// <returns>The <see cref="Task{List{GPSLogEntryDTO}}"/></returns>
 		Task<List<GPSLogEntryDTO>> ListAsync(Guid id);
 	}
 }

@@ -107,12 +107,13 @@ namespace Trial_Task_WEB.ControllersAPI
 				return new SpecificObjectResultList<AirfieldShallowDTO>(BadRequest("File type is not supported."));
 			var path = Path.Combine(
 						Directory.GetCurrentDirectory(), "wwwroot",
-						file.FileName);
+						Guid.NewGuid().ToString() + ".xlsx");
 			using (var stream = new FileStream(path, FileMode.Create))
 			{
 				await file.CopyToAsync(stream);
 			}
 			var responses = await _airfieldService.ParseXLSXFile(path);
+			System.IO.File.Delete(path);
 			return new SpecificObjectResultList<AirfieldShallowDTO>(responses);
 		}
 	}

@@ -130,7 +130,7 @@ namespace Trial_Task.Controllers
 			if (file == null)
 				return View(model: false);
 			var result = await flightsController.UploadIGCFile(file);
-			if (result.Object)
+			if (result.NotNull && result.Object)
 			{
 				return View(model: true);
 			}
