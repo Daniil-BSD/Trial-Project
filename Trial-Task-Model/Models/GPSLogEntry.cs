@@ -17,6 +17,8 @@ namespace Trial_Task_Model.Models
 
 		public double Longitude { get; set; }
 
+		public int Altitude { get; set; }
+
 		public DateTime Time { get; set; }
 
 		/// <summary>
@@ -61,7 +63,8 @@ namespace Trial_Task_Model.Models
 						(double.Parse(record.Substring(9, 5)) / 60000),
 						Longitude =
 						int.Parse(record.Substring(15, 3)) +
-						(double.Parse(record.Substring(18, 5)) / 60000)
+						(double.Parse(record.Substring(18, 5)) / 60000),
+						Altitude = (int.Parse(record.Substring(25 , 5)))
 					};
 					return ret;
 				}

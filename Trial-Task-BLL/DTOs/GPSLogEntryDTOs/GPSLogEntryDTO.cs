@@ -12,6 +12,8 @@ namespace Trial_Task_BLL.DTOs
 
 		public double Longitude { get; set; }
 
+		public int Altitude { get; set; }
+
 		public DateTime Time { get; set; }
 	}
 
@@ -20,7 +22,7 @@ namespace Trial_Task_BLL.DTOs
 	/// </summary>
 	public static class GPSLogEntryDTOExpansion
 	{
-		public static string ToJSString(this IList<GPSLogEntryDTO> list, bool longLat = true)
+		public static string ToPathString(this IList<GPSLogEntryDTO> list, bool longLat = true)
 		{
 			string ret = "[";
 			for (int i = 0 ; i < list.Count ; i++)
@@ -29,6 +31,17 @@ namespace Trial_Task_BLL.DTOs
 					ret += "[" + list[i].Longitude.Format() + "," + list[i].Latitude.Format() + "],";
 				else
 					ret += "[" + list[i].Latitude.Format() + "," + list[i].Longitude.Format() + "],";
+			}
+			return ret.Remove(ret.Length - 1) + "]";
+		}
+
+		public static string ToAltitudeString(this IList<GPSLogEntryDTO> list, int step = 25)
+		{
+			if (step < 1) step = 1;
+			string ret = "[";
+			for (int i = 0 ; i < list.Count ; i++)
+			{
+				ret += (list[i].Altitude / step)* step + ",";
 			}
 			return ret.Remove(ret.Length - 1) + "]";
 		}

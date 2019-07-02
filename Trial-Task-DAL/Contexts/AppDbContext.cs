@@ -62,6 +62,7 @@ namespace Trial_Task_DAL.Contexts
 			builder.Entity<GPSLogEntry>().HasOne(le => le.Log).WithMany(l => l.Entries).HasForeignKey(le => le.LogID);
 			builder.Entity<GPSLogEntry>().Property(le => le.Latitude).IsRequired();
 			builder.Entity<GPSLogEntry>().Property(le => le.Longitude).IsRequired();
+			builder.Entity<GPSLogEntry>().Property(le => le.Altitude).IsRequired();
 
 			builder.Entity<User>().HasKey(u => u.Id);
 

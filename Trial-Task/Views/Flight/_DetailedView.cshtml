@@ -14,16 +14,137 @@
 @section script{
 	<script type="text/javascript">
 		window.onload = function () {
-			var locations = @Model.Log.Entries.ToJSString()
+			var locations = @Model.Log.Entries.ToPathString()
+
+			var altitudes = @Model.Log.Entries.ToAltitudeString(5);
+			
+			var maxAltitude_storrage = -1;
+			var minAltitude_storrage = -1;
+
+			var routeStyles_storrage = -1
+			
+			function max_altitude () {
+				if (maxAltitude_storrage == -1) {
+					maxAltitude_storrage = max(altitudes)
+				}
+				return maxAltitude_storrage
+			}
+
+			function max (array) {
+				let ret = 0;
+				for (i = 0; i < array.length; i++) {
+					ret = Math.max(ret, array[i]);
+				}
+				return ret;
+			}
+
+			function min_altitude () {
+				if (minAltitude_storrage == -1) {
+					minAltitude_storrage = min(altitudes)
+				}
+				return minAltitude_storrage
+			}
+
+			function min (array) {
+				let ret = max_altitude ();
+				for (i = 0; i < array.length; i++) {
+					ret = Math.min(ret, array[i]);
+				}
+				return ret;
+			}
+
+			function gradient(level) {
+				level = level * 4
+				internalIntercval = Math.floor((level) * 256) % 256
+				stage = Math.floor(level)
+				switch(stage){
+					case 0:
+						return [255, internalIntercval, 0, 1]
+					case 1:
+						return [255 - internalIntercval, 255, 0, 1]
+					case 2:
+						return [0, 255, internalIntercval, 1]
+					case 3:
+						return [0, 255 - internalIntercval, 255, 1]
+					default:
+						return [0, 0, 255, 1]
+				}
+
+			}
+
 			var route = new ol.geom.LineString(locations).transform('EPSG:4326', 'EPSG:3857');
 
 			var routeCoords = route.getCoordinates();
 			var routeLength = routeCoords.length;
-
+			
 			var routeFeature = new ol.Feature({
 				type: 'route',
 				geometry: route
 			});
+
+			function stylesforRoute() {
+				if (routeStyles_storrage == -1) {
+					let geometry = route
+					let styles = []
+
+					let i = 0,
+						color = '#FE2EF7', //pink. should not be displayed
+						previousColor = '#FE2EF7',
+						lineString,
+						lastCoordinate = geometry.getLastCoordinate();
+
+					geometry.forEachSegment((start, end) => {
+
+						//let c = ((altitudes[i] / 25) % 50) * 5
+						//color = [c, c, 255 - c];
+						color = gradient((altitudes[i] - min_altitude () ) / (max_altitude() - min_altitude ()))
+						//First segment
+						if (lineString == null) {
+							lineString = new ol.geom.LineString([start, end]);
+						} else {
+
+							//Color changes: push the current segment and start a new one
+							if (color !== previousColor) {
+
+								styles.push(new ol.style.Style({
+									geometry: lineString,
+									fill: new ol.style.Fill({
+										color: previousColor
+									}),
+									stroke: new ol.style.Stroke({
+										color: previousColor,
+										width: 2
+									})
+								}));
+
+								lineString = new ol.geom.LineString([start, end]);
+
+							} else {
+								//Color is same: continue the current segment
+								lineString.appendCoordinate(end);
+							}
+
+							//Last segment
+							if (end[0] === lastCoordinate[0] && end[1] === lastCoordinate[1]) {
+								styles.push(new ol.style.Style({
+									geometry: lineString,
+									stroke: new ol.style.Stroke({
+										color: color,
+										width: 5
+									})
+								}));
+							}
+						}
+
+						previousColor = color;
+						i++;
+					})
+					routeStyles_storrage = styles;
+				}
+				return routeStyles_storrage;
+		}
+
+
 			var geoMarker = new ol.Feature({
 				type: 'geoMarker',
 				geometry: new ol.geom.Point(routeCoords[0])
@@ -38,12 +159,7 @@
 			});
 
 			var styles = {
-				'route': new ol.style.Style({
-					stroke: new ol.style.Stroke({
-						width: 6,
-						color: [237, 212, 0, 0.8]
-					})
-				}),
+				'route': stylesforRoute(),
 				'startIcon': new ol.style.Style({
 					image: new ol.style.Icon({
 						anchor: [0.5, 1],
