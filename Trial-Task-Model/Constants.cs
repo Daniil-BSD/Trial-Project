@@ -5,6 +5,8 @@
 	/// </summary>
 	public static class Constants
 	{
-		public const double AIRFIELD_DESIGNATED_AREA_RADIUS = 3000;
+		public const double AIRFIELD_DESIGNATED_AREA_RADIUS = 3000;//meters
+
+		public const double MIN_SPEED = 10;// m/s
 	}
 }

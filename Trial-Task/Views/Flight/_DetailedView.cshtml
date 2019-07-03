@@ -15,14 +15,16 @@
 	<script type="text/javascript">
 		window.onload = function () {
 			var locations = @Model.Log.Entries.ToPathString()
+			var locationsApprox = @Model.Log.Entries.ToPathStringApprox()
 
-			var altitudes = @Model.Log.Entries.ToAltitudeString(5);
-			
+			var altitudes = @Model.Log.Entries.ToAltitudeString();
+			var altitudesApprox = @Model.Log.Entries.ToAltitudeStringApprox();
+
 			var maxAltitude_storrage = -1;
 			var minAltitude_storrage = -1;
 
 			var routeStyles_storrage = -1
-			
+
 			function max_altitude () {
 				if (maxAltitude_storrage == -1) {
 					maxAltitude_storrage = max(altitudes)
@@ -48,7 +50,9 @@
 			function min (array) {
 				let ret = max_altitude ();
 				for (i = 0; i < array.length; i++) {
-					ret = Math.min(ret, array[i]);
+					if (array[i] != -12345) {
+						ret = Math.min(ret, array[i]);
+					}
 				}
 				return ret;
 			}
@@ -69,80 +73,89 @@
 					default:
 						return [0, 0, 255, 1]
 				}
-
 			}
 
 			var route = new ol.geom.LineString(locations).transform('EPSG:4326', 'EPSG:3857');
+			var routeApprox = new ol.geom.LineString(locationsApprox).transform('EPSG:4326', 'EPSG:3857');
 
 			var routeCoords = route.getCoordinates();
 			var routeLength = routeCoords.length;
-			
-			var routeFeature = new ol.Feature({
+
+			var routeFeature1 = new ol.Feature({
 				type: 'route',
 				geometry: route
 			});
 
-			function stylesforRoute() {
-				if (routeStyles_storrage == -1) {
-					let geometry = route
-					let styles = []
+			var routeFeature2 = new ol.Feature({
+				type: 'routeApprox',
+				geometry: routeApprox
+			});
 
-					let i = 0,
-						color = '#FE2EF7', //pink. should not be displayed
-						previousColor = '#FE2EF7',
-						lineString,
-						lastCoordinate = geometry.getLastCoordinate();
+			function stylesforRoute(geometry, alts, param_width) {
+				let styles = []
 
-					geometry.forEachSegment((start, end) => {
+				let i = 0,
+				color = '#FE2EF7', //pink. should not be displayed
+				previousColor = '#FE2EF7',
+				lineString,
+				lastCoordinate = geometry.getLastCoordinate();
 
-						//let c = ((altitudes[i] / 25) % 50) * 5
-						//color = [c, c, 255 - c];
-						color = gradient((altitudes[i] - min_altitude () ) / (max_altitude() - min_altitude ()))
-						//First segment
-						if (lineString == null) {
+				geometry.forEachSegment((start, end) => {
+
+					if (alts[i] == -12345) {
+						color = [255, 0, 255, 1]
+					} else {
+						color = gradient((alts[i] - min_altitude()) / (max_altitude() - min_altitude()))
+					}
+					//First segment
+					if (lineString == null) {
+						lineString = new ol.geom.LineString([start, end]);
+					} else {
+
+						//Color changes: push the current segment and start a new one
+						if (color !== previousColor) {
+
+							styles.push(new ol.style.Style({
+								geometry: lineString,
+								fill: new ol.style.Fill({
+									color: previousColor
+								}),
+								stroke: new ol.style.Stroke({
+									color: previousColor,
+									width: param_width
+								})
+							}));
+
 							lineString = new ol.geom.LineString([start, end]);
+
 						} else {
-
-							//Color changes: push the current segment and start a new one
-							if (color !== previousColor) {
-
-								styles.push(new ol.style.Style({
-									geometry: lineString,
-									fill: new ol.style.Fill({
-										color: previousColor
-									}),
-									stroke: new ol.style.Stroke({
-										color: previousColor,
-										width: 2
-									})
-								}));
-
-								lineString = new ol.geom.LineString([start, end]);
-
-							} else {
-								//Color is same: continue the current segment
-								lineString.appendCoordinate(end);
-							}
-
-							//Last segment
-							if (end[0] === lastCoordinate[0] && end[1] === lastCoordinate[1]) {
-								styles.push(new ol.style.Style({
-									geometry: lineString,
-									stroke: new ol.style.Stroke({
-										color: color,
-										width: 5
-									})
-								}));
-							}
+							//Color is same: continue the current segment
+							lineString.appendCoordinate(end);
 						}
 
-						previousColor = color;
-						i++;
-					})
-					routeStyles_storrage = styles;
+						//Last segment
+						if (end[0] === lastCoordinate[0] && end[1] === lastCoordinate[1]) {
+							styles.push(new ol.style.Style({
+								geometry: lineString,
+								stroke: new ol.style.Stroke({
+									color: color,
+									width: param_width
+								})
+							}));
+						}
+					}
+					previousColor = color;
+					i++;
+				})
+				return styles;
+			}
+
+			function stylesforMainRoute() {
+				if (routeStyles_storrage == -1) {
+					routeStyles_storrage = stylesforRoute(route, altitudes, 3)
 				}
 				return routeStyles_storrage;
-		}
+			}
 
 
 			var geoMarker = new ol.Feature({
@@ -159,7 +172,8 @@
 			});
 
 			var styles = {
-				'route': stylesforRoute(),
+				'route': stylesforMainRoute(),
+				'routeApprox': [],
 				'startIcon': new ol.style.Style({
 					image: new ol.style.Icon({
 						anchor: [0.5, 1],
@@ -190,12 +204,14 @@
 			};
 
 			var animating = false;
+			var showingPath = false
 			var speed, now;
 			var startButton = document.getElementById('start-animation');
+			var showButton = document.getElementById('show-approx');
 
 			var vectorLayer = new ol.layer.Vector({
 				source: new ol.source.Vector({
-					features: [routeFeature, geoMarker, startMarker, endMarker]
+					features: [routeFeature1, routeFeature2, geoMarker, startMarker, endMarker]
 				}),
 				style: function (feature) {
 					// hide geoMarker if animation is active
@@ -274,7 +290,19 @@
 				map.un('postcompose', moveFeature);
 			}
 
+			function showButtonClick() {
+				if (showingPath) {
+					routeFeature2.setStyle([]);
+					showButton.textContent = 'Show Approximating Path';
+				} else {
+					routeFeature2.setStyle(stylesforRoute(routeApprox, altitudesApprox, 5));
+					showButton.textContent = 'Hide Approximating Path';
+				}
+				showingPath = !showingPath
+			}
+
 			startButton.addEventListener('click', startAnimation, false);
+			showButton.addEventListener('click', showButtonClick, false);
 
 		}
 	</script>
@@ -302,6 +330,14 @@
 				<tr>
 					<th scope="row">Duration</th>
 					<td>@Model.Log.Duration</td>
+				</tr>
+				<tr>
+					<th scope="row">Distance Flown</th>
+					<td>@((int)Model.Log.RegisteredLength) m</td>
+				</tr>
+				<tr>
+					<th scope="row">Route Length</th>
+					<td>@((int)Model.Log.ApproxLength) m</td>
 				</tr>
 				<tr>
 					<th scope="row">From</th>
@@ -347,10 +383,17 @@
 		<div id="map" class="map rounded" style=" position: absolute; height: 100%; width: 100%; "></div>
 		<button id="start-animation" class="btn btn-light" style="
 		position: absolute;
+		bottom: 2.75rem;
+		left: .25rem;
+	">
+			Start Flight Animation
+		</button>
+		<button id="show-approx" class="btn btn-light" style="
+		position: absolute;
 		bottom: .25rem;
 		left: .25rem;
 	">
-			Start Animation
+			Show Approximating Path
 		</button>
 	</div>
 </div>

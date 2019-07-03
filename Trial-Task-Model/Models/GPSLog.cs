@@ -9,6 +9,8 @@ namespace Trial_Task_Model.Models
 	/// </summary>
 	public class GPSLog : IGuidIdentifyable
 	{
+		public double ApproxLength { get; set; }
+
 		public TimeSpan Duration { get; set; }
 
 		public List<GPSLogEntry> Entries { get; set; }
@@ -22,6 +24,8 @@ namespace Trial_Task_Model.Models
 		public Airfield PlaceOfLanding { get; set; }
 
 		public Airfield PlaceOfTakeoff { get; set; }
+
+		public double RegisteredLength { get; set; }
 
 		public Guid? TakeoffID { get; set; }
 	}

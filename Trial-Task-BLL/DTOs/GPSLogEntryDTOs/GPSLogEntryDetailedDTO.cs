@@ -7,6 +7,10 @@ namespace Trial_Task_BLL.DTOs
 	/// </summary>
 	public class GPSLogEntryDetailedDTO
 	{
+		public int Altitude { get; set; }
+
+		public bool ApproximatingFix { get; set; }
+
 		public double Latitude { get; set; }
 
 		public GPSLogDTO Log { get; set; }

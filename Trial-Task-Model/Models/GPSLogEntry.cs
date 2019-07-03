@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Trial_Task_Model.Interfaces;
 
 namespace Trial_Task_Model.Models
@@ -9,6 +8,10 @@ namespace Trial_Task_Model.Models
 	/// </summary>
 	public class GPSLogEntry : IGlobalPoint
 	{
+		public int Altitude { get; set; }
+
+		public bool ApproximatingFix { get; set; }
+
 		public double Latitude { get; set; }
 
 		public GPSLog Log { get; set; }
@@ -16,8 +19,6 @@ namespace Trial_Task_Model.Models
 		public Guid LogID { get; set; }
 
 		public double Longitude { get; set; }
-
-		public int Altitude { get; set; }
 
 		public DateTime Time { get; set; }
 
@@ -64,7 +65,8 @@ namespace Trial_Task_Model.Models
 						Longitude =
 						int.Parse(record.Substring(15, 3)) +
 						(double.Parse(record.Substring(18, 5)) / 60000),
-						Altitude = (int.Parse(record.Substring(25 , 5)))
+						Altitude = (int.Parse(record.Substring(25, 5))),
+						ApproximatingFix = false
 					};
 					return ret;
 				}
@@ -74,50 +76,6 @@ namespace Trial_Task_Model.Models
 			{
 				return null;
 			}
-		}
-
-		/// <summary>
-		/// Performs <see cref="ParseFixRecord(string)"/> on all valid strings.
-		/// </summary>
-		/// <param name="records">The records as <see cref="IList{string}"/></param>
-		/// <returns>The <see cref="List{GPSLogEntry}"/>generated from the records.</returns>
-		public static List<GPSLogEntry> ParseFixRecords(IList<string> records)
-		{
-			List<GPSLogEntry> ret = new List<GPSLogEntry>();
-			string str = records[1];
-			DateTime date = new DateTime(
-				2000 + int.Parse(str.Substring(9, 2)),
-				int.Parse(str.Substring(7, 2)),
-				int.Parse(str.Substring(5, 2))
-				);
-			foreach (string record in records)
-			{
-				var temp = ParseFixRecord(record, date);
-				if (temp != null)
-				{
-					ret.Add(temp);
-				}
-			}
-			return ret;
-		}
-
-		/// <summary>
-		/// Performs <see cref="ParseFixRecord(string, DateTime)"/> on all valid strings.
-		/// </summary>
-		/// <param name="records">The records as <see cref="IList{string}"/></param>
-		/// <param name="date">The Date to be given to this record(<see cref="DateTime"/>)</param>
-		public static List<GPSLogEntry> ParseFixRecords(IList<string> records, DateTime date)
-		{
-			List<GPSLogEntry> ret = new List<GPSLogEntry>();
-			foreach (string str in records)
-			{
-				var temp = ParseFixRecord(str, date);
-				if (temp != null)
-				{
-					ret.Add(temp);
-				}
-			}
-			return ret;
 		}
 	}
 }

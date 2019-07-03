@@ -8,6 +8,8 @@ namespace Trial_Task_BLL.DTOs
 	/// </summary>
 	public class GPSLogStandaloneDTO
 	{
+		public double ApproxLength { get; set; }
+
 		public TimeSpan Duration { get; set; }
 
 		public List<GPSLogEntryDTO> Entries { get; set; }
@@ -19,5 +21,7 @@ namespace Trial_Task_BLL.DTOs
 		public AirfieldShallowDTO PlaceOfLanding { get; set; }
 
 		public AirfieldShallowDTO PlaceOfTakeoff { get; set; }
+
+		public double RegisteredLength { get; set; }
 	}
 }

@@ -57,12 +57,15 @@ namespace Trial_Task_DAL.Contexts
 			builder.Entity<GPSLog>().HasOne(l => l.PlaceOfTakeoff).WithMany(a => a.StartFrom).HasForeignKey(l => l.TakeoffID).OnDelete(DeleteBehavior.ClientSetNull);
 			builder.Entity<GPSLog>().Property(l => l.LandingID);
 			builder.Entity<GPSLog>().HasOne(l => l.PlaceOfLanding).WithMany(a => a.EndedAt).HasForeignKey(l => l.LandingID).OnDelete(DeleteBehavior.ClientSetNull);
+			builder.Entity<GPSLog>().Property(l => l.ApproxLength).IsRequired();
+			builder.Entity<GPSLog>().Property(l => l.RegisteredLength).IsRequired();
 
 			builder.Entity<GPSLogEntry>().HasKey(le => new { le.LogID, le.Time });
 			builder.Entity<GPSLogEntry>().HasOne(le => le.Log).WithMany(l => l.Entries).HasForeignKey(le => le.LogID);
 			builder.Entity<GPSLogEntry>().Property(le => le.Latitude).IsRequired();
 			builder.Entity<GPSLogEntry>().Property(le => le.Longitude).IsRequired();
 			builder.Entity<GPSLogEntry>().Property(le => le.Altitude).IsRequired();
+			builder.Entity<GPSLogEntry>().Property(le => le.ApproximatingFix).HasDefaultValue(false);
 
 			builder.Entity<User>().HasKey(u => u.Id);
 

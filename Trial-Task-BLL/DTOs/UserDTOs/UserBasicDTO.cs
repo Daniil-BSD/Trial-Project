@@ -13,6 +13,7 @@ namespace Trial_Task_BLL.DTOs
 
 
 
+
 		public static implicit operator UserBasicDTO(UserShallowDTO shallowDTO)
 		{
 			return new UserBasicDTO { Id = shallowDTO.Id, UserName = shallowDTO.UserName };

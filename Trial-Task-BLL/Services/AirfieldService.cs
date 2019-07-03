@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using OfficeOpenXml;
 using Trial_Task_BLL.DTOs;
 using Trial_Task_BLL.IServices;

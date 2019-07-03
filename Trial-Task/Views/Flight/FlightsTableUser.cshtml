@@ -9,6 +9,8 @@
 		<tr>
 			<th scope="col">Date</th>
 			<th scope="col">Duration</th>
+			<th scope="col">Distance Flown</th>
+			<th scope="col">Route Length</th>
 			<th scope="col">From</th>
 			<th scope="col">To</th>
 			<th scope="col">Status</th>
@@ -21,6 +23,8 @@
 			<tr>
 				<td>@flight.Date.ToShortDateString()</td>
 				<td>@flight.Log.Duration</td>
+				<td>@((int)flight.Log.RegisteredLength) m</td>
+				<td>@((int)flight.Log.ApproxLength) m</td>
 				<td>
 					@if (flight.Log.PlaceOfTakeoff != null)
 					{

@@ -7,6 +7,8 @@ namespace Trial_Task_BLL.DTOs
 	/// </summary>
 	public class GPSLogBasicDTO
 	{
+		public double ApproxLength { get; set; }
+
 		public TimeSpan Duration { get; set; }
 
 		public Guid ID { get; set; }
@@ -14,5 +16,7 @@ namespace Trial_Task_BLL.DTOs
 		public AirfieldBasicDTO PlaceOfLanding { get; set; }
 
 		public AirfieldBasicDTO PlaceOfTakeoff { get; set; }
+
+		public double RegisteredLength { get; set; }
 	}
 }

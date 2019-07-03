@@ -10,11 +10,11 @@ using Trial_Task_DAL.Contexts;
 namespace Trial_Task.Migrations
 {
 	/// <summary>
-	/// Defines the <see cref="IGCFileListUpdate" />
+	/// Defines the <see cref="Initial" />
 	/// </summary>
 	[DbContext(typeof(AppDbContext))]
-	[Migration("20190701101747_IGCFileListUpdate")]
-	partial class IGCFileListUpdate
+	[Migration("20190703135351_Initial")]
+	partial class Initial
 	{
 		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
@@ -177,9 +177,13 @@ namespace Trial_Task.Migrations
 					b.Property<Guid>("ID")
 						.ValueGeneratedOnAdd();
 
+					b.Property<double>("ApproxLength");
+
 					b.Property<TimeSpan>("Duration");
 
 					b.Property<Guid?>("LandingID");
+
+					b.Property<double>("RegisteredLength");
 
 					b.Property<Guid?>("TakeoffID");
 
@@ -197,6 +201,12 @@ namespace Trial_Task.Migrations
 					b.Property<Guid>("LogID");
 
 					b.Property<DateTime>("Time");
+
+					b.Property<int>("Altitude");
+
+					b.Property<bool>("ApproximatingFix")
+						.ValueGeneratedOnAdd()
+						.HasDefaultValue(false);
 
 					b.Property<double>("Latitude");
 
